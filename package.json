@@ -6,10 +6,17 @@
     "start": "next start"
   },
   "dependencies": {
+    "@formkit/auto-animate": "^1.0.0-beta.3",
+    "@nextui-org/react": "^1.0.0-beta.10",
     "@stitches/react": "1.2.8",
+    "cuid": "^2.1.8",
+    "dotenv": "^16.0.1",
+    "framer-motion": "^7.2.1",
     "next": "latest",
+    "next-themes": "^0.2.0",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "react-dropzone": "^14.2.2"
   },
   "devDependencies": {
     "@types/node": "^18.0.6",
