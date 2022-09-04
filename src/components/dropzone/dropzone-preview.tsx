@@ -4,7 +4,7 @@ import {
   StyledDropzonePreview, StyledDropzonePreviewItem, HiddenSpan,
   StyledCross, StyledButtonClose, TextFile, TextExtension
 } from './dropzone.styles';
-import { CSS, Spacer } from '@nextui-org/react';
+import { CSS } from '@nextui-org/react';
 import { useFocusRing } from '@react-aria/focus';
 import type { FocusRingAria } from '@react-aria/focus';
 import { splitFileExtension } from './utils'
@@ -153,7 +153,7 @@ const DropzonePreviewComponent = (props: DropzonePreviewProps) => {
   const { children, animated, defaultStyle, ...others } = props;
   const ctx = useDropzoneContext();
   const files = ctx.Files;
-  const setFiles = ctx.setFiles;
+  // const setFiles = ctx.setFiles;
   const animatedPreview = animated ?? ctx.Animated;
 
   const [previewRef, previewAnimation] = useAutoAnimate<any>();
@@ -171,9 +171,9 @@ const DropzonePreviewComponent = (props: DropzonePreviewProps) => {
     return shouldRenderChildren || shouldRenderFiles;
   }, [shouldRenderChildren, shouldRenderFiles]);
 
-  const removeAllFiles = useCallback(() => {
-    setFiles([]);
-  }, [setFiles])
+  // const removeAllFiles = useCallback(() => {
+  //   setFiles([]);
+  // }, [setFiles])
 
   const renderPreview = () => {
     if (shouldRenderChildren)

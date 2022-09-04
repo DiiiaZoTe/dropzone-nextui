@@ -1,4 +1,4 @@
-import React, { ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
+import React, { ReactNode, useCallback, useMemo, useState } from 'react';
 import { DropEvent, FileRejection, useDropzone } from 'react-dropzone';
 import { assignRef } from '@utils/refs/assignRef';
 import { useDropzoneProps } from './use-Dropzone';
@@ -6,7 +6,7 @@ import { DropzoneProvider } from './dropzone-context';
 import { DropzoneBase, DropzoneAccept, DropzoneReject } from './dropzone-status';
 import { DropzonePreview, DropzonePreviewItem } from './dropzone-preview';
 import { StyledDropzone } from './dropzone.styles';
-import { CSS, Text } from '@nextui-org/react';
+import { CSS } from '@nextui-org/react';
 import { useFocusRing } from '@react-aria/focus';
 import type { FocusRingAria } from '@react-aria/focus';
 import clsx from '@utils/clsx';
