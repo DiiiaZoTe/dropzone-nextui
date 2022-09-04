@@ -1,10 +1,10 @@
 import React, { useEffect, useMemo } from 'react';
-import { Text, styled, Spacer } from '@nextui-org/react';
+import { CSS, Text, styled, Spacer } from '@nextui-org/react';
 import { ERROR_CODES, getCodeMessage, formatFileText } from './utils';
 import { useAutoAnimate } from '@formkit/auto-animate/react'
 
 const TRUNCATION_LENGTH = 15;
-const TIME = 0; //TODO: add option timer to props (number in ms or 0 for no limit)
+const TIME = 6000; //TODO: add option timer to props (number in ms or 0 for no limit)
 
 export interface RejectionError {
   code: string;
@@ -24,6 +24,7 @@ interface DropzoneErrorProps {
   maxFiles?: number;
   maxSize?: number;
   children?: React.ReactNode;
+  css?: CSS;
 }
 
 const FullDiv = styled('div', {
@@ -57,7 +58,7 @@ const Box2 = styled('div', {
 //TODO then have it as Dropzone.Error and test if we can change CSS prop inside index
 
 export const DropzoneError = (props: DropzoneErrorProps) => {
-  const { err, isVisible, setIsVisible, animated, maxSize, maxFiles } = props;
+  const { err, isVisible, setIsVisible, animated, maxSize, maxFiles, ...otherProps } = props;
 
   const [errorRef, errorAnimation] = useAutoAnimate<any>();
   errorAnimation(animated!);
@@ -110,7 +111,7 @@ export const DropzoneError = (props: DropzoneErrorProps) => {
       {
         showError &&
         <>
-          <Box className='nextui-dropzone--Error'>
+          <Box className='nextui-dropzone--Error' {...otherProps}>
             {renderError()}
           </Box>
           <Spacer y={1} />

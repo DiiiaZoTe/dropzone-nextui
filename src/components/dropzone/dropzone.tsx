@@ -16,53 +16,157 @@ import { useAutoAnimate } from '@formkit/auto-animate/react'
 
 //! Dropzone  --------------------------------------------------------
 interface Props extends useDropzoneProps {
-  /**
-   * should be the different statuses of the dropzone
+  /** @required Files dropped on the dropzone */
+  files: File[];
+
+  /** @required File setter */
+  setFiles: (files: File[]) => void;
+
+  /** @optional should be the direct children of the dropzone
    * - base: default state
    * - accept: the dropzone is accepting files
    * - reject: the dropzone is rejecting files
    * - preview: the dropzone file preview
+   * - error: the dropzone error to display
    */
   children?: ReactNode;
+
+  /** @optional CSS properties that override the default styling */
   css?: CSS;
-  /**
-   * @required Files dropped on the dropzone
+
+  /** @optional Allows to show/hide the Base, Accept, Reject status 
+   *  when one accepted file is dropped
+   *  @default true
    */
-  files: File[];
-  /**
-   * @required File setter
-   */
-  setFiles: (files: File[]) => void;
   alwaysShowStatus?: boolean;
+
+  /** @optional Allows to active/deactivate the animation
+   *  @default true
+   */
   animated?: boolean;
+
+  /** @optional Allows to add a border around the Dropzone
+   *  @default false
+   *  @notice default border is as below.
+   *  Use these properties to override the default border
+   *  - borderWeigth: $normal
+   *  - borderStyle: dashed
+   *  - borderColor: takes the color of the dropzone
+   *  
+   */
   bordered?: boolean;
-  variant?: 'flat' | ' light' | 'solid' | 'shadow' | any; // default flat
-  width?: 'xs' | 'sm' | 'md' | 'lg' | 'full'; // default lg
+
+  /** @optional Allows to change the overall style of the Dropzone
+   *  @type 'flat' | 'light' | 'solid' | 'shadow'
+   *  @default 'flat'
+   *  @description
+   *  - flat: has a light tone palette
+   *  - light: has a transparent background
+   *  - solid: has a solid background (more like a button)
+   *  - shadow: same as solid but with a shadow 
+   */
+  variant?: 'flat' | ' light' | 'solid' | 'shadow' | any;
+
+  /** @optional Allows to change the width of the Dropzone
+   *  @type 'xs' | 'sm' | 'md' | 'lg' | 'full'
+   *  @default 'lg'
+   *  @description
+   *  - xs: preview fits 1 file
+   *  - sm: preview fits 2 files
+   *  - md: preview fits 3 files
+   *  - lg: preview fits 4 files
+   *  - full: full width available
+   */
+  width?: 'xs' | 'sm' | 'md' | 'lg' | 'full';
+
+  /** @optional Allows to change the main color of the Dropzone
+   *  @type 'default' | 'primary' | 'secondary' | 'warning'
+   *  @default 'default'
+   *  @description
+   *  - default: default color
+   *  - primary: primary color
+   *  - secondary: secondary color
+   *  - warning: warning color
+   *  @notice
+   *  If you overwrote NextUi's theme,
+   *  ensure to override primary, secondary, warning, success, error colors
+   */
   color?: 'default' | 'primary' | 'secondary' | 'warning';
+
+  /** @optional Allows to change the main border color of the Dropzone
+   *  @type 'default' | 'primary' | 'secondary' | 'warning'
+   *  @default 'default'
+   *  @description
+   *  - default: default color
+   *  - primary: primary color
+   *  - secondary: secondary color
+   *  - warning: warning color
+   *  @notice
+   *  If you overwrote NextUi's theme,
+   *  ensure to override primary, secondary, warning, success, error colors
+   */
   borderColor?: 'default' | 'primary' | 'secondary' | 'warning';
-  borderStyle?: 'dashed' | 'dotted' | 'solid'; // default dashed
-  borderWeight?: 'light' | 'normal' | 'bold' | 'extrabold' | 'black'; // default normal'
+
+  /** @optional Allows to change the style of the Dropzone border
+   *  @type 'dashed' | 'dotted' | 'solid'
+   *  @default 'dashed'
+   *  @description
+   *  - dashed: dashed border
+   *  - dotted: dotted border
+   *  - solid:  solid border
+   */
+  borderStyle?: 'dashed' | 'dotted' | 'solid';
+
+  /** @optional Allows to change the weight of the Dropzone border
+   *  @type 'light' | 'normal' | 'bold' | 'extrabold' | 'black'
+   *  @default 'normal'
+   *  @description
+   *  - light: 1px border
+   *  - normal: 2px border
+   *  - bold: 3px border
+   *  - extrabold: 4px border
+   *  - black: 5px border
+   */
+  borderWeight?: 'light' | 'normal' | 'bold' | 'extrabold' | 'black';
+
+  /** @optional Allows to active/deactivate the shake animation after invalid file drop
+   *  @default false
+   */
   removeShake?: boolean;
+
+  //! can remove this one once error component is done
   displayError?: boolean;
+
+  /** @optional Allows to active/deactivate the error border
+   *  @default true
+   *  @notice
+   *  If borderStyle and borderWeight are set, use them.
+   *  Otherwise, the default border is: normal dashed
+   */
   errorBorder?: boolean;
+
+  /** @optional  extra className you wish to apply to the Dropzone*/
   className?: string;
 }
+/** Dropzone props  */
 export type DropzoneProps = Props;
 
+/** focus ring aria interface for focus accessibility */
 interface IFocusRingAria extends FocusRingAria {
   focusProps: Omit<React.HTMLAttributes<HTMLElement>, keyof DropzoneProps>;
 }
-
-/** Dropzone component
- *  Main component for the dropzone
- *  Direct children:
+/** 
+ *  Dropzone component
+ *  @description Main component for the dropzone.
+ *  Direct children include:
  *    - Dropzone.Base
  *    - Dropzone.Accept
  *    - Dropzone.Reject
  *    - Dropzone.Preview
+ *    - Dropzone.Error
  */
 const Dropzone = (props: DropzoneProps) => {
-  // get all the props for dropzone and react-dropzone
+  /** get all the props for dropzone and react-dropzone */
   const {
     children,
     css,
@@ -106,61 +210,22 @@ const Dropzone = (props: DropzoneProps) => {
     ...otherProps
   } = props;
 
-  console.log('dropzone rendered');
+  /** dropzone ref for animation */
   const [dropzoneRef, dropzoneAnimation] = useAutoAnimate<any>();
   dropzoneAnimation(animated! && !disabled);
 
-  // init other variables
+  /** init other variables and states for focus ring and error */
   const { isFocusVisible, focusProps }: IFocusRingAria = useFocusRing({ autoFocus });
   const [invalidShake, setInvalidShake] = useState(false);
+  const [errorVisible, setErrorVisible] = useState(false);
   const [dropzoneError, setDropzoneError] = useState({} as CustomRejectionError);
 
-  const execFilesAccepted = (acceptedFiles: File[], rejectedFiles: FileRejection[]) => {
-    const totalDropFiles = acceptedFiles.length + rejectedFiles.length;
-    // handle single file dropzone
-    if (!multiple && totalDropFiles === 1) {
-      setFiles([acceptedFiles[0]]);
-      return null;
-    }
-    // get files without duplicates from accepted files
-    const withoutDuplicates = filesWithoutDuplicates(files, acceptedFiles) as File[];
-    // if no maxFiles issues, proceed normally
-    if (maxFiles === undefined || withoutDuplicates.length + acceptedFiles.length <= maxFiles) {
-      // remove old errors and set new files
-      setDropzoneError({} as CustomRejectionError);
-      if (onAccept === undefined) setFiles([...withoutDuplicates, ...acceptedFiles]);
-      else onAccept(filesWithoutDuplicates(acceptedFiles, files));
-      return null;
-    }
-    // handle maxFiles issues by adding accepted files to rejected files
-    return [
-      ...acceptedFiles.map((file: File) => ({
-        file: file,
-        errors: [{
-          code: ERROR_CODES.TOO_MANY_FILES,
-          message: 'Too many files'
-        }]
-      })),
-      ...rejectedFiles
-    ]
-  }
-
-  const execFilesRejected = (err: FileRejection[]) => {
-    const error = getErrorMessage(err);
-    if (onReject !== undefined) onReject(error);
-    setInvalidShake(true);
-    setTimeout(() => setInvalidShake(false), 500);
-    setDropzoneError({ errors: error, timestamp: Date.now() });
-  };
-
-  const testOnDrop = useCallback((acceptedFiles: File[], rejectedFiles: FileRejection[]) => {
-    if (acceptedFiles.length)
-      rejectedFiles = execFilesAccepted(acceptedFiles, rejectedFiles) ?? rejectedFiles;
-    if (!rejectedFiles.length) return;
-    execFilesRejected(rejectedFiles);
-
-  }, [files, setFiles, maxFiles, dropzoneError, setDropzoneError, onAccept, onReject, setInvalidShake]);
-
+  /**
+   * @function getErrorMessage
+   * creates a custom error object by combining the rejected files by error code
+   * @param {FileRejection[]} error - array of rejected files with reason
+   * @returns {RejectionError[]} array of rejected files sorted by error code
+   */
   const getErrorMessage = useCallback((error: FileRejection[]) => {
     // remove files already uploaded from the error
     const filteredError = error.filter((errorFile: FileRejection) => {
@@ -198,58 +263,135 @@ const Dropzone = (props: DropzoneProps) => {
     return errorReturn;
   }, [files, maxFiles, maxSize]);
 
-  const { getRootProps, getInputProps, isDragActive, isDragAccept, isDragReject, open } = useDropzone({
-    onDrop: testOnDrop,
+  /**
+  * @function execFilesAccepted
+  * - checks for duplicate files
+  * - deals with the max files limit
+  * - calls the users onAccept function or sets the files state
+  * @param {File[]} acceptedFiles - array of accepted files
+  * @param {FileRejection[]} rejectedFiles - array of rejected files with reason
+  * @returns {FileRejection[]} null if no extra errors or array of rejected files with reason
+  */
+  const execFilesAccepted = (acceptedFiles: File[], rejectedFiles: FileRejection[]) => {
+    const totalDropFiles = acceptedFiles.length + rejectedFiles.length;
+    // handle single file dropzone
+    if (!multiple && totalDropFiles === 1) {
+      setFiles([acceptedFiles[0]]);
+      return null;
+    }
+    // get files without duplicates from accepted files
+    const withoutDuplicates = filesWithoutDuplicates(files, acceptedFiles);
+    // if no maxFiles issues, proceed normally
+    if (maxFiles === undefined || withoutDuplicates.length + acceptedFiles.length <= maxFiles) {
+      // remove old errors and set new files
+      setDropzoneError({} as CustomRejectionError);
+      if (onAccept === undefined) setFiles([...withoutDuplicates, ...acceptedFiles]);
+      else onAccept(filesWithoutDuplicates(acceptedFiles, files));
+      return null;
+    }
+    // handle maxFiles issues by adding accepted files to rejected files
+    return [
+      ...acceptedFiles.map((file: File) => ({
+        file: file,
+        errors: [{
+          code: ERROR_CODES.TOO_MANY_FILES,
+          message: 'Too many files'
+        }]
+      })),
+      ...rejectedFiles
+    ]
+  }
 
-    // onError: defaultOnReject,
-    // onDropAccepted: defaultOnDrop,
-    // onDropRejected: defaultOnReject,
-    accept: Array.isArray(accept) ? accept.reduce((r, key) => ({ ...r, [key]: [] }), {}) : accept,
-    disabled,
-    multiple,
-    maxSize,
-    maxFiles,
-    autoFocus,
-    noClick: !activateOnClick,
-    noDrag: !activateOnDrag,
-    noDragEventsBubbling: !dragEventsBubbling,
-    noKeyboard: !activateOnKeyboard,
-    onDragEnter,
-    onDragLeave,
-    onDragOver,
-    onFileDialogCancel,
-    onFileDialogOpen,
-    validator,
-    preventDropOnDocument,
-  });
+  /**
+   * @function execFilesRejected
+   * - get error in custom format
+   * - call user's onReject if provided
+   * - start shake animation
+   * - set error state
+   * @param {FileRejection[]} rejectedFiles - array of rejected files with reason
+   */
+  const execFilesRejected = useCallback((err: FileRejection[]) => {
+    const error = getErrorMessage(err);
+    if (onReject !== undefined) onReject(error);
+    setInvalidShake(true);
+    setTimeout(() => setInvalidShake(false), 500);
+    setDropzoneError({ errors: error, timestamp: Date.now() });
+  }, [getErrorMessage, onReject, setInvalidShake, setDropzoneError]);
 
+  /**
+   * @function defaultOnDrop
+   * - handles accepted files first using execFilesAccepted
+   * - then handles rejected files using execFilesRejected
+   * @param {File[]} acceptedFiles - array of accepted files
+   * @param {FileRejection[]} rejectedFiles - array of rejected files with reason
+   */
+  const defaultOnDrop = useCallback((acceptedFiles: File[], rejectedFiles: FileRejection[]) => {
+    if (acceptedFiles.length)
+      rejectedFiles = execFilesAccepted(acceptedFiles, rejectedFiles) ?? rejectedFiles;
+    if (!rejectedFiles.length) return;
+    execFilesRejected(rejectedFiles);
+  }, [files, setFiles, maxFiles, dropzoneError, setDropzoneError, onAccept, onReject, setInvalidShake]);
+
+  /** initialize react-dropzone using props provided
+   *  retrieves the necessary variables as well */
+  const { getRootProps, getInputProps, isDragActive, isDragAccept, isDragReject, open } = useDropzone(
+    {
+      onDrop: defaultOnDrop,
+      accept: Array.isArray(accept) ? accept.reduce((r, key) => ({ ...r, [key]: [] }), {}) : accept,
+      disabled,
+      multiple,
+      maxSize,
+      maxFiles,
+      autoFocus,
+      noClick: !activateOnClick,
+      noDrag: !activateOnDrag,
+      noDragEventsBubbling: !dragEventsBubbling,
+      noKeyboard: !activateOnKeyboard,
+      onDragEnter,
+      onDragLeave,
+      onDragOver,
+      onFileDialogCancel,
+      onFileDialogOpen,
+      validator,
+      preventDropOnDocument,
+    });
+
+  /** Assigns the openRef to the open function to allow dropzone to open with a ref */
   assignRef(openRef, open);
 
+  /** Should the status (Base, Accept, Reject) be displayed now? */
   const showStatus = useMemo(() => {
     return (alwaysShowStatus! || !files.length)
   }, [alwaysShowStatus, files]);
 
+  /** Should the Base be displayed now? */
   const showBase = useMemo(() => {
     return (!isDragActive)
   }, [isDragActive]);
 
+  /** Should the Accept be displayed now? */
   const showAccept = useMemo(() => {
     return (isDragAccept && (maxFiles ? files.length < maxFiles : true))
   }, [isDragAccept, files, maxFiles]);
 
+  /** Should the Reject be displayed now? */
   const showReject = useMemo(() => {
     return (isDragReject || (isDragActive && (maxFiles ? files.length >= maxFiles : false)));
   }, [isDragReject, isDragActive, files, maxFiles]);
 
+  /** What is the current status of the dropzone?*/
   const status = useMemo(() => {
     return showBase ? 'Base' : showAccept ? 'Accept' : showReject ? 'Reject' : 'Base';
   }, [showBase, showAccept, showReject]);
 
+  /** Based on the status, what color will the dropzone be? */
   const colorStatus = useMemo(() => {
     if (status == 'Accept') return 'success';
     if (status == 'Reject') return 'error';
     return color;
   }, [status, color]);
+
+  /** Based on the status, what color will the dropzone border be? */
   const borderColorStatus = useMemo(() => {
     if (status == 'Accept') return 'success';
     if (status == 'Reject') return 'error';
@@ -257,7 +399,7 @@ const Dropzone = (props: DropzoneProps) => {
     return colorStatus;
   }, [status, borderColor, colorStatus]);
 
-  // manages css overrides of the dropzone based on the status (Base, Accept, Reject)
+  /** Manages css overrides of the dropzone based on the status (Base, Accept, Reject) */
   const statusCSS = useMemo(() => {
     const filteredChildren: any[] =
       React.Children.toArray(children).filter((child: any) =>
@@ -267,13 +409,10 @@ const Dropzone = (props: DropzoneProps) => {
     return filteredChildren[0]!.props.css;
   }, [status]);
 
-
-  const [errorVisible, setErrorVisible] = useState(false);
-
+  /** Should the error border be displayed? */
   const showErrorBorder = useMemo(() => {
     return (errorVisible && dropzoneError.errors && displayError && errorBorder);
   }, [errorVisible, dropzoneError, displayError, errorBorder]);
-
 
   return (
     <DropzoneProvider
@@ -328,6 +467,7 @@ const Dropzone = (props: DropzoneProps) => {
   );
 };
 
+/** Dropzone type */
 type DropzoneComponent<P = {}> = React.FC<P> & {
   Base: typeof DropzoneBase;
   Accept: typeof DropzoneAccept;
@@ -340,6 +480,7 @@ type DropzoneComponent<P = {}> = React.FC<P> & {
 Dropzone.toString = () => '.nextui-dropzone';
 Dropzone.displayName = 'NextUI.Dropzone';
 
+/** Default Dropzone props */
 const defaultDropzoneProps: Partial<DropzoneProps> = {
   disabled: false,
   multiple: true,
@@ -365,50 +506,3 @@ const defaultDropzoneProps: Partial<DropzoneProps> = {
 };
 Dropzone.defaultProps = defaultDropzoneProps;
 export default Dropzone as DropzoneComponent<DropzoneProps>;
-
-
-
-
-
-  // default onDrop function, can be overriden by the user using the onDrop prop
-  // adds the accepted files, takes care of duplicates and maxFiles
-  // @notice by overriding the default on drop function,
-  //         the dropzone will act like the default react-dropzone.
-  //         You must take care of the files yourself.
-  //         (e.g. duplicates, maxFiles, etc.)
-  //         and considerer that maxFiles is not a limit but max per drop
-  // const defaultOnDrop = useCallback((acceptedFiles: File[]) => {
-  //   if (!multiple) return setFiles([acceptedFiles[0]]); // handle single file dropzone
-  //   console.log('accepted files', acceptedFiles);
-  //   // handle duplicates
-  //   const newFiles = acceptedFiles.map((file: File) => (file)) as File[];
-  //   const withoutDuplicates = filesWithoutDuplicates(files, newFiles) as File[];
-  //   // handles maxFiles error issue of react-dropzone and call reject
-  //   if (maxFiles && (newFiles.length + withoutDuplicates.length) > maxFiles!) {
-  //     const error = [
-  //       ...newFiles.map((file: File) => ({
-  //         file: file,
-  //         errors: [{
-  //           code: ERROR_CODES.TOO_MANY_FILES,
-  //           message: 'Too many files'
-  //         }]
-  //       }))
-  //     ] as FileRejection[];
-  //     return defaultOnReject(error);
-  //   }
-  //   // call onDrop override and set files
-  //   if (onDrop !== undefined) onDrop(filesWithoutDuplicates(newFiles, files));
-  //   // if (dropzoneError.timestamp && dropzoneError.timestamp > Date.now() - 1000) return;
-  //   setFiles([...withoutDuplicates, ...newFiles]);
-  // }, [files, setFiles, maxFiles, dropzoneError, setDropzoneError]);
-
-  // // default onReject function, can be overriden by the user using the onReject prop
-  // const defaultOnReject = useCallback((err: FileRejection[] | any) => {
-  //   console.log('rejected files', err);
-  //   const error = getErrorMessage(err);
-  //   if (getError !== undefined) getError(error);
-  //   if (onReject !== undefined) return onReject(err);
-  //   setInvalidShake(true);
-  //   setTimeout(() => setInvalidShake(false), 500);
-  //   setDropzoneError({ errors: error, timestamp: Date.now() });
-  // }, [setInvalidShake, setDropzoneError, files]);

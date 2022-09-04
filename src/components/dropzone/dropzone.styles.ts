@@ -3,24 +3,23 @@ import { styled, cssFocusVisible } from "@nextui-org/react";
 import { invalidShake, fadeIn } from "./dropzone.animations";
 import { Text } from '@nextui-org/react';
 
-// ITEM_WIDTH = '$32' // = 8rem
+// ITEM_WIDTH = '$36' // = 8rem
 // MAX_ITEMS = 4; // number of items to show before wrap
 // ITEM_GAP = '$md'; // = 1rem
 // DROPZONE_PADDING = '$md'; // = 1rem
 // calculate the width like this:
 // ITEM_WIDTH * MAX_ITEMS + ITEM_GAP * (MAX_ITEMS - 1) + DROPZONE_PADDING * 2
-// = 8rem * 4 + 1rem * 3 + 1rem * 2 = 37rem
-// DROPZONE_WIDTH = '37rem';
+// = 9rem * 4 + 1rem * 3 + 1rem * 2 = 41rem
 // add one rem for the border
+// DROPZONE_WIDTH = '42rem';
 // full = 100%
-// lg = 4 items = 38rem (default)
-// md = 3 items = 29rem
-// sm = 2 items = 20rem
-// xs = 1 item = 11rem
+// lg = 4 items = 42rem (default)
+// md = 3 items = 32rem
+// sm = 2 items = 22rem
+// xs = 1 item  = 12rem
 const ITEM_WIDTH = '$36' // = 9rem
 const ITEM_GAP = '$md'; // = 1rem
 const DROPZONE_PADDING = '$md'; // = 1rem
-// todo: border takes 5 pixels so add 5px*2 to the width or borderwidth*2
 
 export const StyledDropzone = styled('div',
   {
@@ -54,16 +53,16 @@ export const StyledDropzone = styled('div',
       },
       width: {
         xs: {
-          width: '101rem', // 1 item
+          width: '12rem', // 1 item
         },
         sm: {
-          width: '20rem', // 2 items
+          width: '22rem', // 2 items
         },
         md: {
-          width: '29rem', // 3 items
+          width: '32rem', // 3 items
         },
         lg: {
-          width: '38rem', // default // 4 items
+          width: '42rem', // default // 4 items
         },
         full: {
           width: '100%',

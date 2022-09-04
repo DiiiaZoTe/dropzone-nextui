@@ -50,7 +50,8 @@ export default function Home() {
         color={color} variant={variant} disabled={disabled}
         bordered={bordered} borderColor={borderColor} borderWeight={borderWeight} borderStyle={borderStyle}
         files={files} setFiles={setFiles}
-        maxSize={getBytes(200, 'KB')} maxFiles={5}
+        width='sm'
+        maxSize={getBytes(400, 'KB')} maxFiles={4}
         openRef={openRef} accept={{ 'image/*': [] }}
       >
         <Dropzone.Base>
