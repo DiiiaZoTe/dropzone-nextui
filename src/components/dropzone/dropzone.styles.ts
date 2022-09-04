@@ -3,24 +3,30 @@ import { styled, cssFocusVisible } from "@nextui-org/react";
 import { invalidShake, fadeIn } from "./dropzone.animations";
 import { Text } from '@nextui-org/react';
 
-// ITEM_WIDTH = '$36' // = 8rem
-// MAX_ITEMS = 4; // number of items to show before wrap
-// ITEM_GAP = '$md'; // = 1rem
-// DROPZONE_PADDING = '$md'; // = 1rem
-// calculate the width like this:
-// ITEM_WIDTH * MAX_ITEMS + ITEM_GAP * (MAX_ITEMS - 1) + DROPZONE_PADDING * 2
-// = 9rem * 4 + 1rem * 3 + 1rem * 2 = 41rem
-// add one rem for the border
-// DROPZONE_WIDTH = '42rem';
-// full = 100%
-// lg = 4 items = 42rem (default)
-// md = 3 items = 32rem
-// sm = 2 items = 22rem
-// xs = 1 item  = 12rem
-const ITEM_WIDTH = '$36' // = 9rem
-const ITEM_GAP = '$md'; // = 1rem
-const DROPZONE_PADDING = '$md'; // = 1rem
+/*
+  ITEM_WIDTH = '$36' // = 8rem
+  MAX_ITEMS = 4; // number of items to show before wrap
+  ITEM_GAP = '$md'; // = 1rem
+  DROPZONE_PADDING = '$md'; // = 1rem
+  calculate the width like this:
+  ITEM_WIDTH * MAX_ITEMS + ITEM_GAP * (MAX_ITEMS - 1) + DROPZONE_PADDING * 2
+  = 9rem * 4 + 1rem * 3 + 1rem * 2 = 41rem
+  add one rem for the border
+  DROPZONE_WIDTH = '42rem';
+  full = 100%
+  lg = 4 items = 42rem (default)
+  md = 3 items = 32rem
+  sm = 2 items = 22rem
+  xs = 1 item  = 12rem
+*/
+/** Width of a Preview Item = 9rem */
+const ITEM_WIDTH = '$36'
+/** Gap between Preview Items = 1rem */
+const ITEM_GAP = '$md';
+/** Padding of the dropzone = 1rem */
+const DROPZONE_PADDING = '$md';
 
+/** Main dropzone Style */
 export const StyledDropzone = styled('div',
   {
     position: 'relative',
@@ -35,6 +41,7 @@ export const StyledDropzone = styled('div',
     cursor: "pointer",
     borderRadius: '$md',
     variants: {
+      /** should the dropzone be animated? */
       animated: {
         true: {
           transition: 'all 0.3s ease-in-out',
@@ -43,6 +50,7 @@ export const StyledDropzone = styled('div',
           }
         }
       },
+      /** should the dropzone be bordered */
       bordered: {
         true: {},
         false: {
@@ -51,6 +59,7 @@ export const StyledDropzone = styled('div',
           borderStyle: 'solid',
         }
       },
+      /** various width of dropzone */
       width: {
         xs: {
           width: '12rem', // 1 item
@@ -68,7 +77,11 @@ export const StyledDropzone = styled('div',
           width: '100%',
         }
       },
-      color: { //flat is default
+      /** various colors of the dropzone used for the variant
+       *  @default 'default'
+       *  @notice this is the 'flat' variant
+       */
+      color: {
         default: {
           bg: '$accents0',
           color: '$accents7',
@@ -140,6 +153,11 @@ export const StyledDropzone = styled('div',
           },
         },
       },
+      /** various variants of the dropzone
+       *  @default 'flat'
+       *  @notice solid and shadow have the same base.
+       *  Shadow adds a border and has a transparent background for default color
+       */
       variant: {
         flat: {
           '& .nextui-dropzone--Error': {
@@ -159,7 +177,7 @@ export const StyledDropzone = styled('div',
           },
         }
       },
-      // disabled and error here to override other styles
+      /** should the error border be displayed */
       showErrorBorder: {
         true: {
           borderColor: '$errorBorder !important',
@@ -167,6 +185,9 @@ export const StyledDropzone = styled('div',
           borderStyle: 'solid',
         }
       },
+      /** various border weights of the dropzone
+       *  @default 'normal'
+       */
       borderWeight: {
         light: {},
         normal: {},
@@ -174,11 +195,17 @@ export const StyledDropzone = styled('div',
         extrabold: {},
         black: {}
       },
+      /** various border styles of the dropzone
+       *  @default 'dashed'
+       */
       borderStyle: {
         dashed: {},
         dotted: {},
         solid: {}
       },
+      /** various border colors of the dropzone
+       *  @default 'default'
+       */
       borderColor: {
         default: {},
         primary: {},
@@ -187,6 +214,7 @@ export const StyledDropzone = styled('div',
         success: {},
         error: {},
       },
+      /** should the dropzone be disabled? */
       disabled: {
         true: {
           background: '$accents3 !important',
@@ -682,6 +710,11 @@ export const StyledDropzoneStatus = styled("div", {
   }
 });
 
+/** Main Dropzone.Preview style
+ *  @notice
+ *  Add defaultStyle prop to use the defaultStyle.
+ *  This allows to use this as basic container for custom previews.
+ */
 export const StyledDropzonePreview = styled("div", {
   width: "100%",
   position: 'relative',
@@ -703,6 +736,11 @@ export const StyledDropzonePreview = styled("div", {
   }
 });
 
+/** Dropzone.Preview.Item style
+ *  @notice
+ *  Add defaultStyle prop to use the defaultStyle.
+ *  This allows to use this as basic container for custom preview items.
+ */
 export const StyledDropzonePreviewItem = styled("div", {
   position: 'relative',
   display: "flex",
@@ -712,8 +750,6 @@ export const StyledDropzonePreviewItem = styled("div", {
   width: `${ITEM_WIDTH}`,
   maxWidth: '100%',
   padding: "$xs",
-  // marginLeft: '$sm',
-  // marginRight: '$sm',
   fontSize: "$sm",
   borderRadius: '$md',
   variants: {
@@ -727,25 +763,25 @@ export const StyledDropzonePreviewItem = styled("div", {
     },
     animated: {
       true: {
-        transition: "all 0.3s ease-in-out",
-        // animation: `${appearanceInFile} 0.25s ease-out`,
-      },
-      false: {}
+        transition: 'all 0.3s ease-in-out',
+      }
     }
-    //TODO: add variants for background and color and border/nobackground
   },
   '@motion': {
     transition: 'none'
   },
 });
 
+/** Used to display the file name in Preview Item */
 export const TextFile = styled(Text, {
   width: '100%',
   textAlign: 'center',
   height: '100%',
   padding: '$xs',
+  whiteSpace: 'nowrap',
 });
 
+/** Used to display the file extension in Preview Item */
 export const TextExtension = styled(Text, {
   padding: '$xs',
   height: '100%',
@@ -759,11 +795,16 @@ export const TextExtension = styled(Text, {
   }
 });
 
+/** Size of the remove button of Preview Item */
 const CLOSE_BUTTON_SIZE = '1.6em';
+/** Half of the size of the remove button of Preview Item */
 const CLOSE_BUTTON_SIZE_HALF = '0.8em';
+/** Thickness of the remove button cross of Preview Item */
 const CLOSE_BUTTON_THICKNESS = '0.12em';
+/** Half of the Thickness of the remove button cross of Preview Item */
 const CLOSE_BUTTON_THICKNESS_HALF = '0.06em';
 
+/** Main button to remove PreviewItem */
 export const StyledButtonClose = styled("button",
   {
     position: 'absolute',
@@ -794,6 +835,7 @@ export const StyledButtonClose = styled("button",
   cssFocusVisible
 );
 
+/** Cross for the button remove of Preview Item */
 export const StyledCross = styled("span", {
   width: `${CLOSE_BUTTON_SIZE}`,
   height: `${CLOSE_BUTTON_SIZE}`,
@@ -828,6 +870,7 @@ export const StyledCross = styled("span", {
   },
 });
 
+/** Hidden span for accessibility purposes */
 export const HiddenSpan = styled("span", {
   position: 'absolute',
   clip: 'rect(1px, 1px, 1px, 1px)',

@@ -117,7 +117,7 @@ const DropzonePreviewItemComponent = (props: DropzonePreviewItemProps) => {
 
   return (
     <StyledDropzonePreviewItem
-      animated={animated} defaultStyle={true}
+      animated={animatedItem} defaultStyle={true}
       className='nextui-dropzone--Preview-item'
     >
       <RemoveButton animated={animated} onclickCallback={removeCallback} />
