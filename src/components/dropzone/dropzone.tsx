@@ -1,5 +1,5 @@
 import React, { ReactNode, useCallback, useMemo, useState } from 'react';
-import { DropEvent, FileRejection, useDropzone } from 'react-dropzone';
+import { FileRejection, useDropzone } from 'react-dropzone';
 import { assignRef } from '@utils/refs/assignRef';
 import { useDropzoneProps } from './use-Dropzone';
 import { DropzoneProvider } from './dropzone-context';
@@ -153,7 +153,7 @@ const Dropzone = (props: DropzoneProps) => {
     setDropzoneError({ errors: error, timestamp: Date.now() });
   };
 
-  const testOnDrop = useCallback((acceptedFiles: File[], rejectedFiles: FileRejection[], event: DropEvent) => {
+  const testOnDrop = useCallback((acceptedFiles: File[], rejectedFiles: FileRejection[]) => {
     if (acceptedFiles.length)
       rejectedFiles = execFilesAccepted(acceptedFiles, rejectedFiles) ?? rejectedFiles;
     if (!rejectedFiles.length) return;
