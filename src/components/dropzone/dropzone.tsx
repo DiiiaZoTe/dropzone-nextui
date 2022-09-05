@@ -148,7 +148,10 @@ interface Props extends useDropzoneProps {
   /** @optional  extra className you wish to apply to the Dropzone*/
   className?: string;
 }
-/** Dropzone props  */
+/** Dropzone props 
+ *  @requires Files
+ *  @requires setFiles
+ */
 export type DropzoneProps = Props;
 
 /** focus ring aria interface for focus accessibility */

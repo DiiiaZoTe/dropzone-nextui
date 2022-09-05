@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo } from 'react';
-import { useDropzoneContext } from './dropzone-context';
+import { useDropzoneContext, DropzonePreviewProvider, useDropzonePreviewContext } from './dropzone-context';
 import {
   StyledDropzonePreview, StyledDropzonePreviewItem, HiddenSpan,
   StyledCross, StyledButtonClose, TextFile, TextExtension
@@ -14,22 +14,40 @@ const TRUNCATION_LENGTH = 12;
 
 //! RemoveButton  --------------------------------------------------------
 
-// Remove button props 
+/** Remove button props
+ *  @requires onclickCallback
+ */
 interface RemoveButtonProps {
+  /** @required Callback to trigger when the button is clicked */
   onclickCallback: () => void;
+  /** @optional should this button be displayed 
+   *  @default true inherited from preview item
+   */
   displayRemove?: boolean;
+  /** @optional should the button be animated
+   *  @default true inherited from preview item
+   */
   animated?: boolean;
+  /** @optional should the button be disabled
+   *  @default false
+   */
   disabled?: boolean;
 }
+
+/** focus ring aria interface for focus accessibility */
 interface IFocusRingAria extends FocusRingAria {
   focusProps: Omit<React.HTMLAttributes<HTMLElement>, keyof RemoveButtonProps>;
 }
 
-// Remove button component 
+/** Remove button component
+ *  @notice this component is not exported,
+ *  it is used internally by the DropzonePreviewItem component
+ *  and only displayed if the displayRemove prop is set to true
+ */
 const RemoveButtonComponent = (props: RemoveButtonProps) => {
+  /** get props and focus ring */
   const { onclickCallback, displayRemove, animated, disabled } = props;
   const { isFocusVisible, focusProps }: IFocusRingAria = useFocusRing({ autoFocus: false });
-
   // do not display if not wanted
   if (!displayRemove) return <></>;
   // on click trigger callback to parent
@@ -37,6 +55,7 @@ const RemoveButtonComponent = (props: RemoveButtonProps) => {
     e.stopPropagation();
     onclickCallback();
   }
+  /** @notice HiddenSpan is for accessibility */
   return (
     <StyledButtonClose
       animated={animated && !disabled} onClick={clicked}
@@ -49,33 +68,44 @@ const RemoveButtonComponent = (props: RemoveButtonProps) => {
     </StyledButtonClose>
   )
 }
-RemoveButtonComponent.defaultProps = {
-  animated: true,
-  displayRemove: true
-}
 RemoveButtonComponent.toString = () => '.nextui-dropzone-remove';
 RemoveButtonComponent.displayName = 'NextUI.Dropzone.Remove';
 export const RemoveButton = RemoveButtonComponent;
 
 //! Dropzone.Item  --------------------------------------------------------
 
-// dropzone preview item props
+/** Dropzone items props
+ *  @requires file
+ *  @requires key
+ */
 export interface DropzonePreviewItemProps {
-  /**
-   * @required file to preview
-   */
+  /** @required file to preview */
   file: File;
-  /**
-   * @required key
-   */
+  /** @required key (use file name) */
   key: string;
+  /** @optional children of the items (content) */
   children?: React.ReactNode | any;
+  /** @optional custom css prop */
   css?: CSS;
+  /** @optional should the item be animated
+   *  @default true inherited from Dropzone Preview via context
+   */
   animated?: boolean;
+  /** @optional should the remove button be displayed
+   *  @default true inherited from Dropzone Preview via context
+   */
   displayRemove?: boolean;
 }
 
+/** 
+ *  Dropzone preview item component
+ *  @description 
+ *  Used to display the preview of a file
+ *  @notice this component should only be used if you want to customize the preview
+ *  @requires file
+ */
 const DropzonePreviewItemComponent = (props: DropzonePreviewItemProps) => {
+  /** get props */
   const {
     children,
     animated,
@@ -83,10 +113,16 @@ const DropzonePreviewItemComponent = (props: DropzonePreviewItemProps) => {
     displayRemove,
     ...otherProps
   } = props;
+  /** get contexts */
   const ctx = useDropzoneContext();
-  const animatedItem = animated ?? ctx.Animated;
+  const ctxPreview = useDropzonePreviewContext();
+  const animatedItem = animated ?? ctxPreview.Animated;
+  const itemDisplayRemove = displayRemove ?? ctxPreview.DisplayRemove;
 
-  // remove current file
+  /** @function removeFile
+   *  Removes this file from the dropzone
+   *  @param {File} fileToRemove
+   */
   const removeFile = (fileToRemove: File) => {
     const { Files, setFiles } = ctx;
     setFiles(Files.filter((file: File) =>
@@ -94,87 +130,115 @@ const DropzonePreviewItemComponent = (props: DropzonePreviewItemProps) => {
     ));
   };
 
-  // callback fx passed to the remove button
+  /** @function removeCallback
+   *  Callback passed to the remove button
+   *  to trigger when the remove button is clicked
+   */
   const removeCallback = useCallback(() => removeFile(file),
     [file, removeFile]);
 
-  // if the user wants to render custom preview let him do so
+  /*  
+   !  User custom preview.
+   *  If the user provides Dropzone.Item, then we override the default preview.
+   *  We then render the children within our item (without our default style)
+   */
   if (children !== null && children !== undefined) {
     return (
       <StyledDropzonePreviewItem animated={animatedItem} {...otherProps}>
         <RemoveButton
           disabled={ctx.Disabled} animated={animatedItem}
-          displayRemove={displayRemove} onclickCallback={removeCallback}
+          displayRemove={itemDisplayRemove} onclickCallback={removeCallback}
         />
         {children}
       </StyledDropzonePreviewItem>
     );
   }
 
-  //! passed this point, default item is rendered
-
+  /*
+   !  Default preview item rendered if no children are provided.
+   *  We render the file name and extension 
+   */
   const { fileName, fileExtension } = splitFileExtension(file!.name, TRUNCATION_LENGTH);
-
   return (
     <StyledDropzonePreviewItem
       animated={animatedItem} defaultStyle={true}
       className='nextui-dropzone--Preview-item'
     >
-      <RemoveButton animated={animated} onclickCallback={removeCallback} />
+      <RemoveButton animated={animatedItem} displayRemove={itemDisplayRemove} onclickCallback={removeCallback} />
       <TextFile b color='currentColor'>{fileName}</TextFile>
-      <TextExtension animated={animated} b color='currentColor' className='nextui-dropzone--Preview-item-extension'>
+      <TextExtension animated={animatedItem} b color='currentColor' className='nextui-dropzone--Preview-item-extension'>
         {fileExtension}
       </TextExtension>
-
-
     </StyledDropzonePreviewItem>
   );
-}
-DropzonePreviewItemComponent.defaultProps = {
-  displayRemove: true
 }
 DropzonePreviewItemComponent.toString = () => '.nextui-dropzone-item';
 DropzonePreviewItemComponent.displayName = 'NextUI.Dropzone.Item';
 export const DropzonePreviewItem = DropzonePreviewItemComponent;
 
-
 //! Dropzone.Preview  --------------------------------------------------------
 //TODO: remove all button should be straight forward, can be passed as a prop as well
 
-
+/** Dropzone Preview props */
 export interface DropzonePreviewProps {
+  /** @optional children of the preview
+   *  @notice this will override the default preview (user custom)
+   */
   children?: React.ReactNode | any;
+  /** @optional custom css prop */
   css?: CSS;
+  /** @optional should the preview be animated
+   *  @default true inherited from Dropzone via context
+   */
   animated?: boolean;
+  /** @optional should you keep the default styling
+   *  @default true 
+   */
   defaultStyle?: boolean;
+  /** @optional should the preview items be removable
+   *  @default true
+   */
+  displayRemove?: boolean;
 }
 
+/** 
+ *  Dropzone preview component
+ *  @description 
+ *  Used to display the preview of a file
+ *  @notice Passing children will override the default preview.
+ *  You will then have to handle the preview yourself.
+ *  Using Dropzone.Item will allow you to customize the preview.
+ */
 const DropzonePreviewComponent = (props: DropzonePreviewProps) => {
-  const { children, animated, defaultStyle, ...others } = props;
+  /** get props */
+  const { children, animated, defaultStyle, displayRemove, ...others } = props;
+  /** get context and values */
   const ctx = useDropzoneContext();
   const files = ctx.Files;
   // const setFiles = ctx.setFiles;
   const animatedPreview = animated ?? ctx.Animated;
-
+  /** animation ref */
   const [previewRef, previewAnimation] = useAutoAnimate<any>();
   previewAnimation(animatedPreview!);
-
+  /** render the children if provided */
   const shouldRenderChildren = useMemo(() => {
     return (children !== null && children !== undefined) ? true : false;
   }, [children]);
-
+  /** render default preview files, if any */
   const shouldRenderFiles = useMemo(() => {
     return !files ? false : !files.length ? false : true;
   }, [files]);
-
-  const hasItemsToShow = useMemo(() => {
-    return shouldRenderChildren || shouldRenderFiles;
-  }, [shouldRenderChildren, shouldRenderFiles]);
 
   // const removeAllFiles = useCallback(() => {
   //   setFiles([]);
   // }, [setFiles])
 
+  /** @function renderPreview
+   *  Renders the preview of the files
+   *  - if children are provided, we render the children
+   *  - if no children are provided, we render the default preview (if any files)
+   *  @notice this function is mostly for readability purposes of the return
+   */
   const renderPreview = () => {
     if (shouldRenderChildren)
       return children;
@@ -182,7 +246,7 @@ const DropzonePreviewComponent = (props: DropzonePreviewProps) => {
       return (
         files.map((file: any) => (
           <DropzonePreviewItem
-            animated={animatedPreview} file={file}
+            animated={animatedPreview} displayRemove={displayRemove} file={file}
             key={file.name + '/' + file.size.toString()}
           />
         ))
@@ -191,16 +255,19 @@ const DropzonePreviewComponent = (props: DropzonePreviewProps) => {
   }
 
   return (
-    <StyledDropzonePreview ref={previewRef}
-      hasItems={hasItemsToShow} defaultStyle={defaultStyle ?? true}
-      className='nextui-dropzone--Preview' {...others}
-    >
-      {renderPreview()}
-    </StyledDropzonePreview>
+    <DropzonePreviewProvider value={{ Animated: animatedPreview!, DisplayRemove: displayRemove! }}>
+      <StyledDropzonePreview ref={previewRef}
+        hasItems={shouldRenderFiles} defaultStyle={defaultStyle}
+        className='nextui-dropzone--Preview' {...others}
+      >
+        {renderPreview()}
+      </StyledDropzonePreview>
+    </DropzonePreviewProvider >
   );
 }
 DropzonePreviewComponent.defaultProps = {
-  defaultStyle: true
+  defaultStyle: true,
+  displayRemove: true,
 }
 DropzonePreviewComponent.toString = () => '.nextui-dropzone-preview';
 DropzonePreviewComponent.displayName = 'NextUI.Dropzone.Preview';

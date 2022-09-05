@@ -1,5 +1,7 @@
 import Dropzone from './dropzone';
 
+//TODO refactor this to export everything necessary and document
+
 export type { DropzoneProps } from './dropzone';
 export * from './dropzone.styles';
 export * from './utils';

@@ -47,6 +47,7 @@ export default function Home() {
         <title>Dropzone test with Nextui</title>
       </Head>
       <Dropzone
+        css={{ paddingTop: '$16', paddingBottom: '$16' }}
         color={color} variant={variant} disabled={disabled}
         bordered={bordered} borderColor={borderColor} borderWeight={borderWeight} borderStyle={borderStyle}
         files={files} setFiles={setFiles}
@@ -73,7 +74,7 @@ export default function Home() {
           </Container>
         </Dropzone.Reject>
         <Dropzone.Preview />
-        {/* <Dropzone.Preview >
+        {/* <Dropzone.Preview>
           {
             files.map((file, index) => {
               return (
@@ -174,7 +175,13 @@ things to note:
   - do not change the height but rather the minHeight to allow grow
   - if you want a fixed height you can change the height but beware it will not grow to fit content
   
-- dropzone &lt;iew:
+- dropzone preview:
   - not putting anything give the default
   - if you put children, it will remove the default and Dropzone.&lt;iew become inexistant (children will be direct children of Dropzone)
+
+- dropzone dimension/padding:
+  - for height, override minHeight
+  - for width, use width prop first
+  - for padding, altering left/right padding could break the default preview
+  - for padding top/bottom, just override it with css
 */

@@ -3,23 +3,32 @@ import { DropzoneContextValue, useDropzoneContext } from './dropzone-context';
 import { StyledDropzoneStatus } from './dropzone.styles';
 import { CSS } from '@nextui-org/react';
 
-// Dropzone status props
+
 export interface DropzoneStatusProps {
+  /** @optional children are the elements to display when status is displaying */
   children?: React.ReactNode;
+  /** @optional used to override the main dropzone when that status is active */
   css?: CSS;
+  /** @optional animated is whether the status should be animated
+   *  @default true inherited from the dropzone component
+   */
   animated?: boolean;
 }
 
 /** dropzone status component
- *  Returns the component associated to the current context status
- *  Otherwise doesn't return anything
+ *  @function createDropzoneStatus
+ *  returns the component associated to the current context status.
+ *  Otherwise doesn't return anything (doesn't render anything)
+ *  @param {keyof createDropzoneStatus} status - the status to create
  */
 const createDropzoneStatus = (status: keyof DropzoneContextValue) => {
   const Component = (props: DropzoneStatusProps): JSX.Element => {
+    /** get props */
     const { children, animated, ...otherProps } = props;
+    /** get context, if status' context value true render it */
     const ctx = useDropzoneContext();
-    const animatedStatus = animated ?? ctx.Animated;
     if (ctx[status]) {
+      const animatedStatus = animated ?? ctx.Animated;
       return (
         <StyledDropzoneStatus
           animated={animatedStatus}
