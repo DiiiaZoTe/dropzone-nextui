@@ -4,7 +4,7 @@ import {
   StyledDropzonePreview, StyledDropzonePreviewItem, HiddenSpan,
   StyledCross, StyledButtonClose, TextFile, TextExtension
 } from './dropzone.styles';
-import { CSS } from '@nextui-org/react';
+import { CSS, Tooltip } from '@nextui-org/react';
 import { useFocusRing } from '@react-aria/focus';
 import type { FocusRingAria } from '@react-aria/focus';
 import { splitFileExtension } from './utils'
@@ -158,18 +158,34 @@ const DropzonePreviewItemComponent = (props: DropzonePreviewItemProps) => {
    !  Default preview item rendered if no children are provided.
    *  We render the file name and extension 
    */
+
+  // get file name and extension
   const { fileName, fileExtension } = splitFileExtension(file!.name, TRUNCATION_LENGTH);
+
+  /** should we use a tooltip to display the full name because truncated? */
+  const useTooltip = useMemo(() => {
+    return fileName.length > TRUNCATION_LENGTH;
+  }, [fileName]);
+
+  const renderDefaultItem = () => {
+    return (
+      <StyledDropzonePreviewItem
+        animated={animatedItem} defaultStyle={true}
+        className='nextui-dropzone--Preview-item'
+      >
+        <RemoveButton animated={animatedItem} displayRemove={itemDisplayRemove} onclickCallback={removeCallback} />
+        <TextFile b color='currentColor'>{fileName}</TextFile>
+        <TextExtension animated={animatedItem} b color='currentColor' className='nextui-dropzone--Preview-item-extension'>
+          {fileExtension}
+        </TextExtension>
+      </StyledDropzonePreviewItem>
+    );
+  }
+
   return (
-    <StyledDropzonePreviewItem
-      animated={animatedItem} defaultStyle={true}
-      className='nextui-dropzone--Preview-item'
-    >
-      <RemoveButton animated={animatedItem} displayRemove={itemDisplayRemove} onclickCallback={removeCallback} />
-      <TextFile b color='currentColor'>{fileName}</TextFile>
-      <TextExtension animated={animatedItem} b color='currentColor' className='nextui-dropzone--Preview-item-extension'>
-        {fileExtension}
-      </TextExtension>
-    </StyledDropzonePreviewItem>
+    useTooltip
+      ? <Tooltip content={file.name.split('.')[0]}> {renderDefaultItem()} </Tooltip >
+      : renderDefaultItem()
   );
 }
 DropzonePreviewItemComponent.toString = () => '.nextui-dropzone-item';
@@ -191,7 +207,7 @@ export interface DropzonePreviewProps {
    *  @default true inherited from Dropzone via context
    */
   animated?: boolean;
-  /** @optional should you keep the default styling
+  /** @optional should you keep the default styling (grid layout)
    *  @default true 
    */
   defaultStyle?: boolean;

@@ -26,6 +26,7 @@ const ITEM_GAP = '$md';
 /** Padding of the dropzone = 1rem */
 const DROPZONE_PADDING = '$md';
 
+//! DROPZONE --------------------------------------------
 /** Main dropzone Style */
 export const StyledDropzone = styled('div',
   {
@@ -693,6 +694,8 @@ export const StyledDropzone = styled('div',
   cssFocusVisible
 );
 
+//! DROPZONE STATUS ----------------------------------------------
+/** Main Dropzone status style (Base,Accept,Reject) */
 export const StyledDropzoneStatus = styled("div", {
   display: "flex",
   flexDirection: "row",
@@ -710,6 +713,7 @@ export const StyledDropzoneStatus = styled("div", {
   }
 });
 
+//! DROPZONE PREVIEW / ITEM / REMOVE ----------------------------------------------
 /** Main Dropzone.Preview style
  *  @notice
  *  Add defaultStyle prop to use the defaultStyle.
@@ -879,4 +883,48 @@ export const HiddenSpan = styled("span", {
   height: '1px',
   width: '1px',
   overflow: 'hidden'
+});
+
+//! DROPZONE ERROR ----------------------------------------------
+
+/** Unstyled error container */
+export const UnstyledErrorDiv = styled('div', {
+  position: 'relative',
+  width: '100%',
+  variants: {
+    spaceY: {
+      above: {
+        marginTop: '$lg',
+      },
+      below: {
+        marginBottom: '$lg',
+      },
+      both: {
+        marginTop: '$lg',
+        marginBottom: '$lg',
+      },
+    },
+  }
+});
+
+/** Container holding the error */
+export const StyledErrorBox = styled('div', {
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'center',
+  width: 'fit-content',
+  borderRadius: '$md',
+  padding: '$md',
+  margin: 'auto',
+});
+
+/** Container for error files */
+export const StyledErrorFiles = styled('div', {
+  display: 'flex',
+  flexDirection: 'row',
+  alignItems: 'center',
+  justifyContent: 'center',
+  flexWrap: 'wrap',
+  width: '100%',
 });

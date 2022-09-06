@@ -1,122 +1,169 @@
 import React, { useEffect, useMemo } from 'react';
-import { CSS, Text, styled, Spacer } from '@nextui-org/react';
-import { ERROR_CODES, getCodeMessage, formatFileText } from './utils';
+import { CSS, Text } from '@nextui-org/react';
+import { ERROR_CODES, formatFileText } from './utils';
 import { useAutoAnimate } from '@formkit/auto-animate/react'
+import { UnstyledErrorDiv, StyledErrorBox, StyledErrorFiles } from './dropzone.styles';
+import { useDropzoneContext } from './dropzone-context';
 
 const TRUNCATION_LENGTH = 15;
-const TIME = 6000; //TODO: add option timer to props (number in ms or 0 for no limit)
+const DURATION = 6000;
 
+/** Error by code
+ *  - code: the error code
+ *  - files: the files with that error code
+ */
 export interface RejectionError {
   code: string;
   files: string[];
 };
 
-export interface CustomRejectionError {
+/** Custom error object for dropzone
+ * - errors: {RejectionError[]} array of the errors by code
+ * - timestamp: the time the error was created (for show/hide purposes).
+ *   Use `Date.now()` to get the current timestamp.
+ */
+export interface DropzoneRejectionError {
   errors: RejectionError[];
   timestamp: number;
 }
 
-interface DropzoneErrorProps {
-  err: CustomRejectionError;
-  isVisible: boolean;
-  setIsVisible: (isVisible: boolean) => void;
-  animated: boolean;
-  maxFiles?: number;
-  maxSize?: number;
+/** Dropzone error props */
+export interface DropzoneErrorProps {
+  error?: DropzoneRejectionError;
+  isVisible?: boolean;
+  setIsVisible?: (isVisible: boolean) => void;
+  animated?: boolean;
+  //all above to context
   children?: React.ReactNode;
   css?: CSS;
+  duration?: number;
+  spaceY?: 'above' | 'below' | 'both';
+  multipleErrors?: boolean;
+  tooManyFilesMessage?: string;
+  fileTooLargeMessage?: string;
+  invalidFileTypeMessage?: string;
 }
 
-const FullDiv = styled('div', {
-  position: 'relative',
-  width: '100%',
-});
+/** Dropzone error component 
+ *  @description 
+ *  Used to display the errors of the dropzone
+ *  @notice Passing children will override the default error view.
+ *  You will then have to handle the error display yourself.
+ *  If you wish to do so, passing the onReject prop to the dropzone can be useful to get the errors.
+ */
+export const DropzoneErrorComponent = (props: DropzoneErrorProps) => {
+  /** get props */
+  const { error: errorProp, isVisible, setIsVisible, animated, spaceY,
+    children, duration, multipleErrors,
+    tooManyFilesMessage, fileTooLargeMessage, invalidFileTypeMessage,
+    ...otherProps
+  } = props;
 
-const Box = styled('div', {
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  justifyContent: 'center',
-  width: 'fit-content',
-  borderRadius: '$md',
-  padding: '$md',
-  margin: 'auto',
-});
+  // get context and merge with props (props override context)
+  // for error, isVisible, setIsVisible, animated
+  const ctx = useDropzoneContext();
+  const { MaxFiles, MaxSize } = ctx;
+  const error = errorProp ?? ctx.Error;
+  const errorVisible = isVisible ?? ctx.IsErrorVisible;
+  const setErrorVisible = setIsVisible ?? ctx.setIsErrorVisible;
+  const errorAnimated = animated ?? ctx.Animated;
 
-const Box2 = styled('div', {
-  display: 'flex',
-  flexDirection: 'row',
-  alignItems: 'center',
-  justifyContent: 'center',
-  flexWrap: 'wrap',
-  width: '100%',
-});
+  // get error messages if not provided
+  const errorMessages = {
+    'too-many-files': tooManyFilesMessage ?? ERROR_CODES.TOO_MANY_FILES_MESSAGE(MaxFiles),
+    'file-too-large': fileTooLargeMessage ?? ERROR_CODES.FILE_TOO_LARGE_MESSAGE(MaxSize),
+    'file-invalid-type': invalidFileTypeMessage ?? ERROR_CODES.INVALID_FILE_TYPE_MESSAGE(),
+  }
 
-//TODO refactor this component to use context to pass error and visible state, maxFiles and maxSize
-//if children, then let him do the rendering of the error...
-
-//TODO then have it as Dropzone.Error and test if we can change CSS prop inside index
-
-export const DropzoneError = (props: DropzoneErrorProps) => {
-  const { err, isVisible, setIsVisible, animated, maxSize, maxFiles, ...otherProps } = props;
-
+  /** get animation ref */
   const [errorRef, errorAnimation] = useAutoAnimate<any>();
-  errorAnimation(animated!);
+  errorAnimation(errorAnimated);
 
+  /** creates the timer for the error */
   useEffect(() => {
     let timer = null as any;
-    if (err.timestamp) {
-      setIsVisible(true);
-      if (!TIME) return;
+    const timerDuration = duration ?? DURATION;
+    if (error && error.timestamp) {
+      setErrorVisible(true);
+      if (!timerDuration) return;
       timer = setTimeout(() => {
-        setIsVisible(false);
-      }, TIME);
+        setErrorVisible(false);
+      }, timerDuration);
     }
-    else setIsVisible(false);
+    else setErrorVisible(false);
     return () => clearTimeout(timer);
-  }, [err]);
+  }, [error]);
 
-  const showError = useMemo(() => {
-    return (isVisible && err.errors)
-  }, [isVisible, err]);
-
-  const renderError = () => {
-    if (err.errors[0].code === ERROR_CODES.TOO_MANY_FILES) {
+  /** @funtion renderAllErrors 
+   *  Renders all the errors that occured if multipleErrors prop is passed
+   */
+  const renderAllErrors = () => {
+    if (!error) return <></>;
+    const { errors } = error;
+    return errors.map((error) => {
+      const { code, files } = error;
+      const message = errorMessages[code as keyof typeof errorMessages];
       return (
-        <>
-          <Text b color='$error' size='$sm'>
-            {getCodeMessage(ERROR_CODES.TOO_MANY_FILES, maxSize!, maxFiles!)}
-          </Text>
-        </>
+        <StyledErrorBox key={code}>
+          <Text b color='$error' size='$sm'>{message}</Text>
+          <StyledErrorFiles>
+            {files.map((file) => (
+              <Text color='$error' key={file} span css={{ marginLeft: '$md', marginRight: '$md' }} size='$xs'>
+                {formatFileText(file, TRUNCATION_LENGTH)}
+              </Text>
+            ))}
+          </StyledErrorFiles>
+        </StyledErrorBox>
       );
-    }
+    });
+  }
+
+  /** @funtion renderSingleError
+   *  Renders the first error of the error that occured, if multipleErrors prop is not passed.
+   *  This is the default behaviour.
+   */
+  const renderSingleError = () => {
+    if (!error) return <></>;
+    const firstError = error.errors[0];
+    const { code, files } = firstError;
+    const message = errorMessages[code as keyof typeof errorMessages];
     return (
       <>
-        <Text b color='$error' size='$sm'>{getCodeMessage(err.errors[0].code, maxSize!, maxFiles!)}</Text>
-        <Box2>
-          {
-            err.errors[0].files.map((file: string) => {
-              return (
-                <Text color='$error' key={file} span css={{ marginLeft: '$md', marginRight: '$md' }} size='$xs'>{formatFileText(file, TRUNCATION_LENGTH)}</Text>
-              );
-            })
-          }
-        </Box2>
+        <Text b color='$error' size='$sm'>{message}</Text>
+        <StyledErrorFiles>
+          {files.map((file) => (
+            <Text color='$error' key={file} span css={{ marginLeft: '$md', marginRight: '$md' }} size='$xs'>
+              {formatFileText(file, TRUNCATION_LENGTH)}
+            </Text>
+          ))}
+        </StyledErrorFiles>
       </>
-    )
-  };
+    );
+  }
+
+  /** should the error be visible? */
+  const showError = useMemo(() => {
+    return (errorVisible && error.errors) as boolean;
+  }, [errorVisible, error]);
 
   return (
-    <FullDiv ref={errorRef} >
+    <UnstyledErrorDiv ref={errorRef}
+      spaceY={showError ? spaceY : undefined} {...otherProps}
+    >
       {
-        showError &&
-        <>
-          <Box className='nextui-dropzone--Error' {...otherProps}>
-            {renderError()}
-          </Box>
-          <Spacer y={1} />
-        </>
+        // if error is visible, render children if provided (custom error), otherwise render default error
+        showError && (
+          (children !== undefined) ?
+            children :
+            <StyledErrorBox className='nextui-dropzone--Error'>
+              {multipleErrors ? renderAllErrors() : renderSingleError()}
+            </StyledErrorBox>
+        )
       }
-    </FullDiv>
+    </UnstyledErrorDiv>
   );
+
 };
+DropzoneErrorComponent.toString = () => '.nextui-dropzone-Error';
+DropzoneErrorComponent.displayName = 'NextUI.Dropzone.Error';
+export const DropzoneError = DropzoneErrorComponent;

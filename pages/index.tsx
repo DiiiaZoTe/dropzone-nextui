@@ -26,6 +26,7 @@ export default function Home() {
   const [variant, setVariant] = useState(variants[0] as any);
 
   const [disabled, setDisabled] = useState(false);
+  const [animated, setAnimated] = useState(true);
 
   const [bordered, setBordered] = useState(false);
   const borderColors = [undefined, 'default', 'primary', 'secondary', 'warning'];
@@ -47,13 +48,13 @@ export default function Home() {
         <title>Dropzone test with Nextui</title>
       </Head>
       <Dropzone
-        css={{ paddingTop: '$16', paddingBottom: '$16' }}
         color={color} variant={variant} disabled={disabled}
         bordered={bordered} borderColor={borderColor} borderWeight={borderWeight} borderStyle={borderStyle}
         files={files} setFiles={setFiles}
-        width='sm'
+        width='sm' animated={animated}
         maxSize={getBytes(400, 'KB')} maxFiles={4}
-        openRef={openRef} accept={{ 'image/*': [] }}
+        openRef={openRef}
+      // accept={{ 'image/*': [] }}
       >
         <Dropzone.Base>
           <Container css={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
@@ -73,6 +74,7 @@ export default function Home() {
             <Text color='currentColor' css={{ textAlign: 'center' }}>Invalid files, please try again</Text>
           </Container>
         </Dropzone.Reject>
+        <Dropzone.Error spaceY='both' />
         <Dropzone.Preview />
         {/* <Dropzone.Preview>
           {
@@ -129,6 +131,15 @@ export default function Home() {
         <Switch
           checked={disabled}
           onChange={() => setDisabled(!disabled)}
+        />
+      </Box2>
+      <Spacer y={1} />
+      <Box2>
+        Animated dropzone?
+        <Spacer x={0.5} />
+        <Switch
+          checked={animated}
+          onChange={() => setAnimated(!animated)}
         />
       </Box2>
       <Spacer y={1} />

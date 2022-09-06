@@ -53,26 +53,26 @@ export const filesWithoutDuplicates = (toFilter: File[], intersecting: File[]) =
   );
 }
 
-/**
- * @function getCodeMessage
- * Returns the error message for the given error code
- * @param {string} code - The error code
- * @param {number} [maxSize] - The maximum file size in bytes
- * @param {number} [maxFiles] - The maximum number of files
- * @return {string} The error message
- */
-export const getCodeMessage = (code: string, maxSize: number, maxFiles: number) => {
-  switch (code) {
-    case ERROR_CODES.INVALID_FILE_TYPE:
-      return ERROR_CODES.INVALID_FILE_TYPE_MESSAGE();
-    case ERROR_CODES.FILE_TOO_LARGE:
-      return ERROR_CODES.FILE_TOO_LARGE_MESSAGE(maxSize);
-    case ERROR_CODES.TOO_MANY_FILES:
-      return ERROR_CODES.TOO_MANY_FILES_MESSAGE(maxFiles);
-    default:
-      return 'An error occured, try again.';
-  }
-};
+// /**
+//  * @function getCodeMessage
+//  * Returns the error message for the given error code
+//  * @param {string} code - The error code
+//  * @param {number} [maxSize] - The maximum file size in bytes
+//  * @param {number} [maxFiles] - The maximum number of files
+//  * @return {string} The error message
+//  */
+// export const getCodeMessage = (code: string, maxSize: number, maxFiles: number) => {
+//   switch (code) {
+//     case ERROR_CODES.INVALID_FILE_TYPE:
+//       return ERROR_CODES.INVALID_FILE_TYPE_MESSAGE();
+//     case ERROR_CODES.FILE_TOO_LARGE:
+//       return ERROR_CODES.FILE_TOO_LARGE_MESSAGE(maxSize);
+//     case ERROR_CODES.TOO_MANY_FILES:
+//       return ERROR_CODES.TOO_MANY_FILES_MESSAGE(maxFiles);
+//     default:
+//       return 'An error occured, try again.';
+//   }
+// };
 
 /**
  * @function formatBytes

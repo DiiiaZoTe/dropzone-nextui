@@ -1,4 +1,5 @@
 import { createContext } from "@utils/context/createContext";
+import { DropzoneRejectionError } from "./dropzone-error";
 
 /** The various dropzone statuses 
  *  - Base
@@ -20,12 +21,21 @@ export interface DropzoneStatuses {
  * - setFiles: a function to set the files in the dropzone
  * - Disabled: whether the dropzone is disabled
  * - Animated: whether the dropzone is animated
+ * - MaxFiles: the maximum number of files allowed in the dropzone
+ * - MaxSize: the maximum size of the files allowed in the dropzone
+ * - Error: the error object
+ * 
  */
 export interface DropzoneContextValue extends DropzoneStatuses {
   Files: File[];
   setFiles: (files: File[]) => void;
   Disabled: boolean;
   Animated: boolean;
+  MaxFiles: number;
+  MaxSize: number;
+  Error: DropzoneRejectionError;
+  IsErrorVisible: boolean;
+  setIsErrorVisible: (isVisible: boolean) => void;
 };
 
 /** Creates the dropzone context provider */

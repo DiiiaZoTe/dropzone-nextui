@@ -1,4 +1,4 @@
-import React, { ReactNode, useCallback, useMemo, useState } from 'react';
+import React, { ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
 import { FileRejection, useDropzone } from 'react-dropzone';
 import { assignRef } from '@utils/refs/assignRef';
 import { useDropzoneProps } from './use-Dropzone';
@@ -10,7 +10,7 @@ import { CSS } from '@nextui-org/react';
 import { useFocusRing } from '@react-aria/focus';
 import type { FocusRingAria } from '@react-aria/focus';
 import clsx from '@utils/clsx';
-import { DropzoneError, RejectionError, CustomRejectionError } from './dropzone-error';
+import { DropzoneError, RejectionError, DropzoneRejectionError } from './dropzone-error';
 import { ERROR_CODES, filesWithoutDuplicates } from './utils';
 import { useAutoAnimate } from '@formkit/auto-animate/react'
 
@@ -221,7 +221,15 @@ const Dropzone = (props: DropzoneProps) => {
   const { isFocusVisible, focusProps }: IFocusRingAria = useFocusRing({ autoFocus });
   const [invalidShake, setInvalidShake] = useState(false);
   const [errorVisible, setErrorVisible] = useState(false);
-  const [dropzoneError, setDropzoneError] = useState({} as CustomRejectionError);
+  const [dropzoneError, setDropzoneError] = useState({} as DropzoneRejectionError);
+
+  /** invalid shake in useEffect triggered when error occurs*/
+  useEffect(() => {
+    let timer = null as any;
+    if (invalidShake)
+      timer = setTimeout(() => setInvalidShake(false), 500);
+    return () => clearTimeout(timer);
+  }, [invalidShake]);
 
   /**
    * @function getErrorMessage
@@ -287,7 +295,7 @@ const Dropzone = (props: DropzoneProps) => {
     // if no maxFiles issues, proceed normally
     if (maxFiles === undefined || withoutDuplicates.length + acceptedFiles.length <= maxFiles) {
       // remove old errors and set new files
-      setDropzoneError({} as CustomRejectionError);
+      setDropzoneError({} as DropzoneRejectionError);
       if (onAccept === undefined) setFiles([...withoutDuplicates, ...acceptedFiles]);
       else onAccept(filesWithoutDuplicates(acceptedFiles, files));
       return null;
@@ -317,7 +325,6 @@ const Dropzone = (props: DropzoneProps) => {
     const error = getErrorMessage(err);
     if (onReject !== undefined) onReject(error);
     setInvalidShake(true);
-    setTimeout(() => setInvalidShake(false), 500);
     setDropzoneError({ errors: error, timestamp: Date.now() });
   }, [getErrorMessage, onReject, setInvalidShake, setDropzoneError]);
 
@@ -426,6 +433,11 @@ const Dropzone = (props: DropzoneProps) => {
         Files: files, setFiles: setFiles,
         Disabled: disabled!,
         Animated: animated! && !isFocusVisible,
+        MaxFiles: maxFiles!,
+        MaxSize: maxSize!,
+        Error: dropzoneError,
+        IsErrorVisible: errorVisible,
+        setIsErrorVisible: setErrorVisible,
       }}
     >
       <StyledDropzone
@@ -455,14 +467,6 @@ const Dropzone = (props: DropzoneProps) => {
         {...focusProps}
         {...otherProps}
       >
-        {
-          displayError &&
-          <DropzoneError
-            setIsVisible={setErrorVisible} isVisible={errorVisible}
-            err={dropzoneError} animated={animated!}
-            maxFiles={maxFiles!} maxSize={maxSize!}
-          />
-        }
         <input {...getInputProps()} name={name} />
         {children}
       </StyledDropzone>
