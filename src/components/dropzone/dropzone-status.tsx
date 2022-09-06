@@ -13,6 +13,10 @@ export interface DropzoneStatusProps {
    *  @default true inherited from the dropzone component
    */
   animated?: boolean;
+  /** @optional add a margin above, below or both.
+   *  Useful when changing positon in the Dropzone
+   */
+  spaceY?: 'above' | 'below' | 'both';
 }
 
 /** dropzone status component
@@ -24,13 +28,14 @@ export interface DropzoneStatusProps {
 const createDropzoneStatus = (status: keyof DropzoneContextValue) => {
   const Component = (props: DropzoneStatusProps): JSX.Element => {
     /** get props */
-    const { children, animated, ...otherProps } = props;
+    const { children, animated, spaceY, ...otherProps } = props;
     /** get context, if status' context value true render it */
     const ctx = useDropzoneContext();
     if (ctx[status]) {
       const animatedStatus = animated ?? ctx.Animated;
       return (
         <StyledDropzoneStatus
+          spaceY={ctx.Files.length ? spaceY : undefined}
           animated={animatedStatus}
           {...otherProps}
         >

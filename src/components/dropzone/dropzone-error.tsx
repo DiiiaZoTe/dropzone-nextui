@@ -29,18 +29,44 @@ export interface DropzoneRejectionError {
 
 /** Dropzone error props */
 export interface DropzoneErrorProps {
+  /** @optional The error object
+   *  @notice if provided, custom user error, otherwise get from context
+   */
   error?: DropzoneRejectionError;
+  /** @optional is the error visible
+   *  @notice if provided, custom user error, otherwise get from context
+   */
   isVisible?: boolean;
+  /** @optional set the error visibility
+   *  @notice if provided, custom user error, otherwise get from context
+   */
   setIsVisible?: (isVisible: boolean) => void;
+  /** @optional is the error animated
+   *  @notice if provided, custom user error, otherwise get from context
+   */
   animated?: boolean;
-  //all above to context
+  /** @optional children
+   *  @notice if provided, overrides the default error
+   */
   children?: React.ReactNode;
+  /** @optional css of the main error container */
   css?: CSS;
+  /** @optional duration of the error on screen in ms
+   *  @default 6000 = 6 seconds
+   *  @notice 0 = no timeout
+   */
   duration?: number;
+  /** @optional add a margin above, below or both.
+   *  Useful when changing the positon in the Dropzone
+   */
   spaceY?: 'above' | 'below' | 'both';
+  /** @optional display all the errors that occured */
   multipleErrors?: boolean;
+  /** @optional change the message for too many files */
   tooManyFilesMessage?: string;
+  /** @optional change the message for file too large */
   fileTooLargeMessage?: string;
+  /** @optional change the message for invalid file type */
   invalidFileTypeMessage?: string;
 }
 

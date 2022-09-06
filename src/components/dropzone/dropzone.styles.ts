@@ -708,8 +708,20 @@ export const StyledDropzoneStatus = styled("div", {
     animated: {
       true: {
         animation: `${fadeIn} 0.4s ease-in-out`,
-      }
-    }
+      },
+    },
+    spaceY: {
+      above: {
+        marginTop: '$lg',
+      },
+      below: {
+        marginBottom: '$lg',
+      },
+      both: {
+        marginTop: '$lg',
+        marginBottom: '$lg',
+      },
+    },
   }
 });
 
@@ -732,9 +744,16 @@ export const StyledDropzonePreview = styled("div", {
         gap: `${ITEM_GAP}`,
       }
     },
-    hasItems: {
-      true: {
+    spaceY: {
+      above: {
         marginTop: '$lg',
+      },
+      below: {
+        marginBottom: '$lg',
+      },
+      both: {
+        marginTop: '$lg',
+        marginBottom: '$lg',
       },
     },
   }

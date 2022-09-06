@@ -27,6 +27,7 @@ export default function Home() {
 
   const [disabled, setDisabled] = useState(false);
   const [animated, setAnimated] = useState(true);
+  const [alwaysShowStatus, setAlwaysShowStatus] = useState(true);
 
   const [bordered, setBordered] = useState(false);
   const borderColors = [undefined, 'default', 'primary', 'secondary', 'warning'];
@@ -48,6 +49,7 @@ export default function Home() {
         <title>Dropzone test with Nextui</title>
       </Head>
       <Dropzone
+        alwaysShowStatus={alwaysShowStatus}
         color={color} variant={variant} disabled={disabled}
         bordered={bordered} borderColor={borderColor} borderWeight={borderWeight} borderStyle={borderStyle}
         files={files} setFiles={setFiles}
@@ -74,8 +76,8 @@ export default function Home() {
             <Text color='currentColor' css={{ textAlign: 'center' }}>Invalid files, please try again</Text>
           </Container>
         </Dropzone.Reject>
-        <Dropzone.Error spaceY='both' />
-        <Dropzone.Preview />
+        <Dropzone.Error spaceY='above' />
+        <Dropzone.Preview spaceY='above' />
         {/* <Dropzone.Preview>
           {
             files.map((file, index) => {
@@ -140,6 +142,15 @@ export default function Home() {
         <Switch
           checked={animated}
           onChange={() => setAnimated(!animated)}
+        />
+      </Box2>
+      <Spacer y={1} />
+      <Box2>
+        Always show status?
+        <Spacer x={0.5} />
+        <Switch
+          checked={alwaysShowStatus}
+          onChange={() => setAlwaysShowStatus(!alwaysShowStatus)}
         />
       </Box2>
       <Spacer y={1} />

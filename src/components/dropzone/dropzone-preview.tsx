@@ -193,7 +193,6 @@ DropzonePreviewItemComponent.displayName = 'NextUI.Dropzone.Item';
 export const DropzonePreviewItem = DropzonePreviewItemComponent;
 
 //! Dropzone.Preview  --------------------------------------------------------
-//TODO: remove all button should be straight forward, can be passed as a prop as well
 
 /** Dropzone Preview props */
 export interface DropzonePreviewProps {
@@ -215,6 +214,10 @@ export interface DropzonePreviewProps {
    *  @default true
    */
   displayRemove?: boolean;
+  /** @optional add a margin above, below or both.
+   *  Useful when changing the positon in the Dropzone
+   */
+  spaceY?: 'above' | 'below' | 'both';
 }
 
 /** 
@@ -227,7 +230,7 @@ export interface DropzonePreviewProps {
  */
 const DropzonePreviewComponent = (props: DropzonePreviewProps) => {
   /** get props */
-  const { children, animated, defaultStyle, displayRemove, ...others } = props;
+  const { children, animated, defaultStyle, displayRemove, spaceY, ...others } = props;
   /** get context and values */
   const ctx = useDropzoneContext();
   const files = ctx.Files;
@@ -244,10 +247,6 @@ const DropzonePreviewComponent = (props: DropzonePreviewProps) => {
   const shouldRenderFiles = useMemo(() => {
     return !files ? false : !files.length ? false : true;
   }, [files]);
-
-  // const removeAllFiles = useCallback(() => {
-  //   setFiles([]);
-  // }, [setFiles])
 
   /** @function renderPreview
    *  Renders the preview of the files
@@ -273,7 +272,7 @@ const DropzonePreviewComponent = (props: DropzonePreviewProps) => {
   return (
     <DropzonePreviewProvider value={{ Animated: animatedPreview!, DisplayRemove: displayRemove! }}>
       <StyledDropzonePreview ref={previewRef}
-        hasItems={shouldRenderFiles} defaultStyle={defaultStyle}
+        spaceY={shouldRenderFiles ? spaceY : undefined} defaultStyle={defaultStyle}
         className='nextui-dropzone--Preview' {...others}
       >
         {renderPreview()}
