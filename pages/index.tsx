@@ -1,18 +1,71 @@
 import Head from 'next/head'
 import { useTheme as useNextTheme } from 'next-themes'
-import { Spacer, Button, Text, styled, Container, useTheme, Switch } from '@nextui-org/react'
+import { Button, Text, styled, useTheme, Switch, Grid, Container } from '@nextui-org/react'
 import Dropzone, { getBytes } from '@components/dropzone'
 import { useEffect, useRef, useState } from 'react'
 import { Error, File, Upload } from '@utils/icons/dropzone'
 
-const Box = styled('div', {})
-const Box2 = styled('div', {
-  display: 'flex',
-  flexDirection: 'row',
-  alignItems: 'center',
-  width: 'auto',
-  flexWrap: 'wrap',
+
+const Divider = styled('div', {
+  width: '100%',
+  height: '1px',
+  borderBottom: '1px solid $accents0',
+  marginTop: '$8',
+  marginBottom: '$8',
 })
+
+const Box = styled('div', {
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'center',
+  alignItems: 'center',
+  width: '$48',
+  maxWidth: '100%',
+})
+
+const BoxGrid = styled('div', {
+  display: 'grid',
+  // grid template for button/text/button
+  gridTemplateColumns: 'auto 1fr auto',
+  alignItems: 'center',
+  minWidth: '$48'
+});
+
+
+const PrevNext = (props: { what: string; value: any, setter: any, valueArr: any[] }) => {
+  const { what, value, setter, valueArr } = props
+  return (
+    <>
+      <Text h4>{what}</Text>
+      <BoxGrid>
+        <Button css={{ minWidth: 'auto' }} onPress={() =>
+          setter(valueArr[(valueArr.indexOf(value) - 1 + valueArr.length) % valueArr.length])}>&lt;
+        </Button>
+        <Text css={{ textAlign: 'center' }}>{value ?? 'Undefined'}</Text>
+        <Button css={{ minWidth: 'auto' }} onPress={() =>
+          setter(valueArr[(valueArr.indexOf(value) + 1) % valueArr.length])}>&gt;
+        </Button>
+      </BoxGrid>
+    </>
+  );
+}
+
+const Switcher = (props: { what: string; value: any, setter: any, notTrueFalse?: { checked: any, unchecked: any, toDisplay: any } }) => {
+  const { what, value, setter, notTrueFalse } = props
+  return (
+    <Box>
+      <Text h4>
+        {notTrueFalse ? `${what}: ${notTrueFalse.toDisplay}` : what}
+      </Text>
+      {
+        notTrueFalse
+          ? <Switch checked={value} onChange={(e) => setter(e.target.checked ? notTrueFalse.checked : notTrueFalse.unchecked)} />
+          : <Switch checked={value} onChange={() => setter(!value)} />
+      }
+    </Box>
+  );
+}
+
 
 export default function Home() {
 
@@ -44,41 +97,45 @@ export default function Home() {
   }, [files]);
 
   return (
-    <Box css={{ p: '$8' }}>
+    <Container sm display='flex' justify='center' gap={1}>
+
       <Head>
         <title>Dropzone test with Nextui</title>
       </Head>
-      <Dropzone
-        alwaysShowStatus={alwaysShowStatus}
-        color={color} variant={variant} disabled={disabled}
-        bordered={bordered} borderColor={borderColor} borderWeight={borderWeight} borderStyle={borderStyle}
-        files={files} setFiles={setFiles}
-        width='sm' animated={animated}
-        maxSize={getBytes(400, 'KB')} maxFiles={4}
-        openRef={openRef}
-      // accept={{ 'image/*': [] }}
-      >
-        <Dropzone.Base>
-          <Container css={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-            <File />
-            <Text color='currentColor' css={{ textAlign: 'center' }}>Drop files or click to select</Text>
-          </Container>
-        </Dropzone.Base>
-        <Dropzone.Accept >
-          <Container css={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-            <Upload />
-            <Text color='currentColor' css={{ textAlign: 'center' }}>Release to select files</Text>
-          </Container>
-        </Dropzone.Accept>
-        <Dropzone.Reject >
-          <Container css={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-            <Error />
-            <Text color='currentColor' css={{ textAlign: 'center' }}>Invalid files, please try again</Text>
-          </Container>
-        </Dropzone.Reject>
-        <Dropzone.Error spaceY='above' />
-        <Dropzone.Preview spaceY='above' />
-        {/* <Dropzone.Preview>
+
+      <Grid.Container gap={2} justify='center'>
+        <Grid xs justify='center'>
+          <Dropzone
+            alwaysShowStatus={alwaysShowStatus}
+            color={color} variant={variant} disabled={disabled}
+            bordered={bordered} borderColor={borderColor} borderWeight={borderWeight} borderStyle={borderStyle}
+            files={files} setFiles={setFiles}
+            width='lg' animated={animated}
+            maxSize={getBytes(400, 'KB')} maxFiles={4}
+            openRef={openRef}
+          // accept={{ 'image/*': [] }}
+          >
+            <Dropzone.Base>
+              <Container css={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                <File />
+                <Text color='currentColor' css={{ textAlign: 'center' }}>Drop files or click to select</Text>
+              </Container>
+            </Dropzone.Base>
+            <Dropzone.Accept >
+              <Container css={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                <Upload />
+                <Text color='currentColor' css={{ textAlign: 'center' }}>Release to select files</Text>
+              </Container>
+            </Dropzone.Accept>
+            <Dropzone.Reject >
+              <Container css={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                <Error />
+                <Text color='currentColor' css={{ textAlign: 'center' }}>Invalid files, please try again</Text>
+              </Container>
+            </Dropzone.Reject>
+            <Dropzone.Error spaceY='above' />
+            <Dropzone.Preview spaceY='above' />
+            {/* <Dropzone.Preview>
           {
             files.map((file, index) => {
               return (
@@ -89,105 +146,71 @@ export default function Home() {
             })
           }
         </Dropzone.Preview> */}
-      </Dropzone >
-      <Spacer y={1} />
-      <Button onPress={() => openRef.current?.()}>
-        Click me to add file
-      </Button>
-      <Spacer y={1} />
-      <Button
-        onPress={() => setFiles([])}>
-        remove all files
-      </Button>
-      <Spacer y={1} />
-      <Box2>
-        <Text>The current theme is: {type}</Text>
-        <Spacer x={0.5} />
-        <Switch
-          checked={isDark}
-          onChange={(e) => setTheme(e.target.checked ? 'dark' : 'light')}
-        />
-      </Box2>
-      <Spacer y={1} />
-      <Text>Color</Text>
-      <Box2>
-        <Button css={{ minWidth: 'auto' }} onPress={() => setColor(colors[(colors.indexOf(color) - 1 + colors.length) % colors.length])}>&lt;</Button>
-        <Spacer x={0.5} />
-        <Text css={{ minWidth: '$20', textAlign: 'center' }}>{color}</Text>
-        <Spacer x={0.5} />
-        <Button css={{ minWidth: 'auto' }} onPress={() => setColor(colors[(colors.indexOf(color) + 1) % colors.length])}>&gt;</Button>
-      </Box2>
-      <Spacer y={1} />
-      <Text>variant</Text>
-      <Box2>
-        <Button css={{ minWidth: 'auto' }} onPress={() => setVariant(variants[(variants.indexOf(variant) - 1 + variants.length) % variants.length])}>&lt;</Button>
-        <Spacer x={0.5} />
-        <Text css={{ minWidth: '$20', textAlign: 'center' }}>{variant}</Text>
-        <Spacer x={0.5} />
-        <Button css={{ minWidth: 'auto' }} onPress={() => setVariant(variants[(variants.indexOf(variant) + 1) % variants.length])}>&gt;</Button>
-      </Box2>
-      <Spacer y={1} />
-      <Box2>
-        Disable the dropzone
-        <Spacer x={0.5} />
-        <Switch
-          checked={disabled}
-          onChange={() => setDisabled(!disabled)}
-        />
-      </Box2>
-      <Spacer y={1} />
-      <Box2>
-        Animated dropzone?
-        <Spacer x={0.5} />
-        <Switch
-          checked={animated}
-          onChange={() => setAnimated(!animated)}
-        />
-      </Box2>
-      <Spacer y={1} />
-      <Box2>
-        Always show status?
-        <Spacer x={0.5} />
-        <Switch
-          checked={alwaysShowStatus}
-          onChange={() => setAlwaysShowStatus(!alwaysShowStatus)}
-        />
-      </Box2>
-      <Spacer y={1} />
-      <Box2>
-        bordered?
-        <Spacer x={0.5} />
-        <Switch
-          checked={bordered}
-          onChange={() => setBordered(!bordered)}
-        />
-      </Box2>
-      <Spacer y={1} />
-      <Text>Border props</Text>
-      <Box2>
-        <Box2>
-          <Button css={{ minWidth: 'auto' }} onPress={() => setBorderColor(borderColors[(borderColors.indexOf(borderColor) - 1 + borderColors.length) % borderColors.length])}>&lt;</Button>
-          <Spacer x={0.5} />
-          <Text css={{ minWidth: '$20', textAlign: 'center' }}>{borderColor ?? 'undefined'}</Text>
-          <Spacer x={0.5} />
-          <Button css={{ minWidth: 'auto', marginRight: '$md' }} onPress={() => setBorderColor(borderColors[(borderColors.indexOf(borderColor) + 1) % borderColors.length])}>&gt;</Button>
-        </Box2>
-        <Box2>
-          <Button css={{ minWidth: 'auto' }} onPress={() => setBorderStyle(borderStyles[(borderStyles.indexOf(borderStyle) - 1 + borderStyles.length) % borderStyles.length])}>&lt;</Button>
-          <Spacer x={0.5} />
-          <Text css={{ minWidth: '$20', textAlign: 'center' }}>{borderStyle ?? 'undefined'}</Text>
-          <Spacer x={0.5} />
-          <Button css={{ minWidth: 'auto', marginRight: '$md' }} onPress={() => setBorderStyle(borderStyles[(borderStyles.indexOf(borderStyle) + 1) % borderStyles.length])}>&gt;</Button>
-        </Box2>
-        <Box2>
-          <Button css={{ minWidth: 'auto' }} onPress={() => setBorderWeight(borderWeights[(borderWeights.indexOf(borderWeight) - 1 + borderWeights.length) % borderWeights.length])}>&lt;</Button>
-          <Spacer x={0.5} />
-          <Text css={{ minWidth: '$20', textAlign: 'center' }}>{borderWeight ?? 'undefined'}</Text>
-          <Spacer x={0.5} />
-          <Button css={{ minWidth: 'auto', marginRight: '$md' }} onPress={() => setBorderWeight(borderWeights[(borderWeights.indexOf(borderWeight) + 1) % borderWeights.length])}>&gt;</Button>
-        </Box2>
-      </Box2>
-    </Box >
+          </Dropzone >
+        </Grid>
+      </Grid.Container>
+
+      <Divider />
+
+      <Grid.Container gap={2} justify='center' alignItems='center'>
+        <Grid justify='center'>
+          <Button onPress={() => openRef.current?.()}>
+            Click me to add file
+          </Button>
+        </Grid>
+        <Grid justify='center'>
+          <Button onPress={() => setFiles([])}>
+            remove all files
+          </Button>
+        </Grid>
+        <Grid>
+          <Switcher what='Theme' value={isDark} setter={setTheme} notTrueFalse={{ checked: 'dark', unchecked: 'Light', toDisplay: type }} />
+        </Grid>
+      </Grid.Container>
+
+      <Divider />
+
+      <Grid.Container gap={2} justify='center'>
+        <Grid>
+          <PrevNext what='Color' value={color} setter={setColor} valueArr={colors} />
+        </Grid>
+        <Grid>
+          <PrevNext what='Variant' value={variant} setter={setVariant} valueArr={variants} />
+        </Grid>
+      </Grid.Container>
+
+      <Divider />
+
+      <Grid.Container gap={2} justify='center'>
+        <Grid>
+          <Switcher what='Disabled' value={disabled} setter={setDisabled} />
+        </Grid>
+        <Grid>
+          <Switcher what='Animated' value={animated} setter={setAnimated} />
+        </Grid>
+        <Grid>
+          <Switcher what='Always show' value={alwaysShowStatus} setter={setAlwaysShowStatus} />
+        </Grid>
+        <Grid>
+          <Switcher what='Bordered' value={bordered} setter={setBordered} />
+        </Grid>
+      </Grid.Container>
+
+      <Divider />
+
+      <Grid.Container gap={2} justify='center'>
+        <Grid>
+          <PrevNext what='Border color' value={borderColor} setter={setBorderColor} valueArr={borderColors} />
+        </Grid>
+        <Grid>
+          <PrevNext what='Border style' value={borderStyle} setter={setBorderStyle} valueArr={borderStyles} />
+        </Grid>
+        <Grid>
+          <PrevNext what='Border weight' value={borderWeight} setter={setBorderWeight} valueArr={borderWeights} />
+        </Grid>
+      </Grid.Container>
+
+    </Container>
   )
 }
 
@@ -206,4 +229,6 @@ things to note:
   - for width, use width prop first
   - for padding, altering left/right padding could break the default preview
   - for padding top/bottom, just override it with css
+
+- if using NextUI Grid, make sure to use xs on the grid containing the Dropzone
 */
