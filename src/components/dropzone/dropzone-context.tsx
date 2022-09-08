@@ -47,11 +47,14 @@ export const [DropzoneProvider, useDropzoneContext] =
   });
 
 /** The context of the preview
+ *  - Animated: whether the preview is animated, 
  *  - DisplayRemove: whether the remove buttons should be displayed
+ *  - DisplayFullName: whether the items display the full name
  */
 export interface DropzonePreviewContextValue {
   Animated: boolean;
   DisplayRemove: boolean;
+  DisplayFullName: boolean;
 };
 
 /** Creates the dropzone preview context provider */

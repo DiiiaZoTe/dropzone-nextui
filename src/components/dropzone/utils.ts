@@ -17,7 +17,10 @@ export const ERROR_CODES = {
  *  @return {{filename: string, fileExtension: string}} The file name and extension
  */
 export const splitFileExtension = (name: string, truncation?: number) => {
-  let [fileName, fileExtension] = name.split('.');
+  const splitted = name.split('.');
+  const fileExtension = splitted.pop();
+  let fileName = splitted.join('.');
+  console.log('utils split: ', fileName.length > (truncation || fileName.length + 1));
   fileName.length > (truncation || fileName.length + 1)
     ? fileName = fileName.substring(0, truncation) + '...'
     : fileName = fileName;

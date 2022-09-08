@@ -852,6 +852,11 @@ export const StyledDropzonePreviewItem = styled("div", {
       true: {
         transition: 'all 0.3s ease-in-out',
       }
+    },
+    noWidthLimit: {
+      true: {
+        width: 'auto',
+      }
     }
   },
   '@motion': {
