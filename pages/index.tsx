@@ -213,6 +213,7 @@ export default function Home() {
         </Collapse>
       </Collapse.Group>
 
+      <Spacer y={2} />
 
     </Container>
   )
@@ -235,77 +236,4 @@ things to note:
   - for padding top/bottom, just override it with css
 
 - if using NextUI Grid, make sure to use xs on the grid containing the Dropzone
-*/
-
-/*
-
-
-      <Collapse.Group css={{ width: '100%' }}>
-        <Collapse title="Main options">
-          <Grid.Container gap={2} justify='center' alignItems='center'>
-            <Grid justify='center'>
-              <Button onPress={() => openRef.current?.()}>
-                Click me to add file
-              </Button>
-            </Grid>
-            <Grid justify='center'>
-              <Button onPress={() => setFiles([])}>
-                remove all files
-              </Button>
-            </Grid>
-            <Grid>
-              <Switcher what='Theme' value={isDark} setter={setTheme} notTrueFalse={{ checked: 'dark', unchecked: 'Light', toDisplay: type }} />
-            </Grid>
-          </Grid.Container>
-        </Collapse>
-      </Collapse.Group>
-
-      <Collapse.Group css={{ width: '100%' }}>
-        <Collapse title="Style options">
-          <Grid.Container gap={2} justify='center'>
-            <Grid>
-              <PrevNext what='Color' value={color} setter={setColor} valueArr={colors} />
-            </Grid>
-            <Grid>
-              <PrevNext what='Variant' value={variant} setter={setVariant} valueArr={variants} />
-            </Grid>
-          </Grid.Container>
-        </Collapse>
-      </Collapse.Group>
-
-      <Collapse.Group css={{ width: '100%' }}>
-        <Collapse title="Options switches">
-          <Grid.Container gap={2} justify='center'>
-            <Grid>
-              <Switcher what='Disabled' value={disabled} setter={setDisabled} />
-            </Grid>
-            <Grid>
-              <Switcher what='Animated' value={animated} setter={setAnimated} />
-            </Grid>
-            <Grid>
-              <Switcher what='Always show' value={alwaysShowStatus} setter={setAlwaysShowStatus} />
-            </Grid>
-            <Grid>
-              <Switcher what='Bordered' value={bordered} setter={setBordered} />
-            </Grid>
-          </Grid.Container>
-        </Collapse>
-      </Collapse.Group>
-
-      <Collapse.Group css={{ width: '100%' }}>
-        <Collapse title="Border style">
-          <Grid.Container gap={2} justify='center'>
-            <Grid>
-              <PrevNext what='Border color' value={borderColor} setter={setBorderColor} valueArr={borderColors} />
-            </Grid>
-            <Grid>
-              <PrevNext what='Border style' value={borderStyle} setter={setBorderStyle} valueArr={borderStyles} />
-            </Grid>
-            <Grid>
-              <PrevNext what='Border weight' value={borderWeight} setter={setBorderWeight} valueArr={borderWeights} />
-            </Grid>
-          </Grid.Container>
-        </Collapse>
-      </Collapse.Group>
-
 */
