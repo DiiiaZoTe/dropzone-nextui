@@ -146,7 +146,7 @@ export default function Home() {
       <Spacer y={2} />
 
       <Collapse.Group accordion={false} css={{ width: '100%' }} bordered={false}>
-        <Collapse shadow title="Main options">
+        <Collapse shadow title="Main options" bordered={false}>
           <Grid.Container gap={2} justify='space-around' alignItems='center'>
             <Grid justify='center'>
               <Button onPress={() => openRef.current?.()}>
@@ -166,7 +166,7 @@ export default function Home() {
 
         <Spacer y={1} />
 
-        <Collapse shadow title="Style options">
+        <Collapse shadow title="Style options" bordered={false}>
           <Grid.Container gap={2} justify='space-around'>
             <Grid>
               <PrevNext what='Color' value={color} setter={setColor} valueArr={colors} />
@@ -179,7 +179,7 @@ export default function Home() {
 
         <Spacer y={1} />
 
-        <Collapse shadow title="Options switches">
+        <Collapse shadow title="Options switches" bordered={false}>
           <Grid.Container gap={2} justify='space-around'>
             <Grid>
               <Switcher what='Disabled' value={disabled} setter={setDisabled} />
@@ -198,7 +198,7 @@ export default function Home() {
 
         <Spacer y={1} />
 
-        <Collapse shadow title="Border style">
+        <Collapse shadow title="Border style" bordered={false}>
           <Grid.Container gap={2} justify='space-around'>
             <Grid>
               <PrevNext what='Border color' value={borderColor} setter={setBorderColor} valueArr={borderColors} />
