@@ -1,18 +1,9 @@
 import Head from 'next/head'
 import { useTheme as useNextTheme } from 'next-themes'
-import { Button, Text, styled, useTheme, Switch, Grid, Container } from '@nextui-org/react'
+import { Button, Text, styled, useTheme, Switch, Grid, Container, Collapse, Spacer } from '@nextui-org/react'
 import Dropzone, { getBytes } from '@components/dropzone'
 import { useEffect, useRef, useState } from 'react'
 import { Error, File, Upload } from '@utils/icons/dropzone'
-
-
-const Divider = styled('div', {
-  width: '100%',
-  height: '1px',
-  borderBottom: '1px solid $accents0',
-  marginTop: '$8',
-  marginBottom: '$8',
-})
 
 const Box = styled('div', {
   display: 'flex',
@@ -75,7 +66,7 @@ export default function Home() {
   const colors = ['default', 'primary', 'secondary', 'warning'];
   const [color, setColor] = useState(colors[0] as any);
 
-  const variants = ['flat', 'light', 'solid', 'shadow'];
+  const variants = ['flat', 'light', 'solid', 'shadow', 'shadow_flat'];
   const [variant, setVariant] = useState(variants[0] as any);
 
   const [disabled, setDisabled] = useState(false);
@@ -102,6 +93,8 @@ export default function Home() {
       <Head>
         <title>Dropzone test with Nextui</title>
       </Head>
+
+      <Spacer y={2} />
 
       <Grid.Container gap={2} justify='center'>
         <Grid xs justify='center'>
@@ -150,65 +143,76 @@ export default function Home() {
         </Grid>
       </Grid.Container>
 
-      <Divider />
+      <Spacer y={2} />
 
-      <Grid.Container gap={2} justify='center' alignItems='center'>
-        <Grid justify='center'>
-          <Button onPress={() => openRef.current?.()}>
-            Click me to add file
-          </Button>
-        </Grid>
-        <Grid justify='center'>
-          <Button onPress={() => setFiles([])}>
-            remove all files
-          </Button>
-        </Grid>
-        <Grid>
-          <Switcher what='Theme' value={isDark} setter={setTheme} notTrueFalse={{ checked: 'dark', unchecked: 'Light', toDisplay: type }} />
-        </Grid>
-      </Grid.Container>
+      <Collapse.Group accordion={false} css={{ width: '100%' }}>
+        <Collapse shadow title="Main options">
+          <Grid.Container gap={2} justify='space-around' alignItems='center'>
+            <Grid justify='center'>
+              <Button onPress={() => openRef.current?.()}>
+                Click me to add file
+              </Button>
+            </Grid>
+            <Grid justify='center'>
+              <Button onPress={() => setFiles([])}>
+                remove all files
+              </Button>
+            </Grid>
+            <Grid>
+              <Switcher what='Theme' value={isDark} setter={setTheme} notTrueFalse={{ checked: 'dark', unchecked: 'Light', toDisplay: type }} />
+            </Grid>
+          </Grid.Container>
+        </Collapse>
 
-      <Divider />
+        <Spacer y={1} />
 
-      <Grid.Container gap={2} justify='center'>
-        <Grid>
-          <PrevNext what='Color' value={color} setter={setColor} valueArr={colors} />
-        </Grid>
-        <Grid>
-          <PrevNext what='Variant' value={variant} setter={setVariant} valueArr={variants} />
-        </Grid>
-      </Grid.Container>
+        <Collapse shadow title="Style options">
+          <Grid.Container gap={2} justify='space-around'>
+            <Grid>
+              <PrevNext what='Color' value={color} setter={setColor} valueArr={colors} />
+            </Grid>
+            <Grid>
+              <PrevNext what='Variant' value={variant} setter={setVariant} valueArr={variants} />
+            </Grid>
+          </Grid.Container>
+        </Collapse>
 
-      <Divider />
+        <Spacer y={1} />
 
-      <Grid.Container gap={2} justify='center'>
-        <Grid>
-          <Switcher what='Disabled' value={disabled} setter={setDisabled} />
-        </Grid>
-        <Grid>
-          <Switcher what='Animated' value={animated} setter={setAnimated} />
-        </Grid>
-        <Grid>
-          <Switcher what='Always show' value={alwaysShowStatus} setter={setAlwaysShowStatus} />
-        </Grid>
-        <Grid>
-          <Switcher what='Bordered' value={bordered} setter={setBordered} />
-        </Grid>
-      </Grid.Container>
+        <Collapse shadow title="Options switches">
+          <Grid.Container gap={2} justify='space-around'>
+            <Grid>
+              <Switcher what='Disabled' value={disabled} setter={setDisabled} />
+            </Grid>
+            <Grid>
+              <Switcher what='Animated' value={animated} setter={setAnimated} />
+            </Grid>
+            <Grid>
+              <Switcher what='Always show' value={alwaysShowStatus} setter={setAlwaysShowStatus} />
+            </Grid>
+            <Grid>
+              <Switcher what='Bordered' value={bordered} setter={setBordered} />
+            </Grid>
+          </Grid.Container>
+        </Collapse>
 
-      <Divider />
+        <Spacer y={1} />
 
-      <Grid.Container gap={2} justify='center'>
-        <Grid>
-          <PrevNext what='Border color' value={borderColor} setter={setBorderColor} valueArr={borderColors} />
-        </Grid>
-        <Grid>
-          <PrevNext what='Border style' value={borderStyle} setter={setBorderStyle} valueArr={borderStyles} />
-        </Grid>
-        <Grid>
-          <PrevNext what='Border weight' value={borderWeight} setter={setBorderWeight} valueArr={borderWeights} />
-        </Grid>
-      </Grid.Container>
+        <Collapse shadow title="Border style">
+          <Grid.Container gap={2} justify='space-around'>
+            <Grid>
+              <PrevNext what='Border color' value={borderColor} setter={setBorderColor} valueArr={borderColors} />
+            </Grid>
+            <Grid>
+              <PrevNext what='Border style' value={borderStyle} setter={setBorderStyle} valueArr={borderStyles} />
+            </Grid>
+            <Grid>
+              <PrevNext what='Border weight' value={borderWeight} setter={setBorderWeight} valueArr={borderWeights} />
+            </Grid>
+          </Grid.Container>
+        </Collapse>
+      </Collapse.Group>
+
 
     </Container>
   )
@@ -231,4 +235,77 @@ things to note:
   - for padding top/bottom, just override it with css
 
 - if using NextUI Grid, make sure to use xs on the grid containing the Dropzone
+*/
+
+/*
+
+
+      <Collapse.Group css={{ width: '100%' }}>
+        <Collapse title="Main options">
+          <Grid.Container gap={2} justify='center' alignItems='center'>
+            <Grid justify='center'>
+              <Button onPress={() => openRef.current?.()}>
+                Click me to add file
+              </Button>
+            </Grid>
+            <Grid justify='center'>
+              <Button onPress={() => setFiles([])}>
+                remove all files
+              </Button>
+            </Grid>
+            <Grid>
+              <Switcher what='Theme' value={isDark} setter={setTheme} notTrueFalse={{ checked: 'dark', unchecked: 'Light', toDisplay: type }} />
+            </Grid>
+          </Grid.Container>
+        </Collapse>
+      </Collapse.Group>
+
+      <Collapse.Group css={{ width: '100%' }}>
+        <Collapse title="Style options">
+          <Grid.Container gap={2} justify='center'>
+            <Grid>
+              <PrevNext what='Color' value={color} setter={setColor} valueArr={colors} />
+            </Grid>
+            <Grid>
+              <PrevNext what='Variant' value={variant} setter={setVariant} valueArr={variants} />
+            </Grid>
+          </Grid.Container>
+        </Collapse>
+      </Collapse.Group>
+
+      <Collapse.Group css={{ width: '100%' }}>
+        <Collapse title="Options switches">
+          <Grid.Container gap={2} justify='center'>
+            <Grid>
+              <Switcher what='Disabled' value={disabled} setter={setDisabled} />
+            </Grid>
+            <Grid>
+              <Switcher what='Animated' value={animated} setter={setAnimated} />
+            </Grid>
+            <Grid>
+              <Switcher what='Always show' value={alwaysShowStatus} setter={setAlwaysShowStatus} />
+            </Grid>
+            <Grid>
+              <Switcher what='Bordered' value={bordered} setter={setBordered} />
+            </Grid>
+          </Grid.Container>
+        </Collapse>
+      </Collapse.Group>
+
+      <Collapse.Group css={{ width: '100%' }}>
+        <Collapse title="Border style">
+          <Grid.Container gap={2} justify='center'>
+            <Grid>
+              <PrevNext what='Border color' value={borderColor} setter={setBorderColor} valueArr={borderColors} />
+            </Grid>
+            <Grid>
+              <PrevNext what='Border style' value={borderStyle} setter={setBorderStyle} valueArr={borderStyles} />
+            </Grid>
+            <Grid>
+              <PrevNext what='Border weight' value={borderWeight} setter={setBorderWeight} valueArr={borderWeights} />
+            </Grid>
+          </Grid.Container>
+        </Collapse>
+      </Collapse.Group>
+
 */

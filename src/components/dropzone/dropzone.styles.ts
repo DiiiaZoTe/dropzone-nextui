@@ -172,7 +172,13 @@ export const StyledDropzone = styled('div',
           }
         },
         shadow: {
-          shadow: '$sm',
+          shadow: '$md',
+          '& .nextui-dropzone--Error': {
+            bg: '$errorLight',
+          },
+        },
+        shadow_flat: {
+          shadow: '$md',
           '& .nextui-dropzone--Error': {
             bg: '$errorLight',
           },
@@ -540,6 +546,64 @@ export const StyledDropzone = styled('div',
           },
         }
       },
+      //! shadow flat = flat with shadow (default color is transparent)
+      // shadow_flat / color default
+      {
+        variant: 'shadow_flat',
+        color: 'default',
+        css: {
+          color: '$text',
+          bg: 'transparent',
+          '& .nextui-dropzone--Preview-item': {
+            bg: '$accents0',
+            color: '$text'
+          },
+          '& .nextui-dropzone--Preview-item-extension': {
+            bg: '$accents1',
+          },
+        }
+      },
+      // shadow_flat / color primary
+      {
+        variant: 'shadow_flat',
+        color: 'primary',
+        css: {
+          normalShadow: '$primaryShadow',
+        },
+      },
+      // shadow / color secondary
+      {
+        variant: 'shadow_flat',
+        color: 'secondary',
+        css: {
+          normalShadow: '$secondaryShadow',
+        },
+      },
+      // shadow_flat / color warning
+      {
+        variant: 'shadow_flat',
+        color: 'warning',
+        css: {
+          normalShadow: '$warningShadow',
+        },
+      },
+      // shadow_flat / color success
+      {
+        variant: 'shadow_flat',
+        color: 'success',
+        css: {
+          normalShadow: '$successShadow',
+        },
+      },
+      // shadow_flat / color error
+      {
+        variant: 'shadow_flat',
+        color: 'error',
+        css: {
+          normalShadow: '$errorShadow',
+        },
+      },
+      //! border below
       // default border color
       {
         bordered: true,
@@ -819,13 +883,13 @@ export const TextExtension = styled(Text, {
 });
 
 /** Size of the remove button of Preview Item */
-const CLOSE_BUTTON_SIZE = '1.6em';
+const CLOSE_BUTTON_SIZE = '1.5rem';
 /** Half of the size of the remove button of Preview Item */
-const CLOSE_BUTTON_SIZE_HALF = '0.8em';
+const CLOSE_BUTTON_SIZE_HALF = '0.75rem';
 /** Thickness of the remove button cross of Preview Item */
-const CLOSE_BUTTON_THICKNESS = '0.12em';
+const CLOSE_BUTTON_THICKNESS = '0.12rem';
 /** Half of the Thickness of the remove button cross of Preview Item */
-const CLOSE_BUTTON_THICKNESS_HALF = '0.06em';
+const CLOSE_BUTTON_THICKNESS_HALF = '0.06rem';
 
 /** Main button to remove PreviewItem */
 export const StyledButtonClose = styled("button",

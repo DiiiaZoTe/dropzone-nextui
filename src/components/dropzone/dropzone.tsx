@@ -65,7 +65,7 @@ interface Props extends useDropzoneProps {
    *  - solid: has a solid background (more like a button)
    *  - shadow: same as solid but with a shadow 
    */
-  variant?: 'flat' | ' light' | 'solid' | 'shadow' | any;
+  variant?: 'flat' | ' light' | 'solid' | 'shadow' | 'shadow_flat' | any;
 
   /** @optional Allows to change the width of the Dropzone
    *  @type 'xs' | 'sm' | 'md' | 'lg' | 'full'

@@ -10,7 +10,7 @@ import type { FocusRingAria } from '@react-aria/focus';
 import { splitFileExtension } from './utils'
 import { useAutoAnimate } from '@formkit/auto-animate/react'
 
-const TRUNCATION_LENGTH = 12;
+const TRUNCATION_LENGTH = 10;
 
 //! RemoveButton  --------------------------------------------------------
 
@@ -32,6 +32,8 @@ interface RemoveButtonProps {
    *  @default false
    */
   disabled?: boolean;
+  /** @optional Name of the file */
+  fileName?: string;
 }
 
 /** focus ring aria interface for focus accessibility */
@@ -46,7 +48,7 @@ interface IFocusRingAria extends FocusRingAria {
  */
 const RemoveButtonComponent = (props: RemoveButtonProps) => {
   /** get props and focus ring */
-  const { onclickCallback, displayRemove, animated, disabled } = props;
+  const { onclickCallback, displayRemove, animated, disabled, fileName } = props;
   const { isFocusVisible, focusProps }: IFocusRingAria = useFocusRing({ autoFocus: false });
   // do not display if not wanted
   if (!displayRemove) return <></>;
@@ -64,7 +66,7 @@ const RemoveButtonComponent = (props: RemoveButtonProps) => {
       {...focusProps}
     >
       <StyledCross animated={animated && !disabled} className='close'></StyledCross>
-      <HiddenSpan>Remove</HiddenSpan>
+      <HiddenSpan>{`Remove ${fileName}`}</HiddenSpan>
     </StyledButtonClose>
   )
 }
@@ -146,6 +148,7 @@ const DropzonePreviewItemComponent = (props: DropzonePreviewItemProps) => {
     return (
       <StyledDropzonePreviewItem animated={animatedItem} {...otherProps}>
         <RemoveButton
+          fileName={file.name}
           disabled={ctx.Disabled} animated={animatedItem}
           displayRemove={itemDisplayRemove} onclickCallback={removeCallback}
         />
@@ -173,7 +176,11 @@ const DropzonePreviewItemComponent = (props: DropzonePreviewItemProps) => {
         animated={animatedItem} defaultStyle={true}
         className='nextui-dropzone--Preview-item'
       >
-        <RemoveButton animated={animatedItem} displayRemove={itemDisplayRemove} onclickCallback={removeCallback} />
+        <RemoveButton
+          fileName={file.name}
+          disabled={ctx.Disabled} animated={animatedItem}
+          displayRemove={itemDisplayRemove} onclickCallback={removeCallback}
+        />
         <TextFile b color='currentColor'>{fileName}</TextFile>
         <TextExtension animated={animatedItem} b color='currentColor' className='nextui-dropzone--Preview-item-extension'>
           {fileExtension}
