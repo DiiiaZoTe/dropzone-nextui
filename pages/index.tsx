@@ -145,7 +145,7 @@ export default function Home() {
 
       <Spacer y={2} />
 
-      <Collapse.Group accordion={false} css={{ width: '100%' }}>
+      <Collapse.Group accordion={false} css={{ width: '100%' }} bordered={false}>
         <Collapse shadow title="Main options">
           <Grid.Container gap={2} justify='space-around' alignItems='center'>
             <Grid justify='center'>
