@@ -37,6 +37,7 @@ const createDropzoneStatus = (status: keyof DropzoneContextValue) => {
         <StyledDropzoneStatus
           spaceY={ctx.Files.length ? spaceY : undefined}
           animated={animatedStatus}
+          className={`nextui-dropzone--${status}`}
           {...otherProps}
         >
           {children}
@@ -46,8 +47,8 @@ const createDropzoneStatus = (status: keyof DropzoneContextValue) => {
     return <></>;
   };
 
-  Component.toString = () => `.nextui-dropzone-${status}`;
-  Component.displayName = `NextUI.Dropzone.${status}`;
+  Component.toString = () => `.nextui - dropzone - ${status} `;
+  Component.displayName = `NextUI.Dropzone.${status} `;
   return Component;
 }
 

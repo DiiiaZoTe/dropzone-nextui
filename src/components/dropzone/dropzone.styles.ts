@@ -790,6 +790,13 @@ export const StyledDropzoneStatus = styled("div", {
 });
 
 //! DROPZONE PREVIEW / ITEM / REMOVE ----------------------------------------------
+/** large default preview size = item width */
+const IMAGE_PREVIEW_SIZE = ITEM_WIDTH;
+/** medium preview size = 2/3 of item width */
+const IMAGE_PREVIEW_SIZE_MD = '6rem';
+/** small preview size = 1/3 of item width */
+const IMAGE_PREVIEW_SIZE_SM = '3rem';
+
 /** Main Dropzone.Preview style
  *  @notice
  *  Add defaultStyle prop to use the defaultStyle.
@@ -801,8 +808,8 @@ export const StyledDropzonePreview = styled("div", {
   variants: {
     defaultStyle: {
       true: {
-        display: 'grid',
-        gridTemplateColumns: `repeat(auto-fit, minmax(${ITEM_WIDTH}, max-content))`,
+        display: 'flex',
+        flexWrap: 'wrap',
         justifyContent: 'center',
         alignItems: 'center',
         gap: `${ITEM_GAP}`,
@@ -857,11 +864,45 @@ export const StyledDropzonePreviewItem = styled("div", {
       true: {
         width: 'auto',
       }
+    },
+    size: {
+      lg: {
+        maxWidth: `${IMAGE_PREVIEW_SIZE}`,
+        maxHeight: `${IMAGE_PREVIEW_SIZE}`,
+      },
+      md: {
+        maxWidth: `${IMAGE_PREVIEW_SIZE_MD}`,
+        maxHeight: `${IMAGE_PREVIEW_SIZE_MD}`,
+      },
+      sm: {
+        maxWidth: `${IMAGE_PREVIEW_SIZE_SM}`,
+        maxHeight: `${IMAGE_PREVIEW_SIZE_SM}`,
+      },
     }
   },
   '@motion': {
     transition: 'none'
   },
+});
+
+/** Use to display preview image */
+export const StyledPreviewImage = styled("img", {
+  width: '100%',
+  height: '100%',
+  borderRadius: '$md',
+  objectPosition: 'center',
+  objectFit: 'cover',
+  variants: {
+    size: {
+      lg: {},
+      md: {
+        borderRadius: '$sm',
+      },
+      sm: {
+        borderRadius: '$xs',
+      },
+    },
+  }
 });
 
 /** Used to display the file name in Preview Item */

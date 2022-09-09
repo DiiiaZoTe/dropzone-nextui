@@ -2,7 +2,7 @@ import React, { useCallback, useMemo } from 'react';
 import { useDropzoneContext, DropzonePreviewProvider, useDropzonePreviewContext } from './dropzone-context';
 import {
   StyledDropzonePreview, StyledDropzonePreviewItem, HiddenSpan,
-  StyledCross, StyledButtonClose, TextFile, TextExtension
+  StyledCross, StyledButtonClose, TextFile, TextExtension, StyledPreviewImage
 } from './dropzone.styles';
 import { CSS, Tooltip } from '@nextui-org/react';
 import { useFocusRing } from '@react-aria/focus';
@@ -101,10 +101,21 @@ export interface DropzonePreviewItemProps {
    *  @default false
    */
   displayFullName?: boolean;
-  /** @optional should the item show tooltip if name is truncated
+  /** @optional should the item show tooltip if name is truncated or if image previewed
    *  @default true
+   *  @notice NextUI preview only, no effect on user custom preview
    */
   displayNameTooltip?: boolean;
+  /** @optional should the image files be previewed
+   *  @default false
+   *  @notice NextUI preview only, no effect on user custom preview
+   */
+  allowImagePreview?: boolean;
+  /** @optional what size should the image preview be if enabled
+   *  @default 'lg'
+   *  @notice NextUI preview only, no effect on user custom preview
+   */
+  sizeImagePreview?: 'sm' | 'md' | 'lg';
 }
 
 /** 
@@ -117,12 +128,9 @@ export interface DropzonePreviewItemProps {
 const DropzonePreviewItemComponent = (props: DropzonePreviewItemProps) => {
   /** get props */
   const {
-    children,
-    animated,
-    file,
-    displayRemove,
-    displayFullName,
-    displayNameTooltip,
+    children, animated, file, displayRemove,
+    displayFullName, displayNameTooltip,
+    allowImagePreview, sizeImagePreview,
     ...otherProps
   } = props;
   /** get contexts */
@@ -179,27 +187,65 @@ const DropzonePreviewItemComponent = (props: DropzonePreviewItemProps) => {
   // get file name and extension, truncate if not displaying full name
   const { fileName, fileExtension } = splitFileExtension(file!.name, itemDisplayFullName ? undefined : TRUNCATION_LENGTH);
 
+  /** is the file to preview an image */
+  const mustPreviewImage = useMemo(() => {
+    return (allowImagePreview && (file.type.split('/')[0] === 'image'));
+  }, [allowImagePreview, file]);
+
   /** should we use a tooltip to display the full name because truncated? */
   const useTooltip = useMemo(() => {
-    return (!itemDisplayFullName && displayNameTooltip && fileName.length > TRUNCATION_LENGTH);
-  }, [fileName, itemDisplayFullName, displayNameTooltip]);
+    return (
+      !itemDisplayFullName
+      && displayNameTooltip
+      && (fileName.length > TRUNCATION_LENGTH || mustPreviewImage)
+    );
+  }, [fileName, itemDisplayFullName, displayNameTooltip, mustPreviewImage]);
 
+  /** @function renderFile
+   *  Renders the file: 
+   *   - if image and allowImagePreview is true, renders the image
+   *   - else renders the default file name extension combo
+   */
+  const renderFile = () => {
+    // image preview ?
+    if (mustPreviewImage) {
+      const image = URL.createObjectURL(file);
+      return (
+        <StyledPreviewImage
+          src={image} alt={file.name} size={sizeImagePreview}
+          onLoad={() => { URL.revokeObjectURL(image) }}
+          className='nextui-dropzone--Preview-item-image'
+        />
+      );
+    }
+    // default preview if not image preview
+    return (
+      <>
+        <TextFile b color='currentColor' className='nextui-dropzone--Preview-item-name'>{fileName}</TextFile>
+        <TextExtension animated={animatedItem} b color='currentColor' className='nextui-dropzone--Preview-item-extension'>
+          {fileExtension}
+        </TextExtension>
+      </>
+    );
+  }
+
+  /** @function renderDefaultItem
+   *  Renders the default preview item with the remove button
+   */
   const renderDefaultItem = () => {
     return (
       <StyledDropzonePreviewItem
         noWidthLimit={itemDisplayFullName}
         animated={animatedItem} defaultStyle={true}
         className='nextui-dropzone--Preview-item'
+        size={mustPreviewImage ? sizeImagePreview : undefined}
       >
         <RemoveButton
           fileName={file.name}
           disabled={ctx.Disabled} animated={animatedItem}
           displayRemove={itemDisplayRemove} onclickCallback={removeCallback}
         />
-        <TextFile b color='currentColor'>{fileName}</TextFile>
-        <TextExtension animated={animatedItem} b color='currentColor' className='nextui-dropzone--Preview-item-extension'>
-          {fileExtension}
-        </TextExtension>
+        {renderFile()}
       </StyledDropzonePreviewItem>
     );
   }
@@ -210,6 +256,11 @@ const DropzonePreviewItemComponent = (props: DropzonePreviewItemProps) => {
       : renderDefaultItem()
   );
 }
+DropzonePreviewItemComponent.defaultProps = {
+  displayNameTooltip: true,
+  allowImagePreview: false,
+  sizeImagePreview: 'lg',
+};
 DropzonePreviewItemComponent.toString = () => '.nextui-dropzone-item';
 DropzonePreviewItemComponent.displayName = 'NextUI.Dropzone.Item';
 export const DropzonePreviewItem = DropzonePreviewItemComponent;
@@ -228,7 +279,7 @@ export interface DropzonePreviewProps {
    *  @default true inherited from Dropzone via context
    */
   animated?: boolean;
-  /** @optional should you keep the default styling (grid layout)
+  /** @optional should you keep the default styling (flex layout)
    *  @default true 
    */
   defaultStyle?: boolean;
@@ -244,11 +295,21 @@ export interface DropzonePreviewProps {
    *  @default false
    */
   displayFullName?: boolean;
-  /** @optional should the items show tooltip if name is truncated
+  /** @optional should the items show tooltip if name is truncated or if image previewed
    *  @default true
    *  @notice NextUI preview only, no effect on user custom preview
    */
   displayNameTooltip?: boolean;
+  /** @optional should the image files be previewed
+   *  @default false
+   *  @notice NextUI preview only, no effect on user custom preview
+   */
+  allowImagePreview?: boolean;
+  /** @optional what size should the image preview be if enabled
+   *  @default 'lg'
+   *  @notice NextUI preview only, no effect on user custom preview
+   */
+  sizeImagePreview?: 'sm' | 'md' | 'lg';
 }
 
 /** 
@@ -264,6 +325,7 @@ const DropzonePreviewComponent = (props: DropzonePreviewProps) => {
   const {
     children, animated, defaultStyle, displayRemove,
     spaceY, displayFullName, displayNameTooltip,
+    allowImagePreview, sizeImagePreview,
     ...others
   } = props;
   /** get context and values */
@@ -296,6 +358,7 @@ const DropzonePreviewComponent = (props: DropzonePreviewProps) => {
       return (
         files.map((file: any) => (
           <DropzonePreviewItem
+            allowImagePreview={allowImagePreview} sizeImagePreview={sizeImagePreview}
             displayNameTooltip={displayNameTooltip!}
             animated={animatedPreview} displayRemove={displayRemove} file={file}
             key={file.name + '/' + file.size.toString()}
@@ -311,7 +374,8 @@ const DropzonePreviewComponent = (props: DropzonePreviewProps) => {
       DisplayFullName: displayFullName!,
     }}>
       <StyledDropzonePreview ref={previewRef}
-        spaceY={shouldRenderFiles ? spaceY : undefined} defaultStyle={defaultStyle}
+        spaceY={shouldRenderFiles ? spaceY : undefined}
+        defaultStyle={defaultStyle}
         className='nextui-dropzone--Preview' {...others}
       >
         {renderPreview()}
@@ -324,6 +388,8 @@ DropzonePreviewComponent.defaultProps = {
   displayRemove: true,
   displayFullName: false,
   displayNameTooltip: true,
+  allowImagePreview: false,
+  sizeImagePreview: 'lg',
 }
 DropzonePreviewComponent.toString = () => '.nextui-dropzone-preview';
 DropzonePreviewComponent.displayName = 'NextUI.Dropzone.Preview';

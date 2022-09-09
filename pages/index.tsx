@@ -65,15 +65,19 @@ export default function Home() {
 
   const colors = ['default', 'primary', 'secondary', 'warning'];
   const [color, setColor] = useState(colors[0] as any);
-
   const variants = ['flat', 'light', 'solid', 'shadow', 'shadow_flat'];
   const [variant, setVariant] = useState(variants[0] as any);
+  const widths = ['xs', 'sm', 'md', 'lg'];
+  const [width, setWidth] = useState(widths[3] as any);
+  const sizeImagePreviews = ['sm', 'md', 'lg'];
+  const [sizeImagePreview, setSizeImagePreview] = useState(sizeImagePreviews[2] as any);
 
   const [disabled, setDisabled] = useState(false);
   const [animated, setAnimated] = useState(true);
   const [alwaysShowStatus, setAlwaysShowStatus] = useState(true);
-
   const [bordered, setBordered] = useState(false);
+  const [allowImagePreview, setAllowImagePreview] = useState(false);
+
   const borderColors = [undefined, 'default', 'primary', 'secondary', 'warning'];
   const [borderColor, setBorderColor] = useState(borderColors[0] as any);
   const borderStyles = [undefined, 'dashed', 'solid', 'dotted'];
@@ -103,8 +107,8 @@ export default function Home() {
             color={color} variant={variant} disabled={disabled}
             bordered={bordered} borderColor={borderColor} borderWeight={borderWeight} borderStyle={borderStyle}
             files={files} setFiles={setFiles}
-            width='lg' animated={animated}
-            maxSize={getBytes(400, 'KB')} maxFiles={4}
+            width={width} animated={animated}
+            maxSize={getBytes(4, 'MB')} maxFiles={4}
             openRef={openRef}
           // accept={{ 'image/*': [] }}
           >
@@ -127,7 +131,7 @@ export default function Home() {
               </Container>
             </Dropzone.Reject>
             <Dropzone.Error spaceY='above' />
-            <Dropzone.Preview spaceY='above' />
+            <Dropzone.Preview spaceY='above' allowImagePreview={allowImagePreview} sizeImagePreview={sizeImagePreview} />
             {/* <Dropzone.Preview>
           {
             files.map((file, index) => {
@@ -174,6 +178,12 @@ export default function Home() {
             <Grid>
               <PrevNext what='Variant' value={variant} setter={setVariant} valueArr={variants} />
             </Grid>
+            <Grid>
+              <PrevNext what='Width' value={width} setter={setWidth} valueArr={widths} />
+            </Grid>
+            <Grid>
+              <PrevNext what='Image preview size' value={sizeImagePreview} setter={setSizeImagePreview} valueArr={sizeImagePreviews} />
+            </Grid>
           </Grid.Container>
         </Collapse>
 
@@ -192,6 +202,9 @@ export default function Home() {
             </Grid>
             <Grid>
               <Switcher what='Bordered' value={bordered} setter={setBordered} />
+            </Grid>
+            <Grid>
+              <Switcher what='Image preview' value={allowImagePreview} setter={setAllowImagePreview} />
             </Grid>
           </Grid.Container>
         </Collapse>
