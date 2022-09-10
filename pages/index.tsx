@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import { useTheme as useNextTheme } from 'next-themes'
-import { Button, Text, styled, useTheme, Switch, Grid, Container, Collapse, Spacer } from '@nextui-org/react'
+import { Button, Text, styled, useTheme, Switch, Grid, Container, Collapse, Spacer, Input, Dropdown } from '@nextui-org/react'
 import Dropzone, { getBytes } from '@components/dropzone'
 import { useEffect, useRef, useState } from 'react'
 import { Error, File, Upload } from '@utils/icons/dropzone'
@@ -19,7 +19,7 @@ const BoxGrid = styled('div', {
   // grid template for button/text/button
   gridTemplateColumns: 'auto 1fr auto',
   alignItems: 'center',
-  minWidth: '$48'
+  minWidth: '$48',
 });
 
 
@@ -78,6 +78,11 @@ export default function Home() {
   const [bordered, setBordered] = useState(false);
   const [allowImagePreview, setAllowImagePreview] = useState(false);
 
+  const byteSizes = ['KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+  const [byteSize, setByteSize] = useState(byteSizes[1] as any);
+  const [byteAmount, setByteAmount] = useState(10);
+  const [maxFiles, setMaxFiles] = useState(5);
+
   const borderColors = [undefined, 'default', 'primary', 'secondary', 'warning'];
   const [borderColor, setBorderColor] = useState(borderColors[0] as any);
   const borderStyles = [undefined, 'dashed', 'solid', 'dotted'];
@@ -90,6 +95,7 @@ export default function Home() {
   useEffect(() => {
     console.log('files', files);
   }, [files]);
+
 
   return (
     <Container sm display='flex' justify='center' gap={1}>
@@ -108,7 +114,7 @@ export default function Home() {
             bordered={bordered} borderColor={borderColor} borderWeight={borderWeight} borderStyle={borderStyle}
             files={files} setFiles={setFiles}
             width={width} animated={animated}
-            maxSize={getBytes(4, 'MB')} maxFiles={4}
+            maxSize={getBytes(byteAmount, byteSize)} maxFiles={maxFiles}
             openRef={openRef}
           // accept={{ 'image/*': [] }}
           >
@@ -151,7 +157,7 @@ export default function Home() {
 
       <Collapse.Group accordion={false} css={{ width: '100%' }} bordered={false}>
         <Collapse shadow title="Main options" css={{ border: 'none !important' }}>
-          <Grid.Container gap={2} justify='space-around' alignItems='center'>
+          <Grid.Container gap={2} justify='center' alignItems='center'>
             <Grid justify='center'>
               <Button onPress={() => openRef.current?.()}>
                 Click me to add file
@@ -171,7 +177,7 @@ export default function Home() {
         <Spacer y={1} />
 
         <Collapse shadow title="Style options" css={{ border: 'none !important' }}>
-          <Grid.Container gap={2} justify='space-around'>
+          <Grid.Container gap={2} justify='center'>
             <Grid>
               <PrevNext what='Color' value={color} setter={setColor} valueArr={colors} />
             </Grid>
@@ -190,7 +196,7 @@ export default function Home() {
         <Spacer y={1} />
 
         <Collapse shadow title="Options switches" css={{ border: 'none !important' }}>
-          <Grid.Container gap={2} justify='space-around'>
+          <Grid.Container gap={2} justify='center'>
             <Grid>
               <Switcher what='Disabled' value={disabled} setter={setDisabled} />
             </Grid>
@@ -211,8 +217,56 @@ export default function Home() {
 
         <Spacer y={1} />
 
+        <Collapse shadow title="Options controls" css={{ border: 'none !important' }}>
+          <Grid.Container gap={2} justify='center'>
+            <Grid>
+              <Text h4>File size</Text>
+              <BoxGrid css={{ maxWidth: '$48' }} >
+                <Input aria-label={`Input amount in ${byteSize}`} css={{ '& .nextui-input-content--right': { width: 'auto', padding: 0 } }}
+                  type='number' initialValue={byteAmount.toString()} placeholder='Amount'
+                  onChange={(e) => setByteAmount(Number(e.target.value))}
+                  contentRight={
+                    <Dropdown>
+                      <Dropdown.Button flat color={color == 'default' ? 'primary' : color}>
+                        {byteSize}
+                      </Dropdown.Button>
+                      <Dropdown.Menu
+                        aria-label="select a size"
+                        color={color}
+                        disallowEmptySelection
+                        selectionMode="single"
+                        selectedKeys={byteSize}
+                        onSelectionChange={(key: any) => { setByteSize(key.currentKey) }}
+                      >
+                        {byteSizes.map((size) => {
+                          return (<Dropdown.Item key={size}>{size}</Dropdown.Item>)
+                        })}
+                      </Dropdown.Menu>
+                    </Dropdown>
+                  }
+                />
+              </BoxGrid>
+            </Grid>
+            <Grid>
+              <Text h4>Max files</Text>
+              <Input css={{ maxWidth: '$48' }}
+                aria-label='Input max files allowed'
+                type='number' initialValue={maxFiles.toString()} placeholder='Amount'
+                onChange={(e) => {
+                  const value = Number(e.target.value);
+                  if (value < files.length)
+                    setFiles(files.slice(0, value))
+                  setMaxFiles(value);
+                }}
+              />
+            </Grid>
+          </Grid.Container>
+        </Collapse>
+
+        <Spacer y={1} />
+
         <Collapse shadow title="Border style" css={{ border: 'none !important' }}>
-          <Grid.Container gap={2} justify='space-around'>
+          <Grid.Container gap={2} justify='center'>
             <Grid>
               <PrevNext what='Border color' value={borderColor} setter={setBorderColor} valueArr={borderColors} />
             </Grid>
@@ -228,7 +282,7 @@ export default function Home() {
 
       <Spacer y={2} />
 
-    </Container>
+    </Container >
   )
 }
 

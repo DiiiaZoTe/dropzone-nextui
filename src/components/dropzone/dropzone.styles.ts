@@ -873,10 +873,12 @@ export const StyledDropzonePreviewItem = styled("div", {
       md: {
         maxWidth: `${IMAGE_PREVIEW_SIZE_MD}`,
         maxHeight: `${IMAGE_PREVIEW_SIZE_MD}`,
+        borderRadius: '$sm',
       },
       sm: {
         maxWidth: `${IMAGE_PREVIEW_SIZE_SM}`,
         maxHeight: `${IMAGE_PREVIEW_SIZE_SM}`,
+        borderRadius: '$xs',
       },
     }
   },
@@ -894,7 +896,8 @@ export const StyledPreviewImage = styled("img", {
   objectFit: 'cover',
   variants: {
     size: {
-      lg: {},
+      lg: {
+      },
       md: {
         borderRadius: '$sm',
       },
