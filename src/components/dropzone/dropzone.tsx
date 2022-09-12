@@ -1,4 +1,4 @@
-import React, { ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
+import React, { DragEvent, ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
 import { FileRejection, useDropzone } from 'react-dropzone';
 import { assignRef } from '@utils/refs/assignRef';
 import { useDropzoneProps } from './use-Dropzone';
@@ -223,6 +223,7 @@ const Dropzone = (props: DropzoneProps) => {
   const [invalidShake, setInvalidShake] = useState(false);
   const [errorVisible, setErrorVisible] = useState(false);
   const [dropzoneError, setDropzoneError] = useState({} as DropzoneRejectionError);
+  const [filesDragAmount, setFilesDragAmount] = useState(0);
 
   /** invalid shake in useEffect triggered when error occurs (does not apply)*/
   useEffect(() => {
@@ -283,6 +284,12 @@ const Dropzone = (props: DropzoneProps) => {
   * @param {File[]} acceptedFiles - array of accepted files
   * @param {FileRejection[]} rejectedFiles - array of rejected files with reason
   * @returns {FileRejection[]} null if no extra errors or array of rejected files with reason
+  * @notice edge case:
+  * - the user will be displayed that the files will be rejected because of max files limit,
+  *   but after dropping they will be accepted. This is because some duplicates were removed
+  *   and now the max files limit is not reached anymore.
+  *   => Cannot do anything about this as DataTransferItem does not provide 
+  *   a way to get the file name or size to check for duplicates during drag (only at drop)
   */
   const execFilesAccepted = (acceptedFiles: File[], rejectedFiles: FileRejection[]) => {
     const totalDropFiles = acceptedFiles.length + rejectedFiles.length;
@@ -324,6 +331,8 @@ const Dropzone = (props: DropzoneProps) => {
    */
   const execFilesRejected = useCallback((err: FileRejection[]) => {
     const error = getErrorMessage(err);
+    // console.log(error);
+    // if (!error.length) return;
     if (onReject !== undefined) onReject(error);
     setInvalidShake(true);
     setDropzoneError({ errors: error, timestamp: Date.now() });
@@ -343,6 +352,12 @@ const Dropzone = (props: DropzoneProps) => {
     execFilesRejected(rejectedFiles);
   }, [files, setFiles, maxFiles, dropzoneError, setDropzoneError, onAccept, onReject, setInvalidShake]);
 
+
+  const defaultOnDragEnter = useCallback((event: DragEvent<HTMLElement>) => {
+    setFilesDragAmount(event.dataTransfer.items.length);
+    if (onDragEnter !== undefined) onDragEnter(event);
+  }, [setFilesDragAmount]);
+
   /** initialize react-dropzone using props provided
    *  retrieves the necessary variables as well */
   const { getRootProps, getInputProps, isDragActive, isDragAccept, isDragReject, open } = useDropzone(
@@ -359,7 +374,7 @@ const Dropzone = (props: DropzoneProps) => {
       noDrag: !activateOnDrag,
       noDragEventsBubbling: !dragEventsBubbling,
       noKeyboard: !activateOnKeyboard,
-      onDragEnter,
+      onDragEnter: defaultOnDragEnter,
       onDragLeave,
       onDragOver,
       onFileDialogCancel,
@@ -383,13 +398,16 @@ const Dropzone = (props: DropzoneProps) => {
 
   /** Should the Accept be displayed now? */
   const showAccept = useMemo(() => {
-    return (isDragAccept && (maxFiles ? files.length < maxFiles : true))
-  }, [isDragAccept, files, maxFiles]);
+    return (isDragAccept && (maxFiles ? files.length + filesDragAmount <= maxFiles : true))
+  }, [isDragAccept, files, maxFiles, filesDragAmount]);
 
   /** Should the Reject be displayed now? */
   const showReject = useMemo(() => {
-    return (isDragReject || (isDragActive && (maxFiles ? files.length >= maxFiles : false)));
-  }, [isDragReject, isDragActive, files, maxFiles]);
+    return (
+      isDragReject ||
+      (isDragActive && (maxFiles ? files.length + filesDragAmount > maxFiles : false))
+    );
+  }, [isDragReject, isDragActive, files, maxFiles, filesDragAmount]);
 
   /** What is the current status of the dropzone?*/
   const status = useMemo(() => {
