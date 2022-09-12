@@ -46,17 +46,17 @@ const Fullscreen = styled('div', {
 });
 
 
-const PrevNext = (props: { what: string; value: any, setter: any, valueArr: any[] }) => {
-  const { what, value, setter, valueArr } = props
+const PrevNext = (props: { what: string; value: any, setter: any, valueArr: any[], color: any }) => {
+  const { what, value, setter, valueArr, color } = props
   return (
     <>
       <Text h4>{what}</Text>
       <BoxGrid>
-        <Button css={{ minWidth: 'auto' }} onPress={() =>
+        <Button color={color} css={{ minWidth: 'auto' }} onPress={() =>
           setter(valueArr[(valueArr.indexOf(value) - 1 + valueArr.length) % valueArr.length])}>&lt;
         </Button>
         <Text css={{ textAlign: 'center' }}>{value ?? 'Undefined'}</Text>
-        <Button css={{ minWidth: 'auto' }} onPress={() =>
+        <Button color={color} css={{ minWidth: 'auto' }} onPress={() =>
           setter(valueArr[(valueArr.indexOf(value) + 1) % valueArr.length])}>&gt;
         </Button>
       </BoxGrid>
@@ -64,8 +64,8 @@ const PrevNext = (props: { what: string; value: any, setter: any, valueArr: any[
   );
 }
 
-const Switcher = (props: { what: string; value: any, setter: any, notTrueFalse?: { checked: any, unchecked: any, toDisplay: any } }) => {
-  const { what, value, setter, notTrueFalse } = props
+const Switcher = (props: { what: string; value: any, setter: any, notTrueFalse?: { checked: any, unchecked: any, toDisplay: any }, color: any }) => {
+  const { what, value, setter, notTrueFalse, color } = props
   return (
     <Box>
       <Text h4>
@@ -73,8 +73,8 @@ const Switcher = (props: { what: string; value: any, setter: any, notTrueFalse?:
       </Text>
       {
         notTrueFalse
-          ? <Switch checked={value} onChange={(e) => setter(e.target.checked ? notTrueFalse.checked : notTrueFalse.unchecked)} />
-          : <Switch checked={value} onChange={() => setter(!value)} />
+          ? <Switch color={color} checked={value} onChange={(e) => setter(e.target.checked ? notTrueFalse.checked : notTrueFalse.unchecked)} />
+          : <Switch color={color} checked={value} onChange={() => setter(!value)} />
       }
     </Box>
   );
@@ -100,6 +100,7 @@ export default function Home() {
   const [alwaysShowStatus, setAlwaysShowStatus] = useState(true);
   const [bordered, setBordered] = useState(false);
   const [allowImagePreview, setAllowImagePreview] = useState(false);
+  const [fullscreen, setFullscreen] = useState(false);
 
   const byteSizes = ['KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
   const [byteSize, setByteSize] = useState(byteSizes[1] as any);
@@ -141,20 +142,22 @@ export default function Home() {
             openRef={openRef}
           // accept={{ 'image/*': [] }}
           >
-            <Dropzone.Fullscreen
-              contentAccept={
-                <Fullscreen>
-                  <Upload fill='black' />
-                  <Text color='black' css={{ textAlign: 'center' }}>Release to select files</Text>
-                </Fullscreen>
-              }
-            // contentReject={
-            //   <Fullscreen>
-            //     <Error fill='black' />
-            //     <Text color='black' css={{ textAlign: 'center' }}>Invalid files, please try again</Text>
-            //   </Fullscreen>
-            // }
-            />
+            {fullscreen &&
+              <Dropzone.Fullscreen
+                contentAccept={
+                  <Fullscreen>
+                    <Upload fill='black' />
+                    <Text color='black' css={{ textAlign: 'center' }}>Release to select files</Text>
+                  </Fullscreen>
+                }
+                contentReject={
+                  <Fullscreen>
+                    <Error fill='black' />
+                    <Text color='black' css={{ textAlign: 'center' }}>Invalid files, please try again</Text>
+                  </Fullscreen>
+                }
+              />
+            }
             <Dropzone.Base>
               <Container css={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
                 <File />
@@ -196,17 +199,17 @@ export default function Home() {
         <Collapse shadow title="Main options" css={{ border: 'none !important' }}>
           <Grid.Container gap={2} justify='center' alignItems='center'>
             <Grid justify='center'>
-              <Button onPress={() => openRef.current?.()}>
+              <Button color={color} onPress={() => openRef.current?.()}>
                 Click me to add file
               </Button>
             </Grid>
             <Grid justify='center'>
-              <Button onPress={() => setFiles([])}>
+              <Button color={color} onPress={() => setFiles([])}>
                 remove all files
               </Button>
             </Grid>
             <Grid>
-              <Switcher what='Theme' value={isDark} setter={setTheme} notTrueFalse={{ checked: 'dark', unchecked: 'Light', toDisplay: type }} />
+              <Switcher color={color} what='Theme' value={isDark} setter={setTheme} notTrueFalse={{ checked: 'dark', unchecked: 'Light', toDisplay: type }} />
             </Grid>
           </Grid.Container>
         </Collapse>
@@ -216,16 +219,16 @@ export default function Home() {
         <Collapse shadow title="Style options" css={{ border: 'none !important' }}>
           <Grid.Container gap={2} justify='center'>
             <Grid>
-              <PrevNext what='Color' value={color} setter={setColor} valueArr={colors} />
+              <PrevNext color={color} what='Color' value={color} setter={setColor} valueArr={colors} />
             </Grid>
             <Grid>
-              <PrevNext what='Variant' value={variant} setter={setVariant} valueArr={variants} />
+              <PrevNext color={color} what='Variant' value={variant} setter={setVariant} valueArr={variants} />
             </Grid>
             <Grid>
-              <PrevNext what='Width' value={width} setter={setWidth} valueArr={widths} />
+              <PrevNext color={color} what='Width' value={width} setter={setWidth} valueArr={widths} />
             </Grid>
             <Grid>
-              <PrevNext what='Image preview size' value={sizeImagePreview} setter={setSizeImagePreview} valueArr={sizeImagePreviews} />
+              <PrevNext color={color} what='Image preview size' value={sizeImagePreview} setter={setSizeImagePreview} valueArr={sizeImagePreviews} />
             </Grid>
           </Grid.Container>
         </Collapse>
@@ -235,19 +238,22 @@ export default function Home() {
         <Collapse shadow title="Options switches" css={{ border: 'none !important' }}>
           <Grid.Container gap={2} justify='center'>
             <Grid>
-              <Switcher what='Disabled' value={disabled} setter={setDisabled} />
+              <Switcher color={color} what='Disabled' value={disabled} setter={setDisabled} />
             </Grid>
             <Grid>
-              <Switcher what='Animated' value={animated} setter={setAnimated} />
+              <Switcher color={color} what='Animated' value={animated} setter={setAnimated} />
             </Grid>
             <Grid>
-              <Switcher what='Always show' value={alwaysShowStatus} setter={setAlwaysShowStatus} />
+              <Switcher color={color} what='Fullscreen' value={fullscreen} setter={setFullscreen} />
             </Grid>
             <Grid>
-              <Switcher what='Bordered' value={bordered} setter={setBordered} />
+              <Switcher color={color} what='Always show' value={alwaysShowStatus} setter={setAlwaysShowStatus} />
             </Grid>
             <Grid>
-              <Switcher what='Image preview' value={allowImagePreview} setter={setAllowImagePreview} />
+              <Switcher color={color} what='Bordered' value={bordered} setter={setBordered} />
+            </Grid>
+            <Grid>
+              <Switcher color={color} what='Image preview' value={allowImagePreview} setter={setAllowImagePreview} />
             </Grid>
           </Grid.Container>
         </Collapse>
@@ -262,6 +268,7 @@ export default function Home() {
                 <Input aria-label={`Input amount in ${byteSize}`} css={{ '& .nextui-input-content--right': { width: 'auto', padding: 0 } }}
                   type='number' initialValue={byteAmount.toString()} placeholder='Amount'
                   onChange={(e) => setByteAmount(Number(e.target.value))}
+                  status={color}
                   contentRight={
                     <Dropdown>
                       <Dropdown.Button flat color={color == 'default' ? 'primary' : color}>
@@ -269,10 +276,10 @@ export default function Home() {
                       </Dropdown.Button>
                       <Dropdown.Menu
                         aria-label="select a size"
-                        color={color}
+                        color={color == 'default' ? 'primary' : color}
                         disallowEmptySelection
                         selectionMode="single"
-                        selectedKeys={byteSize}
+                        selectedKeys={[byteSize]}
                         onSelectionChange={(key: any) => { setByteSize(key.currentKey) }}
                       >
                         {byteSizes.map((size) => {
@@ -286,7 +293,7 @@ export default function Home() {
             </Grid>
             <Grid>
               <Text h4>Max files</Text>
-              <Input css={{ maxWidth: '$48' }}
+              <Input status={color} css={{ maxWidth: '$48' }}
                 aria-label='Input max files allowed'
                 type='number' initialValue={maxFiles.toString()} placeholder='Amount'
                 onChange={(e) => {
@@ -305,13 +312,13 @@ export default function Home() {
         <Collapse shadow title="Border style" css={{ border: 'none !important' }}>
           <Grid.Container gap={2} justify='center'>
             <Grid>
-              <PrevNext what='Border color' value={borderColor} setter={setBorderColor} valueArr={borderColors} />
+              <PrevNext color={color} what='Border color' value={borderColor} setter={setBorderColor} valueArr={borderColors} />
             </Grid>
             <Grid>
-              <PrevNext what='Border style' value={borderStyle} setter={setBorderStyle} valueArr={borderStyles} />
+              <PrevNext color={color} what='Border style' value={borderStyle} setter={setBorderStyle} valueArr={borderStyles} />
             </Grid>
             <Grid>
-              <PrevNext what='Border weight' value={borderWeight} setter={setBorderWeight} valueArr={borderWeights} />
+              <PrevNext color={color} what='Border weight' value={borderWeight} setter={setBorderWeight} valueArr={borderWeights} />
             </Grid>
           </Grid.Container>
         </Collapse>
