@@ -9,6 +9,7 @@ export type { DropzoneAcceptProps, DropzoneRejectProps } from './dropzone-status
 import { DropzoneBase, DropzoneAccept, DropzoneReject } from './dropzone-status';
 import { DropzonePreview, DropzonePreviewItem } from './dropzone-preview';
 import { DropzoneError } from './dropzone-error';
+import { DropzoneFullscreen } from './dropzone-fullscreen';
 
 
 Dropzone.Base = DropzoneBase;
@@ -17,5 +18,6 @@ Dropzone.Reject = DropzoneReject;
 Dropzone.Preview = DropzonePreview;
 Dropzone.Item = DropzonePreviewItem;
 Dropzone.Error = DropzoneError;
+Dropzone.Fullscreen = DropzoneFullscreen;
 
 export default Dropzone;

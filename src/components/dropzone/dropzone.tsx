@@ -13,6 +13,7 @@ import clsx from '@utils/clsx';
 import { DropzoneError, RejectionError, DropzoneRejectionError } from './dropzone-error';
 import { ERROR_CODES, filesWithoutDuplicates } from './utils';
 import { useAutoAnimate } from '@formkit/auto-animate/react'
+import { DropzoneFullscreen } from './dropzone-fullscreen';
 
 //! Dropzone  --------------------------------------------------------
 interface Props extends useDropzoneProps {
@@ -223,7 +224,7 @@ const Dropzone = (props: DropzoneProps) => {
   const [errorVisible, setErrorVisible] = useState(false);
   const [dropzoneError, setDropzoneError] = useState({} as DropzoneRejectionError);
 
-  /** invalid shake in useEffect triggered when error occurs*/
+  /** invalid shake in useEffect triggered when error occurs (does not apply)*/
   useEffect(() => {
     let timer = null as any;
     if (invalidShake)
@@ -353,6 +354,7 @@ const Dropzone = (props: DropzoneProps) => {
       maxSize,
       maxFiles,
       autoFocus,
+      // noClick: !(activateOnClick && !fullscreen),
       noClick: !activateOnClick,
       noDrag: !activateOnDrag,
       noDragEventsBubbling: !dragEventsBubbling,
@@ -482,6 +484,7 @@ type DropzoneComponent<P = {}> = React.FC<P> & {
   Preview: typeof DropzonePreview;
   Item: typeof DropzonePreviewItem;
   Error: typeof DropzoneError;
+  Fullscreen: typeof DropzoneFullscreen;
 };
 
 Dropzone.toString = () => '.nextui-dropzone';

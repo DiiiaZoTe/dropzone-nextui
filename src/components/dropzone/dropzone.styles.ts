@@ -789,6 +789,41 @@ export const StyledDropzoneStatus = styled("div", {
   }
 });
 
+//! DROPZONE FULLSCREEN ----------------------------------------------
+export const StyledFullscreen = styled('div', {
+  position: 'fixed',
+  top: 0,
+  left: 0,
+  right: 0,
+  bottom: 0,
+  zIndex: 9999,
+  width: '100%',
+  height: '100%',
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'center',
+  pointerEvents: 'none',
+  opacity: 0,
+  color: 'currentColor',
+  variants: {
+    visible: {
+      true: {
+        opacity: 1,
+        pointerEvents: 'all',
+      },
+    },
+    animated: {
+      true: {
+        transition: 'all 0.3s ease-in-out',
+      },
+    },
+  },
+  '@motion': {
+    transition: 'none'
+  },
+});
+
 //! DROPZONE PREVIEW / ITEM / REMOVE ----------------------------------------------
 /** large default preview size = item width */
 const IMAGE_PREVIEW_SIZE = ITEM_WIDTH;
@@ -905,7 +940,10 @@ export const StyledPreviewImage = styled("img", {
         borderRadius: '$xs',
       },
     },
-  }
+  },
+  '@motion': {
+    transition: 'none'
+  },
 });
 
 /** Used to display the file name in Preview Item */
@@ -915,6 +953,9 @@ export const TextFile = styled(Text, {
   height: '100%',
   padding: '$xs',
   whiteSpace: 'nowrap',
+  '@motion': {
+    transition: 'none'
+  },
 });
 
 /** Used to display the file extension in Preview Item */
@@ -928,7 +969,10 @@ export const TextExtension = styled(Text, {
         transition: "background 0.3s ease-in-out",
       }
     }
-  }
+  },
+  '@motion': {
+    transition: 'none'
+  },
 });
 
 /** Size of the remove button of Preview Item */
@@ -1049,6 +1093,9 @@ export const StyledErrorBox = styled('div', {
   borderRadius: '$md',
   padding: '$md',
   margin: 'auto',
+  '@motion': {
+    transition: 'none'
+  },
 });
 
 /** Container for error files */

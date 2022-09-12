@@ -22,6 +22,29 @@ const BoxGrid = styled('div', {
   minWidth: '$48',
 });
 
+const Fullscreen = styled('div', {
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'center',
+  alignItems: 'center',
+  borderRadius: '$md',
+  width: 'fit-content',
+  height: 'fit-content',
+  background: 'White',
+  padding: '$lg',
+  shadow: '$md',
+  '&::before': {
+    content: '""',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100%',
+    background: 'rgba(125,125,125,0.2)',
+    zIndex: -1,
+  },
+});
+
 
 const PrevNext = (props: { what: string; value: any, setter: any, valueArr: any[] }) => {
   const { what, value, setter, valueArr } = props
@@ -118,6 +141,20 @@ export default function Home() {
             openRef={openRef}
           // accept={{ 'image/*': [] }}
           >
+            <Dropzone.Fullscreen
+              contentAccept={
+                <Fullscreen>
+                  <Upload fill='black' />
+                  <Text color='black' css={{ textAlign: 'center' }}>Release to select files</Text>
+                </Fullscreen>
+              }
+            // contentReject={
+            //   <Fullscreen>
+            //     <Error fill='black' />
+            //     <Text color='black' css={{ textAlign: 'center' }}>Invalid files, please try again</Text>
+            //   </Fullscreen>
+            // }
+            />
             <Dropzone.Base>
               <Container css={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
                 <File />
