@@ -1,17 +1,25 @@
 import Dropzone from './dropzone';
 
-//TODO refactor this to export everything necessary and document
-
-export type { DropzoneProps } from './dropzone';
+// export styles
 export * from './dropzone.styles';
+
+// export types
+export type { DropzoneProps } from './dropzone';
+export type { DropzoneBaseProps, DropzoneAcceptProps, DropzoneRejectProps } from './dropzone-status';
+export type { DropzonePreviewItemProps, DropzonePreviewProps } from './dropzone-preview';
+export type { RejectionError, DropzoneRejectionError, DropzoneErrorProps } from './dropzone-error';
+export type { DropzoneFullScrenProps } from './dropzone-fullscreen';
+
+// export utility functions
 export * from './utils';
-export type { DropzoneAcceptProps, DropzoneRejectProps } from './dropzone-status';
+
+// import subcomponents
 import { DropzoneBase, DropzoneAccept, DropzoneReject } from './dropzone-status';
 import { DropzonePreview, DropzonePreviewItem } from './dropzone-preview';
 import { DropzoneError } from './dropzone-error';
 import { DropzoneFullscreen } from './dropzone-fullscreen';
 
-
+// assign subcomponents to Dropzone
 Dropzone.Base = DropzoneBase;
 Dropzone.Accept = DropzoneAccept;
 Dropzone.Reject = DropzoneReject;

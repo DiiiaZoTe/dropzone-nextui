@@ -29,6 +29,7 @@ interface Props extends useDropzoneProps {
    * - reject: the dropzone is rejecting files
    * - preview: the dropzone file preview
    * - error: the dropzone error to display
+   * - fullscreen: the dropzone accept fullscreen
    */
   children?: ReactNode;
 
@@ -171,6 +172,7 @@ interface IFocusRingAria extends FocusRingAria {
  *    - Dropzone.Reject
  *    - Dropzone.Preview
  *    - Dropzone.Error
+ *    - Dropzone.Fullscreen
  */
 const Dropzone = (props: DropzoneProps) => {
   /** get all the props for dropzone and react-dropzone */

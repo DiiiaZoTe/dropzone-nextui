@@ -12,7 +12,7 @@ import { useAutoAnimate } from '@formkit/auto-animate/react'
 
 const TRUNCATION_LENGTH = 10;
 
-//! RemoveButton  --------------------------------------------------------
+//! RemoveButton  - not exported --------------------------------------------------------
 
 /** Remove button props
  *  @requires onclickCallback
