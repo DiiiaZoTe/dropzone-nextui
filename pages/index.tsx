@@ -43,6 +43,7 @@ const Fullscreen = styled('div', {
     background: 'rgba(125,125,125,0.2)',
     zIndex: -1,
   },
+  transition: 'all 0.3s ease',
 });
 
 
@@ -100,7 +101,7 @@ export default function Home() {
   const [alwaysShowStatus, setAlwaysShowStatus] = useState(true);
   const [bordered, setBordered] = useState(false);
   const [allowImagePreview, setAllowImagePreview] = useState(false);
-  const [fullscreen, setFullscreen] = useState(false);
+  const [fullscreen, setFullscreen] = useState(true);
 
   const byteSizes = ['KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
   const [byteSize, setByteSize] = useState(byteSizes[1] as any);

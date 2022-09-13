@@ -2,16 +2,17 @@ import React, { ReactNode, useCallback, useEffect, useRef, useState } from 'reac
 import { useDropzoneContext } from './dropzone-context';
 import { StyledFullscreen } from './dropzone.styles';
 
-
 export interface DropzoneFullScrenProps {
   contentAccept?: ReactNode;
   contentReject?: ReactNode;
+  animated?: boolean;
 }
 
 const DropzoneFullscreenComponent = (props: DropzoneFullScrenProps) => {
-  const { contentAccept, contentReject } = props;
+  const { contentAccept, contentReject, ...others } = props;
 
   const ctx = useDropzoneContext();
+  const animatedFullscreen = props.animated ?? ctx.Animated;
 
   const [isDragging, setIsDragging] = useState(false);
   const dragCounter = useRef(0);
@@ -60,17 +61,12 @@ const DropzoneFullscreenComponent = (props: DropzoneFullScrenProps) => {
       window.removeEventListener("dragover", handleDrag);
       window.removeEventListener("drop", handleDrop);
     };
-  }, []);
-
-  const renderContent = () => {
-    if (ctx.Accept && contentAccept !== undefined) return contentAccept;
-    if (ctx.Reject && contentReject !== undefined) return contentReject;
-    return <></>;
-  }
+  });
 
   return (
-    <StyledFullscreen visible={isDragging} animated={true}>
-      {renderContent()}
+    <StyledFullscreen visible={true} pointers={isDragging} animated={animatedFullscreen} >
+      <StyledFullscreen visible={ctx.Accept && contentAccept !== undefined} animated={animatedFullscreen} {...others} >{contentAccept}</StyledFullscreen>
+      <StyledFullscreen visible={ctx.Reject && contentReject !== undefined} animated={animatedFullscreen} {...others} >{contentReject}</StyledFullscreen>
     </StyledFullscreen>
   );
 };

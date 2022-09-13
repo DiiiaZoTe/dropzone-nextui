@@ -1,7 +1,7 @@
 import { styled, cssFocusVisible } from "@nextui-org/react";
 // import { motion } from 'framer-motion';
 import { invalidShake, fadeIn } from "./dropzone.animations";
-import { Text } from '@nextui-org/react';
+import { Text } from "@nextui-org/react";
 
 /*
   ITEM_WIDTH = '$36' // = 8rem
@@ -20,63 +20,64 @@ import { Text } from '@nextui-org/react';
   xs = 1 item  = 12rem
 */
 /** Width of a Preview Item = 9rem */
-const ITEM_WIDTH = '$36'
+const ITEM_WIDTH = "$36";
 /** Gap between Preview Items = 1rem */
-const ITEM_GAP = '$md';
+const ITEM_GAP = "$md";
 /** Padding of the dropzone = 1rem */
-const DROPZONE_PADDING = '$md';
+const DROPZONE_PADDING = "$md";
 
 //! DROPZONE --------------------------------------------
 /** Main dropzone Style */
-export const StyledDropzone = styled('div',
+export const StyledDropzone = styled(
+  "div",
   {
-    position: 'relative',
+    position: "relative",
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
     padding: `${DROPZONE_PADDING}`,
-    minWidth: '$48',
-    maxWidth: '100%',
-    height: 'fit-content',
+    minWidth: "$48",
+    maxWidth: "100%",
+    height: "fit-content",
     cursor: "pointer",
-    borderRadius: '$md',
+    borderRadius: "$md",
     variants: {
       /** should the dropzone be animated? */
       animated: {
         true: {
-          transition: 'all 0.3s ease-in-out',
-          '&.nextui-dropzone--invalid-shake': {
+          transition: "all 0.3s ease-in-out",
+          "&.nextui-dropzone--invalid-shake": {
             animation: `${invalidShake} 0.5s ease-in-out`,
-          }
-        }
+          },
+        },
       },
       /** should the dropzone be bordered */
       bordered: {
         true: {},
         false: {
-          borderColor: 'transparent  !important',
-          bw: '$normal',
-          borderStyle: 'solid',
-        }
+          borderColor: "transparent  !important",
+          bw: "$normal",
+          borderStyle: "solid",
+        },
       },
       /** various width of dropzone */
       width: {
         xs: {
-          width: '12rem', // 1 item
+          width: "12rem", // 1 item
         },
         sm: {
-          width: '22rem', // 2 items
+          width: "22rem", // 2 items
         },
         md: {
-          width: '32rem', // 3 items
+          width: "32rem", // 3 items
         },
         lg: {
-          width: '42rem', // default // 4 items
+          width: "42rem", // default // 4 items
         },
         full: {
-          width: '100%',
-        }
+          width: "100%",
+        },
       },
       /** various colors of the dropzone used for the variant
        *  @default 'default'
@@ -84,73 +85,73 @@ export const StyledDropzone = styled('div',
        */
       color: {
         default: {
-          bg: '$accents0',
-          color: '$accents7',
-          borderColor: '$accents5',
-          '& .nextui-dropzone--Preview-item': {
-            bg: '$accents2',
-            color: '$text',
+          bg: "$accents0",
+          color: "$accents7",
+          borderColor: "$accents5",
+          "& .nextui-dropzone--Preview-item": {
+            bg: "$accents2",
+            color: "$text",
           },
-          '& .nextui-dropzone--Preview-item-extension': {
-            bg: '$accents4'
+          "& .nextui-dropzone--Preview-item-extension": {
+            bg: "$accents4",
           },
         },
         primary: {
-          bg: '$primaryLight',
-          color: '$primaryLightContrast',
-          borderColor: '$primaryBorder',
-          '& .nextui-dropzone--Preview-item': {
-            bg: '$primaryLightHover',
-            color: '$primaryLightContrast',
+          bg: "$primaryLight",
+          color: "$primaryLightContrast",
+          borderColor: "$primaryBorder",
+          "& .nextui-dropzone--Preview-item": {
+            bg: "$primaryLightHover",
+            color: "$primaryLightContrast",
           },
-          '& .nextui-dropzone--Preview-item-extension': {
-            bg: '$primaryLightActive',
+          "& .nextui-dropzone--Preview-item-extension": {
+            bg: "$primaryLightActive",
           },
         },
         secondary: {
-          bg: '$secondaryLight',
-          color: '$secondaryLightContrast',
-          borderColor: '$secondaryBorder',
-          '& .nextui-dropzone--Preview-item': {
-            bg: '$secondaryLightHover',
-            color: '$secondaryLightContrast',
+          bg: "$secondaryLight",
+          color: "$secondaryLightContrast",
+          borderColor: "$secondaryBorder",
+          "& .nextui-dropzone--Preview-item": {
+            bg: "$secondaryLightHover",
+            color: "$secondaryLightContrast",
           },
-          '& .nextui-dropzone--Preview-item-extension': {
-            bg: '$secondaryLightActive',
+          "& .nextui-dropzone--Preview-item-extension": {
+            bg: "$secondaryLightActive",
           },
         },
         warning: {
-          bg: '$warningLight',
-          color: '$warningLightContrast',
-          borderColor: '$warningBorder',
-          '& .nextui-dropzone--Preview-item': {
-            bg: '$warningLightHover',
-            color: '$warningLightContrast'
+          bg: "$warningLight",
+          color: "$warningLightContrast",
+          borderColor: "$warningBorder",
+          "& .nextui-dropzone--Preview-item": {
+            bg: "$warningLightHover",
+            color: "$warningLightContrast",
           },
-          '& .nextui-dropzone--Preview-item-extension': {
-            bg: '$warningLightActive',
+          "& .nextui-dropzone--Preview-item-extension": {
+            bg: "$warningLightActive",
           },
         },
         success: {
-          bg: '$successLight',
-          color: '$successLightContrast',
-          '& .nextui-dropzone--Preview-item': {
-            bg: '$successLightHover',
-            color: '$successLightContrast'
+          bg: "$successLight",
+          color: "$successLightContrast",
+          "& .nextui-dropzone--Preview-item": {
+            bg: "$successLightHover",
+            color: "$successLightContrast",
           },
-          '& .nextui-dropzone--Preview-item-extension': {
-            bg: '$successLightActive',
+          "& .nextui-dropzone--Preview-item-extension": {
+            bg: "$successLightActive",
           },
         },
         error: {
-          bg: '$errorLight',
-          color: '$errorLightContrast',
-          '& .nextui-dropzone--Preview-item': {
-            bg: '$errorLightHover',
-            color: '$errorLightContrast',
+          bg: "$errorLight",
+          color: "$errorLightContrast",
+          "& .nextui-dropzone--Preview-item": {
+            bg: "$errorLightHover",
+            color: "$errorLightContrast",
           },
-          '& .nextui-dropzone--Preview-item-extension': {
-            bg: '$errorLightActive',
+          "& .nextui-dropzone--Preview-item-extension": {
+            bg: "$errorLightActive",
           },
         },
       },
@@ -161,36 +162,36 @@ export const StyledDropzone = styled('div',
        */
       variant: {
         flat: {
-          '& .nextui-dropzone--Error': {
-            bg: '$errorLight',
-          }
+          "& .nextui-dropzone--Error": {
+            bg: "$errorLight",
+          },
         },
         light: {},
         solid: {
-          '& .nextui-dropzone--Error': {
-            bg: '$errorLight',
-          }
+          "& .nextui-dropzone--Error": {
+            bg: "$errorLight",
+          },
         },
         shadow: {
-          shadow: '$md',
-          '& .nextui-dropzone--Error': {
-            bg: '$errorLight',
+          shadow: "$md",
+          "& .nextui-dropzone--Error": {
+            bg: "$errorLight",
           },
         },
         shadow_flat: {
-          shadow: '$md',
-          '& .nextui-dropzone--Error': {
-            bg: '$errorLight',
+          shadow: "$md",
+          "& .nextui-dropzone--Error": {
+            bg: "$errorLight",
           },
-        }
+        },
       },
       /** should the error border be displayed */
       showErrorBorder: {
         true: {
-          borderColor: '$errorBorder !important',
-          bw: '$normal',
-          borderStyle: 'solid',
-        }
+          borderColor: "$errorBorder !important",
+          bw: "$normal",
+          borderStyle: "solid",
+        },
       },
       /** various border weights of the dropzone
        *  @default 'normal'
@@ -200,7 +201,7 @@ export const StyledDropzone = styled('div',
         normal: {},
         bold: {},
         extrabold: {},
-        black: {}
+        black: {},
       },
       /** various border styles of the dropzone
        *  @default 'dashed'
@@ -208,7 +209,7 @@ export const StyledDropzone = styled('div',
       borderStyle: {
         dashed: {},
         dotted: {},
-        solid: {}
+        solid: {},
       },
       /** various border colors of the dropzone
        *  @default 'default'
@@ -224,535 +225,535 @@ export const StyledDropzone = styled('div',
       /** should the dropzone be disabled? */
       disabled: {
         true: {
-          background: '$accents3 !important',
-          color: '$accents8 !important',
-          '& .nextui-dropzone--Preview-item': {
-            bg: '$accents1 !important',
-            color: '$text !important',
-            shadow: 'none !important',
+          background: "$accents3 !important",
+          color: "$accents8 !important",
+          "& .nextui-dropzone--Preview-item": {
+            bg: "$accents1 !important",
+            color: "$text !important",
+            shadow: "none !important",
           },
-          '& .nextui-dropzone--Preview-item-close': {
-            bg: '$accents5 !important',
+          "& .nextui-dropzone--Preview-item-close": {
+            bg: "$accents5 !important",
           },
-          '& .nextui-dropzone--Preview-item-extension': {
-            bg: '$accents0 !important',
+          "& .nextui-dropzone--Preview-item-extension": {
+            bg: "$accents0 !important",
           },
-        }
+        },
       },
     },
     compoundVariants: [
       // light / color default
       {
-        variant: 'light',
-        color: 'default',
+        variant: "light",
+        color: "default",
         css: {
-          color: '$text',
-          bg: 'transparent',
-          '& .nextui-dropzone--Preview-item': {
-            bg: '$accents0',
-            color: '$text'
+          color: "$text",
+          bg: "transparent",
+          "& .nextui-dropzone--Preview-item": {
+            bg: "$accents0",
+            color: "$text",
           },
-          '& .nextui-dropzone--Preview-item-extension': {
-            bg: '$accents1',
+          "& .nextui-dropzone--Preview-item-extension": {
+            bg: "$accents1",
           },
-        }
+        },
       },
       // light / color primary
       {
-        variant: 'light',
-        color: 'primary',
+        variant: "light",
+        color: "primary",
         css: {
-          color: '$primary',
-          bg: 'transparent',
-          '& .nextui-dropzone--Preview-item': {
-            bg: '$primaryLight',
-            color: '$primaryLightContrast'
+          color: "$primary",
+          bg: "transparent",
+          "& .nextui-dropzone--Preview-item": {
+            bg: "$primaryLight",
+            color: "$primaryLightContrast",
           },
-          '& .nextui-dropzone--Preview-item-extension': {
-            bg: '$primaryLightHover',
+          "& .nextui-dropzone--Preview-item-extension": {
+            bg: "$primaryLightHover",
           },
-        }
+        },
       },
       // light / color secondary
       {
-        variant: 'light',
-        color: 'secondary',
+        variant: "light",
+        color: "secondary",
         css: {
-          color: '$secondary',
-          bg: 'transparent',
-          '& .nextui-dropzone--Preview-item': {
-            bg: '$secondaryLight',
-            color: '$secondaryLightContrast'
+          color: "$secondary",
+          bg: "transparent",
+          "& .nextui-dropzone--Preview-item": {
+            bg: "$secondaryLight",
+            color: "$secondaryLightContrast",
           },
-          '& .nextui-dropzone--Preview-item-extension': {
-            bg: '$secondaryLightHover',
+          "& .nextui-dropzone--Preview-item-extension": {
+            bg: "$secondaryLightHover",
           },
-        }
+        },
       },
       // light / color warning
       {
-        variant: 'light',
-        color: 'warning',
+        variant: "light",
+        color: "warning",
         css: {
-          color: '$warning',
-          bg: 'transparent',
-          '& .nextui-dropzone--Preview-item': {
-            bg: '$warningLight',
-            color: '$warningLightContrast'
+          color: "$warning",
+          bg: "transparent",
+          "& .nextui-dropzone--Preview-item": {
+            bg: "$warningLight",
+            color: "$warningLightContrast",
           },
-          '& .nextui-dropzone--Preview-item-extension': {
-            bg: '$warningLightHover',
+          "& .nextui-dropzone--Preview-item-extension": {
+            bg: "$warningLightHover",
           },
-        }
+        },
       },
       // light / color success
       {
-        variant: 'light',
-        color: 'success',
+        variant: "light",
+        color: "success",
         css: {
-          color: '$success',
-          bg: 'transparent',
-          '& .nextui-dropzone--Preview-item': {
-            bg: '$successLight',
-            color: '$successLightContrast'
+          color: "$success",
+          bg: "transparent",
+          "& .nextui-dropzone--Preview-item": {
+            bg: "$successLight",
+            color: "$successLightContrast",
           },
-          '& .nextui-dropzone--Preview-item-extension': {
-            bg: '$successLightHover',
+          "& .nextui-dropzone--Preview-item-extension": {
+            bg: "$successLightHover",
           },
-        }
+        },
       },
       // light / color error
       {
-        variant: 'light',
-        color: 'error',
+        variant: "light",
+        color: "error",
         css: {
-          color: '$error',
-          bg: 'transparent',
-          '& .nextui-dropzone--Preview-item': {
-            bg: '$errorLight',
-            color: '$errorLightContrast'
+          color: "$error",
+          bg: "transparent",
+          "& .nextui-dropzone--Preview-item": {
+            bg: "$errorLight",
+            color: "$errorLightContrast",
           },
-          '& .nextui-dropzone--Preview-item-extension': {
-            bg: '$errorLightHover',
+          "& .nextui-dropzone--Preview-item-extension": {
+            bg: "$errorLightHover",
           },
-        }
+        },
       },
       // solid / color default
       {
-        variant: 'solid',
-        color: 'default',
+        variant: "solid",
+        color: "default",
         css: {
-          bg: '$primary',
-          color: '$primarySolidContrast',
-          '& .nextui-dropzone--Preview-item': {
-            bg: '$primarySolidHover',
-            color: '$primarySolidContrast',
-            shadow: '$sm',
+          bg: "$primary",
+          color: "$primarySolidContrast",
+          "& .nextui-dropzone--Preview-item": {
+            bg: "$primarySolidHover",
+            color: "$primarySolidContrast",
+            shadow: "$sm",
           },
-          '& .nextui-dropzone--Preview-item-extension': {
-            bg: '$primaryBorder',
+          "& .nextui-dropzone--Preview-item-extension": {
+            bg: "$primaryBorder",
           },
-        }
+        },
       },
       // solid / color primary
       {
-        variant: 'solid',
-        color: 'primary',
+        variant: "solid",
+        color: "primary",
         css: {
-          bg: '$primary',
-          color: '$primarySolidContrast',
-          '& .nextui-dropzone--Preview-item': {
-            bg: '$primarySolidHover',
-            color: '$primarySolidContrast',
-            shadow: '$sm',
+          bg: "$primary",
+          color: "$primarySolidContrast",
+          "& .nextui-dropzone--Preview-item": {
+            bg: "$primarySolidHover",
+            color: "$primarySolidContrast",
+            shadow: "$sm",
           },
-          '& .nextui-dropzone--Preview-item-extension': {
-            bg: '$primaryBorder',
+          "& .nextui-dropzone--Preview-item-extension": {
+            bg: "$primaryBorder",
           },
-        }
+        },
       },
       // solid / color secondary
       {
-        variant: 'solid',
-        color: 'secondary',
+        variant: "solid",
+        color: "secondary",
         css: {
-          bg: '$secondary',
-          color: '$secondarySolidContrast',
-          '& .nextui-dropzone--Preview-item': {
-            bg: '$secondarySolidHover',
-            color: '$secondarySolidContrast',
-            shadow: '$sm',
+          bg: "$secondary",
+          color: "$secondarySolidContrast",
+          "& .nextui-dropzone--Preview-item": {
+            bg: "$secondarySolidHover",
+            color: "$secondarySolidContrast",
+            shadow: "$sm",
           },
-          '& .nextui-dropzone--Preview-item-extension': {
-            bg: '$secondaryBorder',
+          "& .nextui-dropzone--Preview-item-extension": {
+            bg: "$secondaryBorder",
           },
-        }
+        },
       },
       // solid / color warning
       {
-        variant: 'solid',
-        color: 'warning',
+        variant: "solid",
+        color: "warning",
         css: {
-          bg: '$warning',
-          color: '$warningSolidContrast',
-          '& .nextui-dropzone--Preview-item': {
-            bg: '$warningSolidHover',
-            color: '$warningSolidContrast',
-            shadow: '$sm',
+          bg: "$warning",
+          color: "$warningSolidContrast",
+          "& .nextui-dropzone--Preview-item": {
+            bg: "$warningSolidHover",
+            color: "$warningSolidContrast",
+            shadow: "$sm",
           },
-          '& .nextui-dropzone--Preview-item-extension': {
-            bg: '$warningBorder',
+          "& .nextui-dropzone--Preview-item-extension": {
+            bg: "$warningBorder",
           },
-        }
+        },
       },
       // solid / color success
       {
-        variant: 'solid',
-        color: 'success',
+        variant: "solid",
+        color: "success",
         css: {
-          bg: '$success',
-          color: '$successSolidContrast',
-          '& .nextui-dropzone--Preview-item': {
-            bg: '$successSolidHover',
-            color: '$successSolidContrast',
-            shadow: '$sm',
+          bg: "$success",
+          color: "$successSolidContrast",
+          "& .nextui-dropzone--Preview-item": {
+            bg: "$successSolidHover",
+            color: "$successSolidContrast",
+            shadow: "$sm",
           },
-          '& .nextui-dropzone--Preview-item-extension': {
-            bg: '$successBorder',
+          "& .nextui-dropzone--Preview-item-extension": {
+            bg: "$successBorder",
           },
-        }
+        },
       },
       // solid / color error
       {
-        variant: 'solid',
-        color: 'error',
+        variant: "solid",
+        color: "error",
         css: {
-          bg: '$error',
-          color: '$errorSolidContrast',
-          '& .nextui-dropzone--Preview-item': {
-            bg: '$errorSolidHover',
-            color: '$errorSolidContrast',
-            shadow: '$sm',
+          bg: "$error",
+          color: "$errorSolidContrast",
+          "& .nextui-dropzone--Preview-item": {
+            bg: "$errorSolidHover",
+            color: "$errorSolidContrast",
+            shadow: "$sm",
           },
-          '& .nextui-dropzone--Preview-item-extension': {
-            bg: '$errorBorder',
+          "& .nextui-dropzone--Preview-item-extension": {
+            bg: "$errorBorder",
           },
-        }
+        },
       },
       //! solid and shadow have the same base except for default
       // shadow / color default
       {
-        variant: 'shadow',
-        color: 'default',
+        variant: "shadow",
+        color: "default",
         css: {
-          bg: 'transparent',
-          color: '$text',
-          '& .nextui-dropzone--Preview-item': {
-            bg: '$accents0',
-            color: '$text',
+          bg: "transparent",
+          color: "$text",
+          "& .nextui-dropzone--Preview-item": {
+            bg: "$accents0",
+            color: "$text",
           },
-          '& .nextui-dropzone--Preview-item-extension': {
-            bg: '$accents1',
+          "& .nextui-dropzone--Preview-item-extension": {
+            bg: "$accents1",
           },
-        }
+        },
       },
       // shadow / color primary
       {
-        variant: 'shadow',
-        color: 'primary',
+        variant: "shadow",
+        color: "primary",
         css: {
-          bg: '$primary',
-          color: '$primarySolidContrast',
-          normalShadow: '$primaryShadow',
-          '& .nextui-dropzone--Preview-item': {
-            bg: '$primarySolidHover',
-            color: '$primarySolidContrast',
-            shadow: '$sm',
+          bg: "$primary",
+          color: "$primarySolidContrast",
+          normalShadow: "$primaryShadow",
+          "& .nextui-dropzone--Preview-item": {
+            bg: "$primarySolidHover",
+            color: "$primarySolidContrast",
+            shadow: "$sm",
           },
-          '& .nextui-dropzone--Preview-item-extension': {
-            bg: '$primaryBorder',
+          "& .nextui-dropzone--Preview-item-extension": {
+            bg: "$primaryBorder",
           },
-        }
+        },
       },
       // shadow / color secondary
       {
-        variant: 'shadow',
-        color: 'secondary',
+        variant: "shadow",
+        color: "secondary",
         css: {
-          bg: '$secondary',
-          color: '$secondarySolidContrast',
-          normalShadow: '$secondaryShadow',
-          '& .nextui-dropzone--Preview-item': {
-            bg: '$secondarySolidHover',
-            color: '$secondarySolidContrast',
-            shadow: '$sm',
+          bg: "$secondary",
+          color: "$secondarySolidContrast",
+          normalShadow: "$secondaryShadow",
+          "& .nextui-dropzone--Preview-item": {
+            bg: "$secondarySolidHover",
+            color: "$secondarySolidContrast",
+            shadow: "$sm",
           },
-          '& .nextui-dropzone--Preview-item-extension': {
-            bg: '$secondaryBorder',
+          "& .nextui-dropzone--Preview-item-extension": {
+            bg: "$secondaryBorder",
           },
-        }
+        },
       },
       // shadow / color warning
       {
-        variant: 'shadow',
-        color: 'warning',
+        variant: "shadow",
+        color: "warning",
         css: {
-          bg: '$warning',
-          color: '$warningSolidContrast',
-          normalShadow: '$warningShadow',
-          '& .nextui-dropzone--Preview-item': {
-            bg: '$warningSolidHover',
-            color: '$warningSolidContrast',
-            shadow: '$sm',
+          bg: "$warning",
+          color: "$warningSolidContrast",
+          normalShadow: "$warningShadow",
+          "& .nextui-dropzone--Preview-item": {
+            bg: "$warningSolidHover",
+            color: "$warningSolidContrast",
+            shadow: "$sm",
           },
-          '& .nextui-dropzone--Preview-item-extension': {
-            bg: '$warningBorder',
+          "& .nextui-dropzone--Preview-item-extension": {
+            bg: "$warningBorder",
           },
-        }
+        },
       },
       // shadow / color success
       {
-        variant: 'shadow',
-        color: 'success',
+        variant: "shadow",
+        color: "success",
         css: {
-          bg: '$success',
-          color: '$successSolidContrast',
-          normalShadow: '$successShadow',
-          '& .nextui-dropzone--Preview-item': {
-            bg: '$successSolidHover',
-            color: '$successSolidContrast',
-            shadow: '$sm',
+          bg: "$success",
+          color: "$successSolidContrast",
+          normalShadow: "$successShadow",
+          "& .nextui-dropzone--Preview-item": {
+            bg: "$successSolidHover",
+            color: "$successSolidContrast",
+            shadow: "$sm",
           },
-          '& .nextui-dropzone--Preview-item-extension': {
-            bg: '$successBorder',
+          "& .nextui-dropzone--Preview-item-extension": {
+            bg: "$successBorder",
           },
-        }
+        },
       },
       // shadow / color error
       {
-        variant: 'shadow',
-        color: 'error',
+        variant: "shadow",
+        color: "error",
         css: {
-          bg: '$error',
-          color: '$errorSolidContrast',
-          normalShadow: '$errorShadow',
-          '& .nextui-dropzone--Preview-item': {
-            bg: '$errorSolidHover',
-            color: '$errorSolidContrast',
-            shadow: '$sm',
+          bg: "$error",
+          color: "$errorSolidContrast",
+          normalShadow: "$errorShadow",
+          "& .nextui-dropzone--Preview-item": {
+            bg: "$errorSolidHover",
+            color: "$errorSolidContrast",
+            shadow: "$sm",
           },
-          '& .nextui-dropzone--Preview-item-extension': {
-            bg: '$errorBorder',
+          "& .nextui-dropzone--Preview-item-extension": {
+            bg: "$errorBorder",
           },
-        }
+        },
       },
       //! shadow flat = flat with shadow (default color is transparent)
       // shadow_flat / color default
       {
-        variant: 'shadow_flat',
-        color: 'default',
+        variant: "shadow_flat",
+        color: "default",
         css: {
-          color: '$text',
-          bg: 'transparent',
-          '& .nextui-dropzone--Preview-item': {
-            bg: '$accents0',
-            color: '$text'
+          color: "$text",
+          bg: "transparent",
+          "& .nextui-dropzone--Preview-item": {
+            bg: "$accents0",
+            color: "$text",
           },
-          '& .nextui-dropzone--Preview-item-extension': {
-            bg: '$accents1',
+          "& .nextui-dropzone--Preview-item-extension": {
+            bg: "$accents1",
           },
-        }
+        },
       },
       // shadow_flat / color primary
       {
-        variant: 'shadow_flat',
-        color: 'primary',
+        variant: "shadow_flat",
+        color: "primary",
         css: {
-          normalShadow: '$primaryShadow',
+          normalShadow: "$primaryShadow",
         },
       },
       // shadow / color secondary
       {
-        variant: 'shadow_flat',
-        color: 'secondary',
+        variant: "shadow_flat",
+        color: "secondary",
         css: {
-          normalShadow: '$secondaryShadow',
+          normalShadow: "$secondaryShadow",
         },
       },
       // shadow_flat / color warning
       {
-        variant: 'shadow_flat',
-        color: 'warning',
+        variant: "shadow_flat",
+        color: "warning",
         css: {
-          normalShadow: '$warningShadow',
+          normalShadow: "$warningShadow",
         },
       },
       // shadow_flat / color success
       {
-        variant: 'shadow_flat',
-        color: 'success',
+        variant: "shadow_flat",
+        color: "success",
         css: {
-          normalShadow: '$successShadow',
+          normalShadow: "$successShadow",
         },
       },
       // shadow_flat / color error
       {
-        variant: 'shadow_flat',
-        color: 'error',
+        variant: "shadow_flat",
+        color: "error",
         css: {
-          normalShadow: '$errorShadow',
+          normalShadow: "$errorShadow",
         },
       },
       //! border below
       // default border color
       {
         bordered: true,
-        borderColor: 'default',
+        borderColor: "default",
         css: {
-          borderColor: '$accents5',
-        }
+          borderColor: "$accents5",
+        },
       },
       // primary border color
       {
         bordered: true,
-        borderColor: 'primary',
+        borderColor: "primary",
         css: {
-          borderColor: '$primaryBorder',
-        }
+          borderColor: "$primaryBorder",
+        },
       },
       // secondary border color
       {
         bordered: true,
-        borderColor: 'secondary',
+        borderColor: "secondary",
         css: {
-          borderColor: '$secondaryBorder',
-        }
+          borderColor: "$secondaryBorder",
+        },
       },
       // warning border color
       {
         bordered: true,
-        borderColor: 'warning',
+        borderColor: "warning",
         css: {
-          borderColor: '$warningBorder',
-        }
+          borderColor: "$warningBorder",
+        },
       },
       // success border color
       {
         bordered: true,
-        borderColor: 'success',
+        borderColor: "success",
         css: {
-          borderColor: '$successBorder',
-        }
+          borderColor: "$successBorder",
+        },
       },
       // error border color
       {
         bordered: true,
-        borderColor: 'error',
+        borderColor: "error",
         css: {
-          borderColor: '$errorBorder',
-        }
+          borderColor: "$errorBorder",
+        },
       },
       // disabled border default
       {
         bordered: true,
         disabled: true,
         css: {
-          borderColor: '$accents5 !important',
-          borderStyle: 'dashed',
-          bw: '$normal',
-        }
+          borderColor: "$accents5 !important",
+          borderStyle: "dashed",
+          bw: "$normal",
+        },
       },
       // border style dashed
       {
         bordered: true,
-        borderStyle: 'dashed',
+        borderStyle: "dashed",
         css: {
-          borderStyle: 'dashed !important',
-        }
+          borderStyle: "dashed !important",
+        },
       },
       // border style solid
       {
         bordered: true,
-        borderStyle: 'solid',
+        borderStyle: "solid",
         css: {
-          borderStyle: 'solid !important',
-        }
+          borderStyle: "solid !important",
+        },
       },
       // border style dotted
       {
         bordered: true,
-        borderStyle: 'dotted',
+        borderStyle: "dotted",
         css: {
-          borderStyle: 'dotted !important',
-        }
+          borderStyle: "dotted !important",
+        },
       },
       // border weight light
       {
         bordered: true,
-        borderWeight: 'light',
+        borderWeight: "light",
         css: {
-          bw: '$light !important',
-        }
+          bw: "$light !important",
+        },
       },
       // border weight normal
       {
         bordered: true,
-        borderWeight: 'normal',
+        borderWeight: "normal",
         css: {
-          bw: '$normal !important',
-        }
+          bw: "$normal !important",
+        },
       },
       // border weight bold
       {
         bordered: true,
-        borderWeight: 'bold',
+        borderWeight: "bold",
         css: {
-          bw: '$bold !important',
-        }
+          bw: "$bold !important",
+        },
       },
       // border weight extrabold
       {
         bordered: true,
-        borderWeight: 'extrabold',
+        borderWeight: "extrabold",
         css: {
-          bw: '$extrabold !important',
-        }
+          bw: "$extrabold !important",
+        },
       },
       // border weight black
       {
         bordered: true,
-        borderWeight: 'black',
+        borderWeight: "black",
         css: {
-          bw: '$black !important',
-        }
+          bw: "$black !important",
+        },
       },
       // disabled and light
       {
         disabled: true,
-        variant: 'light',
+        variant: "light",
         css: {
-          background: 'transparent !important',
-          color: '$accents7 !important',
-          '& .nextui-dropzone--Preview-item': {
-            bg: '$accents2 !important',
-            color: '$accents8 !important',
+          background: "transparent !important",
+          color: "$accents7 !important",
+          "& .nextui-dropzone--Preview-item": {
+            bg: "$accents2 !important",
+            color: "$accents8 !important",
           },
-          '& .nextui-dropzone--Preview-item-extension': {
-            bg: '$accents1 !important',
+          "& .nextui-dropzone--Preview-item-extension": {
+            bg: "$accents1 !important",
           },
-        }
+        },
       },
       // disabled and shadow
       {
         disabled: true,
-        variant: 'shadow',
+        variant: "shadow",
         css: {
-          shadow: '$sm',
-        }
+          shadow: "$sm",
+        },
       },
     ],
-    '@motion': {
-      transition: 'none'
+    "@motion": {
+      transition: "none",
     },
   },
   cssFocusVisible
@@ -767,7 +768,7 @@ export const StyledDropzoneStatus = styled("div", {
   justifyContent: "center",
   flexWrap: "wrap",
   width: "100%",
-  height: 'auto',
+  height: "auto",
   variants: {
     animated: {
       true: {
@@ -776,51 +777,59 @@ export const StyledDropzoneStatus = styled("div", {
     },
     spaceY: {
       above: {
-        marginTop: '$lg',
+        marginTop: "$lg",
       },
       below: {
-        marginBottom: '$lg',
+        marginBottom: "$lg",
       },
       both: {
-        marginTop: '$lg',
-        marginBottom: '$lg',
+        marginTop: "$lg",
+        marginBottom: "$lg",
       },
     },
-  }
+  },
 });
 
 //! DROPZONE FULLSCREEN ----------------------------------------------
-export const StyledFullscreen = styled('div', {
-  position: 'fixed',
+export const StyledFullscreen = styled("div", {
+  position: "fixed",
   top: 0,
   left: 0,
   right: 0,
   bottom: 0,
   zIndex: 9999,
-  width: '100%',
-  height: '100%',
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  justifyContent: 'center',
-  pointerEvents: 'none',
-  opacity: 0,
-  color: 'currentColor',
+  width: "100%",
+  height: "100%",
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  justifyContent: "center",
+  color: "currentColor",
   variants: {
+    animated: {
+      true: {
+        transition: "opacity 0.3s ease-in-out",
+      },
+    },
     visible: {
       true: {
         opacity: 1,
-        pointerEvents: 'all',
+      },
+      false: {
+        opacity: 0,
       },
     },
-    animated: {
+    pointers: {
       true: {
-        transition: 'all 0.3s ease-in-out',
+        pointerEvents: "all",
       },
-    },
+      false: {
+        pointerEvents: "none",
+      },
+    }
   },
-  '@motion': {
-    transition: 'none'
+  "@motion": {
+    transition: "none",
   },
 });
 
@@ -828,9 +837,9 @@ export const StyledFullscreen = styled('div', {
 /** large default preview size = item width */
 const IMAGE_PREVIEW_SIZE = ITEM_WIDTH;
 /** medium preview size = 2/3 of item width */
-const IMAGE_PREVIEW_SIZE_MD = '6rem';
+const IMAGE_PREVIEW_SIZE_MD = "6rem";
 /** small preview size = 1/3 of item width */
-const IMAGE_PREVIEW_SIZE_SM = '3rem';
+const IMAGE_PREVIEW_SIZE_SM = "3rem";
 
 /** Main Dropzone.Preview style
  *  @notice
@@ -839,30 +848,30 @@ const IMAGE_PREVIEW_SIZE_SM = '3rem';
  */
 export const StyledDropzonePreview = styled("div", {
   width: "100%",
-  position: 'relative',
+  position: "relative",
   variants: {
     defaultStyle: {
       true: {
-        display: 'flex',
-        flexWrap: 'wrap',
-        justifyContent: 'center',
-        alignItems: 'center',
+        display: "flex",
+        flexWrap: "wrap",
+        justifyContent: "center",
+        alignItems: "center",
         gap: `${ITEM_GAP}`,
-      }
+      },
     },
     spaceY: {
       above: {
-        marginTop: '$lg',
+        marginTop: "$lg",
       },
       below: {
-        marginBottom: '$lg',
+        marginBottom: "$lg",
       },
       both: {
-        marginTop: '$lg',
-        marginBottom: '$lg',
+        marginTop: "$lg",
+        marginBottom: "$lg",
       },
     },
-  }
+  },
 });
 
 /** Dropzone.Preview.Item style
@@ -871,34 +880,34 @@ export const StyledDropzonePreview = styled("div", {
  *  This allows to use this as basic container for custom preview items.
  */
 export const StyledDropzonePreviewItem = styled("div", {
-  position: 'relative',
+  position: "relative",
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
   justifyContent: "center",
   width: `${ITEM_WIDTH}`,
-  maxWidth: '100%',
+  maxWidth: "100%",
   padding: "$xs",
   fontSize: "$sm",
-  borderRadius: '$md',
+  borderRadius: "$md",
   variants: {
     defaultStyle: {
       true: {
-        flexDirection: 'row',
+        flexDirection: "row",
         alignItems: "center",
         justifyContent: "space-between",
         padding: 0,
-      }
+      },
     },
     animated: {
       true: {
-        transition: 'all 0.3s ease-in-out',
-      }
+        transition: "all 0.3s ease-in-out",
+      },
     },
     noWidthLimit: {
       true: {
-        width: 'auto',
-      }
+        width: "auto",
+      },
     },
     size: {
       lg: {
@@ -908,108 +917,108 @@ export const StyledDropzonePreviewItem = styled("div", {
       md: {
         maxWidth: `${IMAGE_PREVIEW_SIZE_MD}`,
         maxHeight: `${IMAGE_PREVIEW_SIZE_MD}`,
-        borderRadius: '$sm',
+        borderRadius: "$sm",
       },
       sm: {
         maxWidth: `${IMAGE_PREVIEW_SIZE_SM}`,
         maxHeight: `${IMAGE_PREVIEW_SIZE_SM}`,
-        borderRadius: '$xs',
+        borderRadius: "$xs",
       },
-    }
+    },
   },
-  '@motion': {
-    transition: 'none'
+  "@motion": {
+    transition: "none",
   },
 });
 
 /** Use to display preview image */
 export const StyledPreviewImage = styled("img", {
-  width: '100%',
-  height: '100%',
-  borderRadius: '$md',
-  objectPosition: 'center',
-  objectFit: 'cover',
+  width: "100%",
+  height: "100%",
+  borderRadius: "$md",
+  objectPosition: "center",
+  objectFit: "cover",
   variants: {
     size: {
-      lg: {
-      },
+      lg: {},
       md: {
-        borderRadius: '$sm',
+        borderRadius: "$sm",
       },
       sm: {
-        borderRadius: '$xs',
+        borderRadius: "$xs",
       },
     },
   },
-  '@motion': {
-    transition: 'none'
+  "@motion": {
+    transition: "none",
   },
 });
 
 /** Used to display the file name in Preview Item */
 export const TextFile = styled(Text, {
-  width: '100%',
-  textAlign: 'center',
-  height: '100%',
-  padding: '$xs',
-  whiteSpace: 'nowrap',
-  '@motion': {
-    transition: 'none'
+  width: "100%",
+  textAlign: "center",
+  height: "100%",
+  padding: "$xs",
+  whiteSpace: "nowrap",
+  "@motion": {
+    transition: "none",
   },
 });
 
 /** Used to display the file extension in Preview Item */
 export const TextExtension = styled(Text, {
-  padding: '$xs',
-  height: '100%',
-  borderRadius: ' 0 $md $md 0',
+  padding: "$xs",
+  height: "100%",
+  borderRadius: " 0 $md $md 0",
   variants: {
     animated: {
       true: {
         transition: "background 0.3s ease-in-out",
-      }
-    }
+      },
+    },
   },
-  '@motion': {
-    transition: 'none'
+  "@motion": {
+    transition: "none",
   },
 });
 
 /** Size of the remove button of Preview Item */
-const CLOSE_BUTTON_SIZE = '1.5rem';
+const CLOSE_BUTTON_SIZE = "1.5rem";
 /** Half of the size of the remove button of Preview Item */
-const CLOSE_BUTTON_SIZE_HALF = '0.75rem';
+const CLOSE_BUTTON_SIZE_HALF = "0.75rem";
 /** Thickness of the remove button cross of Preview Item */
-const CLOSE_BUTTON_THICKNESS = '0.12rem';
+const CLOSE_BUTTON_THICKNESS = "0.12rem";
 /** Half of the Thickness of the remove button cross of Preview Item */
-const CLOSE_BUTTON_THICKNESS_HALF = '0.06rem';
+const CLOSE_BUTTON_THICKNESS_HALF = "0.06rem";
 
 /** Main button to remove PreviewItem */
-export const StyledButtonClose = styled("button",
+export const StyledButtonClose = styled(
+  "button",
   {
-    position: 'absolute',
+    position: "absolute",
     top: `-${CLOSE_BUTTON_SIZE_HALF}`,
     right: `-${CLOSE_BUTTON_SIZE_HALF}`,
-    background: '$error',
-    cursor: 'pointer',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: '0',
-    borderRadius: '50%',
-    border: 'none',
+    background: "$error",
+    cursor: "pointer",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    padding: "0",
+    borderRadius: "50%",
+    border: "none",
     variants: {
       animated: {
         true: {
           transition: "all 0.3s ease-in-out",
-          '&:hover .close': {
-            transform: 'rotate(90deg)',
-          }
-        }
+          "&:hover .close": {
+            transform: "rotate(90deg)",
+          },
+        },
       },
     },
-    '@motion': {
-      transition: 'none'
+    "@motion": {
+      transition: "none",
     },
   },
   cssFocusVisible
@@ -1019,91 +1028,91 @@ export const StyledButtonClose = styled("button",
 export const StyledCross = styled("span", {
   width: `${CLOSE_BUTTON_SIZE}`,
   height: `${CLOSE_BUTTON_SIZE}`,
-  bordeRadius: '50%',
-  background: 'transparent',
-  '&::before, &::after': {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
+  bordeRadius: "50%",
+  background: "transparent",
+  "&::before, &::after": {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
     width: `${CLOSE_BUTTON_SIZE_HALF}`,
     height: `${CLOSE_BUTTON_THICKNESS}`,
     borderRadius: `${CLOSE_BUTTON_THICKNESS_HALF}`,
-    transformOrigin: 'center',
-    background: 'white',
-    content: '',
+    transformOrigin: "center",
+    background: "white",
+    content: "",
   },
-  '&::before': {
-    transform: 'translate(-50%, -50%) rotate(45deg)',
+  "&::before": {
+    transform: "translate(-50%, -50%) rotate(45deg)",
   },
-  '&::after': {
-    transform: 'translate(-50%, -50%) rotate(-45deg)',
+  "&::after": {
+    transform: "translate(-50%, -50%) rotate(-45deg)",
   },
   variants: {
     animated: {
       true: {
-        transition: 'all 0.3s ease-in-out',
-      }
-    }
+        transition: "all 0.3s ease-in-out",
+      },
+    },
   },
-  '@motion': {
-    transition: 'none'
+  "@motion": {
+    transition: "none",
   },
 });
 
 /** Hidden span for accessibility purposes */
 export const HiddenSpan = styled("span", {
-  position: 'absolute',
-  clip: 'rect(1px, 1px, 1px, 1px)',
-  padding: '0',
-  border: '0',
-  height: '1px',
-  width: '1px',
-  overflow: 'hidden'
+  position: "absolute",
+  clip: "rect(1px, 1px, 1px, 1px)",
+  padding: "0",
+  border: "0",
+  height: "1px",
+  width: "1px",
+  overflow: "hidden",
 });
 
 //! DROPZONE ERROR ----------------------------------------------
 
 /** Unstyled error container */
-export const UnstyledErrorDiv = styled('div', {
-  position: 'relative',
-  width: '100%',
+export const UnstyledErrorDiv = styled("div", {
+  position: "relative",
+  width: "100%",
   variants: {
     spaceY: {
       above: {
-        marginTop: '$lg',
+        marginTop: "$lg",
       },
       below: {
-        marginBottom: '$lg',
+        marginBottom: "$lg",
       },
       both: {
-        marginTop: '$lg',
-        marginBottom: '$lg',
+        marginTop: "$lg",
+        marginBottom: "$lg",
       },
     },
-  }
+  },
 });
 
 /** Container holding the error */
-export const StyledErrorBox = styled('div', {
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  justifyContent: 'center',
-  width: 'fit-content',
-  borderRadius: '$md',
-  padding: '$md',
-  margin: 'auto',
-  '@motion': {
-    transition: 'none'
+export const StyledErrorBox = styled("div", {
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  justifyContent: "center",
+  width: "fit-content",
+  borderRadius: "$md",
+  padding: "$md",
+  margin: "auto",
+  "@motion": {
+    transition: "none",
   },
 });
 
 /** Container for error files */
-export const StyledErrorFiles = styled('div', {
-  display: 'flex',
-  flexDirection: 'row',
-  alignItems: 'center',
-  justifyContent: 'center',
-  flexWrap: 'wrap',
-  width: '100%',
+export const StyledErrorFiles = styled("div", {
+  display: "flex",
+  flexDirection: "row",
+  alignItems: "center",
+  justifyContent: "center",
+  flexWrap: "wrap",
+  width: "100%",
 });
