@@ -68,7 +68,9 @@ const DropzoneFullscreenComponent = (props: DropzoneFullScrenProps) => {
   });
 
   return (
-    <StyledFullscreen visible={true} pointers={isDragging} animated={animatedFullscreen} >
+    <StyledFullscreen visible={true} pointers={isDragging} animated={animatedFullscreen}
+      aria-label="Drop files anywhere on the screen"
+    >
       <StyledFullscreen visible={ctx.Accept && contentAccept !== undefined} animated={animatedFullscreen} {...others} >{contentAccept}</StyledFullscreen>
       <StyledFullscreen visible={ctx.Reject && contentReject !== undefined} animated={animatedFullscreen} {...others} >{contentReject}</StyledFullscreen>
     </StyledFullscreen>

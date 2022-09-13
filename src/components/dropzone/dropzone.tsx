@@ -146,8 +146,11 @@ interface Props extends useDropzoneProps {
    */
   errorBorder?: boolean;
 
-  /** @optional  extra className you wish to apply to the Dropzone*/
+  /** @optional  extra className you wish to apply to the Dropzone */
   className?: string;
+
+  /** @optional  aria-label for accessibility */
+  'aria-label'?: string;
 }
 /** Dropzone props 
  *  @requires Files
