@@ -2,26 +2,29 @@ import React, { ReactNode, useCallback, useEffect, useRef, useState } from 'reac
 import { useDropzoneContext } from './dropzone-context';
 import { StyledFullscreen } from './dropzone.styles';
 
+
 export interface DropzoneFullScrenProps {
+  /** @optional Fullscreen content to display if files are accepted */
   contentAccept?: ReactNode;
+  /** @optional Fullscreen content to display if files are rejected */
   contentReject?: ReactNode;
+  /** @optional should the fullscreen be animated */
   animated?: boolean;
 }
 
 const DropzoneFullscreenComponent = (props: DropzoneFullScrenProps) => {
+  /** get props */
   const { contentAccept, contentReject, ...others } = props;
 
+  /** get context */
   const ctx = useDropzoneContext();
   const animatedFullscreen = props.animated ?? ctx.Animated;
 
+  /** init fullscreen variables */
   const [isDragging, setIsDragging] = useState(false);
   const dragCounter = useRef(0);
 
-  const handleDrag = useCallback((event: any) => {
-    event.preventDefault();
-    event.stopPropagation();
-  }, []);
-
+  /** handle drag in events */
   const handleDragIn = useCallback((event: any) => {
     event.preventDefault();
     event.stopPropagation();
@@ -31,6 +34,7 @@ const DropzoneFullscreenComponent = (props: DropzoneFullScrenProps) => {
     }
   }, []);
 
+  /** handle drag out events */
   const handleDragOut = useCallback((event: any) => {
     event.preventDefault();
     event.stopPropagation();
@@ -39,6 +43,7 @@ const DropzoneFullscreenComponent = (props: DropzoneFullScrenProps) => {
     setIsDragging(false);
   }, []);
 
+  /** handle drop events */
   const handleDrop = useCallback((event: any) => {
     event.preventDefault();
     event.stopPropagation();
@@ -50,15 +55,14 @@ const DropzoneFullscreenComponent = (props: DropzoneFullScrenProps) => {
     }
   }, []);
 
+  /** add/remove event listeners */
   useEffect(() => {
     window.addEventListener("dragenter", handleDragIn);
     window.addEventListener("dragleave", handleDragOut);
-    window.addEventListener("dragover", handleDrag);
     window.addEventListener("drop", handleDrop);
     return function cleanUp() {
       window.removeEventListener("dragenter", handleDragIn);
       window.removeEventListener("dragleave", handleDragOut);
-      window.removeEventListener("dragover", handleDrag);
       window.removeEventListener("drop", handleDrop);
     };
   });
