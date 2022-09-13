@@ -91,7 +91,7 @@ export default function Home() {
   const [color, setColor] = useState(colors[0] as any);
   const variants = ['flat', 'light', 'solid', 'shadow', 'shadow_flat'];
   const [variant, setVariant] = useState(variants[0] as any);
-  const widths = ['xs', 'sm', 'md', 'lg'];
+  const widths = ['xs', 'sm', 'md', 'lg', 'full'];
   const [width, setWidth] = useState(widths[3] as any);
   const sizeImagePreviews = ['sm', 'md', 'lg'];
   const [sizeImagePreview, setSizeImagePreview] = useState(sizeImagePreviews[2] as any);
@@ -132,7 +132,7 @@ export default function Home() {
       <Spacer y={2} />
 
       <Grid.Container gap={2} justify='center'>
-        <Grid xs justify='center'>
+        <Grid xs={12} justify='center'>
           <Dropzone
             alwaysShowStatus={alwaysShowStatus}
             color={color} variant={variant} disabled={disabled}
@@ -343,9 +343,7 @@ things to note:
 
 - dropzone dimension/padding:
   - for height, override minHeight
-  - for width, use width prop first
+  - for width, override maxWidth
   - for padding, altering left/right padding could break the default preview
   - for padding top/bottom, just override it with css
-
-- if using NextUI Grid, make sure to use xs on the grid containing the Dropzone
 */

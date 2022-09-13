@@ -38,7 +38,7 @@ export const StyledDropzone = styled(
     justifyContent: "center",
     padding: `${DROPZONE_PADDING}`,
     minWidth: "$48",
-    maxWidth: "100%",
+    width: "100%",
     height: "fit-content",
     cursor: "pointer",
     borderRadius: "$md",
@@ -55,28 +55,23 @@ export const StyledDropzone = styled(
       /** should the dropzone be bordered */
       bordered: {
         true: {},
-        false: {
-          borderColor: "transparent  !important",
-          bw: "$normal",
-          borderStyle: "solid",
-        },
       },
       /** various width of dropzone */
       width: {
         xs: {
-          width: "12rem", // 1 item
+          maxWidth: "12rem", // 1 item
         },
         sm: {
-          width: "22rem", // 2 items
+          maxWidth: "22rem", // 2 items
         },
         md: {
-          width: "32rem", // 3 items
+          maxWidth: "32rem", // 3 items
         },
         lg: {
-          width: "42rem", // default // 4 items
+          maxWidth: "42rem", // default // 4 items
         },
         full: {
-          width: "100%",
+          maxWidth: "100%",
         },
       },
       /** various colors of the dropzone used for the variant
