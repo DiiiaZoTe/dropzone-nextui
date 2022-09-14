@@ -1,6 +1,6 @@
 import { styled, cssFocusVisible } from "@nextui-org/react";
 // import { motion } from 'framer-motion';
-import { invalidShake, fadeIn } from "./dropzone.animations";
+import { invalidShake } from "./dropzone.animations";
 import { Text } from "@nextui-org/react";
 
 /*
@@ -234,6 +234,9 @@ export const StyledDropzone = styled(
             bg: "$accents0 !important",
           },
         },
+      },
+      isFocusVisible: {
+        true: {},
       },
     },
     compoundVariants: [
@@ -599,6 +602,25 @@ export const StyledDropzone = styled(
           normalShadow: "$errorShadow",
         },
       },
+      //! focused outline for shadows
+      // shadow / outline 
+      {
+        variant: "shadow",
+        isFocusVisible: true,
+        css: {
+          outlineOffset: "3px",
+          outline: "3px solid $colors$primary",
+        },
+      },
+      // shadowFlat / outline 
+      {
+        variant: "shadowFlat",
+        isFocusVisible: true,
+        css: {
+          outlineOffset: "3px",
+          outline: "3px solid $colors$primary",
+        },
+      },
       //! border below
       // default border color
       {
@@ -765,9 +787,20 @@ export const StyledDropzoneStatus = styled("div", {
   width: "100%",
   height: "auto",
   variants: {
+    visible: {
+      true: {
+        opacity: 1,
+        height: "auto",
+      },
+      false: {
+        opacity: '0 !important',
+        height: '0px !important',
+        visibility: "hidden",
+      },
+    },
     animated: {
       true: {
-        animation: `${fadeIn} 0.4s ease-in-out`,
+        transition: "opacity 0.3s ease-in-out",
       },
     },
     spaceY: {
@@ -782,6 +815,9 @@ export const StyledDropzoneStatus = styled("div", {
         marginBottom: "$lg",
       },
     },
+  },
+  "@motion": {
+    transition: "none",
   },
 });
 

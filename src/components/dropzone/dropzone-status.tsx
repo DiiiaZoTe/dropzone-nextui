@@ -31,22 +31,21 @@ const createDropzoneStatus = (status: keyof DropzoneContextValue) => {
     const { children, animated, spaceY, ...otherProps } = props;
     /** get context, if status' context value true render it */
     const ctx = useDropzoneContext();
-    if (ctx[status]) {
-      const animatedStatus = animated ?? ctx.Animated;
-      return (
-        <StyledDropzoneStatus
-          spaceY={ctx.Files.length ? spaceY : undefined}
-          animated={animatedStatus}
-          className={`nextui-dropzone--${status}`}
-          {...otherProps}
-        >
-          {children}
-        </StyledDropzoneStatus>
-      );
-    }
-    return <></>;
-  };
 
+    console.log(status, ctx[status]);
+
+    const animatedStatus = animated ?? ctx.Animated;
+    return (
+      <StyledDropzoneStatus
+        spaceY={ctx.Files.length ? spaceY : undefined}
+        animated={animatedStatus} visible={ctx[status] as boolean}
+        className={`nextui-dropzone--${status}`}
+        {...otherProps}
+      >
+        {children}
+      </StyledDropzoneStatus>
+    );
+  };
   Component.toString = () => `.nextui-dropzone-${status}`;
   Component.displayName = `NextUI.Dropzone.${status}`;
   return Component;
