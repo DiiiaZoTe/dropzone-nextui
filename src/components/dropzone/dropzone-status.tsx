@@ -31,9 +31,6 @@ const createDropzoneStatus = (status: keyof DropzoneContextValue) => {
     const { children, animated, spaceY, ...otherProps } = props;
     /** get context, if status' context value true render it */
     const ctx = useDropzoneContext();
-
-    console.log(status, ctx[status]);
-
     const animatedStatus = animated ?? ctx.Animated;
     return (
       <StyledDropzoneStatus
