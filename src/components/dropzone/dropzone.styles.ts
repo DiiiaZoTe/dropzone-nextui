@@ -173,7 +173,7 @@ export const StyledDropzone = styled(
             bg: "$errorLight",
           },
         },
-        shadow_flat: {
+        shadowFlat: {
           shadow: "$md",
           "& .nextui-dropzone--Error": {
             bg: "$errorLight",
@@ -543,9 +543,9 @@ export const StyledDropzone = styled(
         },
       },
       //! shadow flat = flat with shadow (default color is transparent)
-      // shadow_flat / color default
+      // shadowFlat / color default
       {
-        variant: "shadow_flat",
+        variant: "shadowFlat",
         color: "default",
         css: {
           color: "$text",
@@ -559,9 +559,9 @@ export const StyledDropzone = styled(
           },
         },
       },
-      // shadow_flat / color primary
+      // shadowFlat / color primary
       {
-        variant: "shadow_flat",
+        variant: "shadowFlat",
         color: "primary",
         css: {
           normalShadow: "$primaryShadow",
@@ -569,31 +569,31 @@ export const StyledDropzone = styled(
       },
       // shadow / color secondary
       {
-        variant: "shadow_flat",
+        variant: "shadowFlat",
         color: "secondary",
         css: {
           normalShadow: "$secondaryShadow",
         },
       },
-      // shadow_flat / color warning
+      // shadowFlat / color warning
       {
-        variant: "shadow_flat",
+        variant: "shadowFlat",
         color: "warning",
         css: {
           normalShadow: "$warningShadow",
         },
       },
-      // shadow_flat / color success
+      // shadowFlat / color success
       {
-        variant: "shadow_flat",
+        variant: "shadowFlat",
         color: "success",
         css: {
           normalShadow: "$successShadow",
         },
       },
-      // shadow_flat / color error
+      // shadowFlat / color error
       {
-        variant: "shadow_flat",
+        variant: "shadowFlat",
         color: "error",
         css: {
           normalShadow: "$errorShadow",

@@ -1,7 +1,7 @@
 import React, { DragEvent, ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
 import { FileRejection, useDropzone } from 'react-dropzone';
 import { assignRef } from '@utils/refs/assignRef';
-import { useDropzoneProps } from './use-Dropzone';
+import { useDropzoneProps } from './use-dropzone';
 import { DropzoneProvider } from './dropzone-context';
 import { DropzoneBase, DropzoneAccept, DropzoneReject } from './dropzone-status';
 import { DropzonePreview, DropzonePreviewItem } from './dropzone-preview';

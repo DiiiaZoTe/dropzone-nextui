@@ -89,7 +89,7 @@ export default function Home() {
 
   const colors = ['default', 'primary', 'secondary', 'warning'];
   const [color, setColor] = useState(colors[0] as any);
-  const variants = ['flat', 'light', 'solid', 'shadow', 'shadow_flat'];
+  const variants = ['flat', 'light', 'solid', 'shadow', 'shadowFlat'];
   const [variant, setVariant] = useState(variants[0] as any);
   const widths = ['xs', 'sm', 'md', 'lg', 'full'];
   const [width, setWidth] = useState(widths[3] as any);
