@@ -47,8 +47,8 @@ const createDropzoneStatus = (status: keyof DropzoneContextValue) => {
     return <></>;
   };
 
-  Component.toString = () => `.nextui - dropzone - ${status} `;
-  Component.displayName = `NextUI.Dropzone.${status} `;
+  Component.toString = () => `.nextui-dropzone-${status}`;
+  Component.displayName = `NextUI.Dropzone.${status}`;
   return Component;
 }
 
