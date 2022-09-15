@@ -252,7 +252,7 @@ const DropzonePreviewItemComponent = (props: DropzonePreviewItemProps) => {
 
   return (
     useTooltip
-      ? <Tooltip content={file!.name.split('.').slice(0, -1).join('.')}> {renderDefaultItem()} </Tooltip >
+      ? <Tooltip color='invert' content={file!.name.split('.').slice(0, -1).join('.')}> {renderDefaultItem()} </Tooltip >
       : renderDefaultItem()
   );
 }

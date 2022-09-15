@@ -136,9 +136,6 @@ interface Props extends useDropzoneProps {
    */
   removeShake?: boolean;
 
-  //! can remove this one once error component is done
-  displayError?: boolean;
-
   /** @optional Allows to active/deactivate the error border
    *  @default true
    *  @notice
@@ -191,7 +188,6 @@ const Dropzone = (props: DropzoneProps) => {
     borderStyle,
     borderWeight,
     removeShake,
-    displayError,
     errorBorder,
     className,
     disabled,
@@ -252,7 +248,7 @@ const Dropzone = (props: DropzoneProps) => {
     });
     let errorReturn = [] as RejectionError[]; // init error return
     // check for too many files error
-    if (maxFiles && (filteredError.length + files.length) > maxFiles!) {
+    if (maxFiles !== undefined && (filteredError.length + files.length) > maxFiles) {
       errorReturn.push({
         code: ERROR_CODES.TOO_MANY_FILES,
         files: filteredError.map((err: any) => err.file.name)
@@ -446,8 +442,9 @@ const Dropzone = (props: DropzoneProps) => {
 
   /** Should the error border be displayed? */
   const showErrorBorder = useMemo(() => {
-    return (errorVisible && dropzoneError.errors && displayError && errorBorder);
-  }, [errorVisible, dropzoneError, displayError, errorBorder]);
+    return (errorVisible && dropzoneError.errors && errorBorder);
+  }, [errorVisible, dropzoneError, errorBorder]);
+  console.log('showErrorBorder', showErrorBorder);
 
   return (
     <DropzoneProvider
@@ -532,7 +529,6 @@ const defaultDropzoneProps: Partial<DropzoneProps> = {
   borderColor: undefined,
   borderStyle: 'dashed',
   borderWeight: 'normal',
-  displayError: true,
   removeShake: false,
   errorBorder: true,
   className: '',

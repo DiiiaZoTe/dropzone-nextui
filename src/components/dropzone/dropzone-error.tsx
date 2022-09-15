@@ -17,7 +17,7 @@ export interface RejectionError {
   files: string[];
 };
 
-/** Custom error object for dropzone
+/** Error object for default dropzone error
  * - errors: {RejectionError[]} array of the errors by code
  * - timestamp: the time the error was created (for show/hide purposes).
  *   Use `Date.now()` to get the current timestamp.
@@ -27,22 +27,23 @@ export interface DropzoneRejectionError {
   timestamp: number;
 }
 
+/** Error object for custom dropzone error
+ * - errors: "custom" to specify that this is a custom error
+ * - timestamp: the time the error was created (for show/hide purposes).
+ *   Use `Date.now()` to get the current timestamp.
+ */
+export interface DropzoneCustomError {
+  errors: "custom";
+  timestamp: number;
+}
+
 /** Dropzone error props */
 export interface DropzoneErrorProps {
   /** @optional The error object
    *  @notice if provided, custom user error, otherwise get from context
    */
-  error?: DropzoneRejectionError;
-  /** @optional is the error visible
-   *  @notice if provided, custom user error, otherwise get from context
-   */
-  isVisible?: boolean;
-  /** @optional set the error visibility
-   *  @notice if provided, custom user error, otherwise get from context
-   */
-  setIsVisible?: (isVisible: boolean) => void;
+  error?: DropzoneRejectionError | DropzoneCustomError;
   /** @optional is the error animated
-   *  @notice if provided, custom user error, otherwise get from context
    */
   animated?: boolean;
   /** @optional children
@@ -60,7 +61,9 @@ export interface DropzoneErrorProps {
    *  Useful when changing the positon in the Dropzone
    */
   spaceY?: 'above' | 'below' | 'both';
-  /** @optional display all the errors that occured */
+  /** @optional display all the errors that occured 
+   *  @default false
+   */
   multipleErrors?: boolean;
   /** @optional change the message for too many files */
   tooManyFilesMessage?: string;
@@ -79,7 +82,7 @@ export interface DropzoneErrorProps {
  */
 export const DropzoneErrorComponent = (props: DropzoneErrorProps) => {
   /** get props */
-  const { error: errorProp, isVisible, setIsVisible, animated, spaceY,
+  const { error: errorProp, animated, spaceY,
     children, duration, multipleErrors,
     tooManyFilesMessage, fileTooLargeMessage, invalidFileTypeMessage,
     ...otherProps
@@ -90,8 +93,8 @@ export const DropzoneErrorComponent = (props: DropzoneErrorProps) => {
   const ctx = useDropzoneContext();
   const { MaxFiles, MaxSize } = ctx;
   const error = errorProp ?? ctx.Error;
-  const errorVisible = isVisible ?? ctx.IsErrorVisible;
-  const setErrorVisible = setIsVisible ?? ctx.setIsErrorVisible;
+  const errorVisible = ctx.IsErrorVisible;
+  const setErrorVisible = ctx.setIsErrorVisible;
   const errorAnimated = animated ?? ctx.Animated;
 
   // get error messages if not provided
@@ -125,7 +128,7 @@ export const DropzoneErrorComponent = (props: DropzoneErrorProps) => {
    */
   const renderAllErrors = () => {
     if (!error) return <></>;
-    const { errors } = error;
+    const { errors } = error as DropzoneRejectionError;
     return errors.map((error) => {
       const { code, files } = error;
       const message = errorMessages[code as keyof typeof errorMessages];
@@ -150,7 +153,8 @@ export const DropzoneErrorComponent = (props: DropzoneErrorProps) => {
    */
   const renderSingleError = () => {
     if (!error) return <></>;
-    const firstError = error.errors[0];
+    const { errors } = error as DropzoneRejectionError;
+    const firstError = errors[0];
     const { code, files } = firstError;
     const message = errorMessages[code as keyof typeof errorMessages];
     return (
@@ -179,8 +183,8 @@ export const DropzoneErrorComponent = (props: DropzoneErrorProps) => {
       {
         // if error is visible, render children if provided (custom error), otherwise render default error
         showError && (
-          (children !== undefined) ?
-            children :
+          (error.errors === "custom" || children !== undefined) ?
+            children ?? <></> :
             <StyledErrorBox className='nextui-dropzone--Error'>
               {multipleErrors ? renderAllErrors() : renderSingleError()}
             </StyledErrorBox>

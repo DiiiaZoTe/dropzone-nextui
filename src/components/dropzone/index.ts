@@ -7,7 +7,7 @@ export * from './dropzone.styles';
 export type { DropzoneProps } from './dropzone';
 export type { DropzoneBaseProps, DropzoneAcceptProps, DropzoneRejectProps } from './dropzone-status';
 export type { DropzonePreviewItemProps, DropzonePreviewProps } from './dropzone-preview';
-export type { RejectionError, DropzoneRejectionError, DropzoneErrorProps } from './dropzone-error';
+export type { RejectionError, DropzoneRejectionError, DropzoneCustomError, DropzoneErrorProps } from './dropzone-error';
 export type { DropzoneFullScrenProps } from './dropzone-fullscreen';
 
 // export utility functions

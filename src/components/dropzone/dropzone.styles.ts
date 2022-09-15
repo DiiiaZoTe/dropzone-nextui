@@ -1130,6 +1130,7 @@ export const StyledErrorBox = styled("div", {
   alignItems: "center",
   justifyContent: "center",
   width: "fit-content",
+  maxWidth: "100%",
   borderRadius: "$md",
   padding: "$md",
   margin: "auto",
