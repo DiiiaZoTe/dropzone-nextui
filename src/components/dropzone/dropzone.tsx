@@ -444,7 +444,6 @@ const Dropzone = (props: DropzoneProps) => {
   const showErrorBorder = useMemo(() => {
     return (errorVisible && dropzoneError.errors && errorBorder);
   }, [errorVisible, dropzoneError, errorBorder]);
-  console.log('showErrorBorder', showErrorBorder);
 
   return (
     <DropzoneProvider
