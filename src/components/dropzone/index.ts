@@ -1,5 +1,3 @@
-import Dropzone from './dropzone';
-
 // export styles
 export * from './dropzone.styles';
 
@@ -13,6 +11,8 @@ export type { DropzoneFullScrenProps } from './dropzone-fullscreen';
 // export utility functions
 export * from './utils';
 
+// import components
+import Dropzone from './dropzone';
 // import subcomponents
 import { DropzoneBase, DropzoneAccept, DropzoneReject } from './dropzone-status';
 import { DropzonePreview, DropzonePreviewItem } from './dropzone-preview';
