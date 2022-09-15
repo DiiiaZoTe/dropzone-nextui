@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import { useTheme as useNextTheme } from 'next-themes'
 import { Button, Text, styled, useTheme, Switch, Grid, Container, Collapse, Spacer, Input, Dropdown } from '@nextui-org/react'
-import Dropzone, { getBytes } from '@components/dropzone'
+import Dropzone, { getBytes } from '@components/dropzoneNextUI'
 import { useEffect, useRef, useState } from 'react'
 import { Error, File, Upload } from '@utils/icons/dropzone'
 
