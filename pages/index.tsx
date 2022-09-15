@@ -135,12 +135,13 @@ export default function Home() {
         <Grid xs={12} justify='center'>
           <Dropzone
             alwaysShowStatus={alwaysShowStatus}
-            color={color} variant={variant} disabled={disabled}
+            color={color} variant={variant} 
             bordered={bordered} borderColor={borderColor} borderWeight={borderWeight} borderStyle={borderStyle}
             files={files} setFiles={setFiles}
             width={width} animated={animated}
             maxSize={getBytes(byteAmount, byteSize)} maxFiles={maxFiles}
             openRef={openRef}
+            disabled={disabled}
           // accept={{ 'image/*': [] }}
           >
             {fullscreen &&
