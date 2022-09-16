@@ -102,6 +102,7 @@ export default function Home() {
   const [bordered, setBordered] = useState(false);
   const [allowImagePreview, setAllowImagePreview] = useState(false);
   const [fullscreen, setFullscreen] = useState(true);
+  const [invisible, setInvisible] = useState(false);
 
   const byteSizes = ['KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
   const [byteSize, setByteSize] = useState(byteSizes[1] as any);
@@ -131,18 +132,21 @@ export default function Home() {
 
       <Spacer y={2} />
 
-      <Grid.Container gap={2} justify='center'>
+      <Grid.Container
+        gap={2} justify='center'
+        css={{ height: invisible ? '0px' : 'auto', overflow: invisible ? 'hidden' : 'inherit' }}
+      >
         <Grid xs={12} justify='center'>
           <Dropzone
             alwaysShowStatus={alwaysShowStatus}
-            color={color} variant={variant} 
+            color={color} variant={variant}
             bordered={bordered} borderColor={borderColor} borderWeight={borderWeight} borderStyle={borderStyle}
             files={files} setFiles={setFiles}
             width={width} animated={animated}
             maxSize={getBytes(byteAmount, byteSize)} maxFiles={maxFiles}
             openRef={openRef}
             disabled={disabled}
-            invisible
+            invisible={invisible}
           // accept={{ 'image/*': [] }}
           >
             {fullscreen &&
@@ -248,6 +252,9 @@ export default function Home() {
             </Grid>
             <Grid>
               <Switcher color={color} what='Fullscreen' value={fullscreen} setter={setFullscreen} />
+            </Grid>
+            <Grid>
+              <Switcher color={color} what='Invisible' value={invisible} setter={setInvisible} />
             </Grid>
             <Grid>
               <Switcher color={color} what='Always show' value={alwaysShowStatus} setter={setAlwaysShowStatus} />
