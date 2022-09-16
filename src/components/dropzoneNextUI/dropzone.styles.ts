@@ -235,6 +235,19 @@ export const StyledDropzone = styled(
           },
         },
       },
+      invisible: {
+        true: {
+          height: "0 !important",
+          minHeight: "0 !important",
+          maxHeight: "0 !important",
+          width: "0 !important",
+          minWidth: "0 !important",
+          maxWidth: "0 !important",
+          overflow: "hidden !important",
+          padding: "0 !important",
+          margin: "0 !important",
+        },
+      },
       isFocusVisible: {
         true: {},
       },

@@ -142,6 +142,7 @@ export default function Home() {
             maxSize={getBytes(byteAmount, byteSize)} maxFiles={maxFiles}
             openRef={openRef}
             disabled={disabled}
+            invisible
           // accept={{ 'image/*': [] }}
           >
             {fullscreen &&

@@ -131,6 +131,13 @@ interface Props extends useDropzoneProps {
    */
   borderWeight?: 'light' | 'normal' | 'bold' | 'extrabold' | 'black';
 
+  /** @optional Allows the Dropzone to be invisible
+   *  @default false
+   *  @notice
+   *  Fullscreen mode is still available but all other subcomponents are hidden
+   */
+  invisible?: boolean;
+
   /** @optional Allows to active/deactivate the shake animation after invalid file drop
    *  @default false
    */
@@ -187,6 +194,7 @@ const Dropzone = (props: DropzoneProps) => {
     borderColor,
     borderStyle,
     borderWeight,
+    invisible,
     removeShake,
     errorBorder,
     className,
@@ -474,6 +482,7 @@ const Dropzone = (props: DropzoneProps) => {
         borderColor={borderColorStatus}
         borderStyle={borderStyle}
         borderWeight={borderWeight}
+        invisible={invisible}
         isFocusVisible={isFocusVisible && !disabled}
         disabled={disabled}
         showErrorBorder={showErrorBorder}
@@ -528,6 +537,7 @@ const defaultDropzoneProps: Partial<DropzoneProps> = {
   borderColor: undefined,
   borderStyle: 'dashed',
   borderWeight: 'normal',
+  invisible: false,
   removeShake: false,
   errorBorder: true,
   className: '',
