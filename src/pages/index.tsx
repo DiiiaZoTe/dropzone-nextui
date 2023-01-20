@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import { useTheme as useNextTheme } from 'next-themes'
-import { Button, Text, styled, useTheme, Switch, Grid, Container, Collapse, Spacer, Input, Dropdown } from '@nextui-org/react'
+import { Button, Text, styled, useTheme, Switch, Grid, Container, Collapse, Spacer, Input, Dropdown, Link } from '@nextui-org/react'
 import Dropzone, { getBytes } from '@components/dropzoneNextUI'
 import { useEffect, useRef, useState } from 'react'
 import { Error, File, Upload } from '@utils/icons/dropzone'
@@ -122,13 +122,18 @@ export default function Home() {
     console.log('files', files);
   }, [files]);
 
-
   return (
     <Container sm display='flex' justify='center' gap={1}>
 
       <Head>
         <title>Dropzone test with Nextui</title>
       </Head>
+
+      <Spacer y={4} />
+      
+      <Link href='https://github.com/DiiiaZoTe/dropzone-nextui' color={color}>
+        Github
+      </Link>
 
       <Spacer y={2} />
 
